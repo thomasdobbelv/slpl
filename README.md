@@ -42,7 +42,7 @@ Schedule: TBA
 
 Dypere beskrivelse av prosjektet, om nødvendig (kan evt. være lang). F.eks. hvis du vil lage ditt eget programmeringsspråk, så kan du gi eksempler og beskrive konseptet for språket. imperative
 
-A list of slpl statements:
+A list of sample slpl statements:
 
 intPair: (int, int) = (1, 2);
 intTriple: (int, int, int) = (1, 2, 3);
@@ -60,8 +60,19 @@ first: int = intTriple[0], second: int = intTriple[1], third: int = intTriple[2]
 
 return (1, 2); // return an (int, int) literal in a function with return type (int, int);
 
-(a, b, _) = intTriple; // _ tells slpl to do nothing with the third value
+(a: int, b: int, _) = intTriple; // _ tells slpl to do nothing with the third value
 return (a, b);
+
+quadruple: (char, bool, int, string);
+quadruple = ('a', true, 1, "hello");
+quadruple = ('a', true, "hi", "hello"); // type error
+
+// declare and define intList, a list of int values.
+intList: int[] = [1, 2, 3];
+
+a: int = intList[2];
+
+
 
 
 
