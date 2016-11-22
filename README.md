@@ -2,8 +2,8 @@
 #Design and implementation of slpl, the Severely Lacking Programming Language.
 
 * Undertittel – sier hva du skal gjøre, f.eks. "Implementerere X i Y ved hjelp av Z-teknikk"
-##In this project, I will design and implement - or partially implement - a programming language that I have named
-##the Severely Lacking Programming Language, slpl for short. I will implement slpl using Java.
+###In this project, I will design and implement - or partially implement - a programming language that I have named
+###the Severely Lacking Programming Language, slpl for short. I will implement slpl using Java.
 
 * Kort oppsummering av prosjektideen
 slpl will be an imperative language with some features typically present in functional languages, such as high order functions and
