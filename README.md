@@ -40,7 +40,9 @@ Resources:
 
 Schedule: TBA
 
-Dypere beskrivelse av prosjektet, om nødvendig (kan evt. være lang). F.eks. hvis du vil lage ditt eget programmeringsspråk, så kan du gi eksempler og beskrive konseptet for språket. imperative
+Language description:
+
+stuff
 
 A list of sample slpl statements:
 
