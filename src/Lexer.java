@@ -31,7 +31,8 @@ public class Lexer {
 
 
     public static void main(String[] args) {
-        String programText = "11 + 22 - 33";
+//        String programText = "11 + 22 - 33";
+        String programText = "let a = [1, 2, 4 + 2];";
         for(Token t : lex(programText)) {
             System.out.println(t);
         }
