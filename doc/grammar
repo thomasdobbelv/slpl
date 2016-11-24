@@ -1,3 +1,5 @@
+GRAMMAR
+
 <Module List>       ::- <Module>*
 <Module>            ::- module <Name> { <Import>* <Module Statement>* }
 <Import>            ::- import <Module Identifier>;
@@ -12,3 +14,10 @@
 <Type>              ::- <Type Name> | (<Type>) | <Type> -> <Type> | (<Type>,<Type>,<Type>*) | [<Type>]
 <Type Name>         ::- [A-Z][a-zA-Z]*
 <Name>              ::- [a-zA-Z][a-zA-Z0-9]*
+
+
+LEXICAL GRAMMAR
+
+<integer>       ::= [0-9]+
+<real number>   ::= <integer> "." <integer>
+<identifier>    ::= [A-Za-z]+[A-Za-z0-9]*

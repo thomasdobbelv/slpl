@@ -1,13 +1,12 @@
 #the Severely Lacking Programming Language.
 In this project, I will design and implement - or partially implement - a programming language that I have named the _Severely Lacking Programming Language_, __slpl__ for short. I will implement slpl using Java.
 
-slpl will be an imperative language with some features typically present in functional languages, such as high order functions and
-lambda functions.
+slpl will be an imperative language with some features typically present in functional languages, such as high order functions and lambda functions.
 
 I would like for slpl to have the following features (subject to change):
 
-- __static__ typing
 - variables
+- __static__ typing
 - primitive number types, such as integer and float, supporting basic arithmetic, using __infix__ notation
 - a primitive boolean type
 - if-statements
@@ -24,9 +23,9 @@ I would like for slpl to have the following features (subject to change):
 - tuples
 - lists
 - closures
-- modules
+- support for creating modular programs
 
-After completing the project, I hope to have a better understanding of the following stuffs:
+After completing the project, I hope to have a better understanding of the following concepts and techniques:
 
 - lexers
 - parsers
@@ -37,6 +36,7 @@ After completing the project, I hope to have a better understanding of the follo
 
 Resources:
 [google](https://www.google.no/)
+http://giocc.com/writing-a-lexer-in-java-1-7-using-regex-named-capturing-groups.html
 
 Schedule: TBA
 
@@ -79,4 +79,4 @@ a: int = intList[2];
 
 
 
-
+ 
