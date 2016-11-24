@@ -1,11 +1,32 @@
+import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public class Lexer {
 
-    private static int row = 0, col = 0;
-
     public static List<Token> lex(String programText) {
-        // TODO: Keep track of row and column numbers for precise error messages.
+        StringBuilder captureGroups = new StringBuilder();
+        for(TokenType tokenType : TokenType.values()) {
+            captureGroups.append(String.format("|(?<%s>%s)", tokenType.name(), tokenType.pattern));
+        }
+        Pattern pattern = Pattern.compile(captureGroups.substring(1));
+        Matcher matcher = pattern.matcher(programText);
+        LinkedList<Token> tokens = new LinkedList<>();
+        while(matcher.find()) {
+            for(TokenType tokenType : TokenType.values()) {
+                if(tokenType == TokenType.WHITESPACE) {
+                    continue;
+                }
+                String capturedSubsequence = matcher.group(tokenType.name());
+                if(capturedSubsequence != null) {
+                    tokens.add(new Token(tokenType, capturedSubsequence));
+                    break;
+                }
+            }
+        }
+        return tokens;
     }
 
 
