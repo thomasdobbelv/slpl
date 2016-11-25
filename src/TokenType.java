@@ -1,12 +1,11 @@
 public enum TokenType {
 
     NUMBER("-?[0-9]+"),
-    KEYWORD("let|for|while"),
+    KEYWORD("let|for|while|true|false"),
     IDENTIFIER("[A-Za-z][A-Za-z0-9]*"),
-    BOOLEANLITERAL("true|false"),
-    BINARYOPERATOR("[*/+-=]"),
-    BRACKET("[<>(){}\\[\\]]"),
+    BINARYOPERATOR("[*/+=-]"),
     SYMBOL("[,.;]"),
+    BRACKET("[<>(){}\\[\\]]"),
     WHITESPACE("[ \\t\\f\\r\\n]+");
 
     public final String pattern;
