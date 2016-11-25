@@ -1,7 +1,9 @@
+package slpl;
+
 public class Token {
 
-    private TokenType type;
-    private String content;
+    public final TokenType type;
+    public final String content;
 
     public Token(TokenType type, String content) {
         this.type = type;

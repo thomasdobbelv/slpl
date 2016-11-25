@@ -1,3 +1,5 @@
+package slpl;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -32,7 +34,8 @@ public class Lexer {
 
     public static void main(String[] args) {
 //        String programText = "11 + 22 - 33";
-        String programText = "let a = [1, 2, 4 + 2];";
+//        String programText = "let a = [1, 2, 4 + 2];";
+        String programText = "00000.42.3";
         for(Token t : lex(programText)) {
             System.out.println(t);
         }
