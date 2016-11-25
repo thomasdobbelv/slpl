@@ -7,12 +7,9 @@ public class Number extends Ast {
     private boolean isInteger;
 
     public Number(String numberString) {
-        if(numberString.contains(".")) {
-            floatValue = Double.parseDouble(numberString);
-        } else {
-            intValue = Integer.parseInt(numberString);
-            isInteger = true;
-        }
+        floatValue = Double.parseDouble(numberString);
+        intValue = (int) floatValue;
+        isInteger = !numberString.contains(".");
     }
 
     public boolean isInteger() {

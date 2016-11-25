@@ -9,11 +9,11 @@ import java.util.List;
 
 public class ProgramParser {
 
-    public static Ast parseProgram(String programText) {
+    public static Ast parseProgram(String programText) throws ParseException {
         List<Token> tokens = Lexer.lex(programText);
         Pair<Ast, Integer> p = ArithmeticExpressionParser.parseArithmeticExpression(0, tokens);
-        if(p.snd + 1 < tokens.size()) {
-            // TODO: throw error: something something
+        if(p.snd < tokens.size()) {
+            throw new ParseException("Unexpected token " + tokens.get(p.snd));
         }
         return p.fst;
     }

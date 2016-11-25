@@ -2,24 +2,26 @@ package slpl.parse;
 
 import slpl.Token;
 import slpl.TokenType;
+import slpl.ast.Add;
 import slpl.ast.Ast;
 import slpl.ast.Identifier;
 import slpl.ast.Number;
 import slpl.util.Pair;
 
-import java.text.ParseException;
 import java.util.List;
 
 public class ArithmeticExpressionParser {
 
-    public static Pair<Ast, Integer> parseArithmeticExpression(int i, List<Token> tokens) {
+    public static Pair<Ast, Integer> parseArithmeticExpression(int i, List<Token> tokens) throws ParseException {
         Pair<Ast, Integer> p = parseTerm(i, tokens);
+        Ast a0 = p.fst;
         i = p.snd;
         if(i < tokens.size()) {
             Token t = tokens.get(i++);
             switch (t.content) {
                 case "+": {
                     p = parseArithmeticExpression(i, tokens);
+                    return new Pair<>(new Add(a0, p.fst), p.snd);
                 }
                 case "-": {
 
@@ -29,7 +31,7 @@ public class ArithmeticExpressionParser {
 
     }
 
-    public static Pair<Ast, Integer> parseTerm(int i, List<Token> tokens) {
+    public static Pair<Ast, Integer> parseTerm(int i, List<Token> tokens) throws ParseException {
         Pair<Ast, Integer> p = parseFactor(i, tokens);
         i = p.snd;
         if(i < tokens.size()) {
@@ -45,7 +47,7 @@ public class ArithmeticExpressionParser {
         }
     }
 
-    public static Pair<Ast, Integer> parseFactor(int i, List<Token> tokens) {
+    public static Pair<Ast, Integer> parseFactor(int i, List<Token> tokens) throws ParseException {
         Token t = tokens.get(i++);
         if(t.type == TokenType.NUMBER) {
             return new Pair<>(new Number(t.content), i);
@@ -57,7 +59,7 @@ public class ArithmeticExpressionParser {
             t = tokens.get(i++);
             if(!t.content.equals(")")) {
                 //TODO: throw error: Expected ")"
-                throw new ParseException()
+                throw new ParseException("expected ) after token " + t.content);
             }
             return new Pair<>(p.fst, i);
         } else {
