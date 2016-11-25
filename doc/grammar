@@ -1,10 +1,12 @@
 GRAMMAR
 
-<Arithmetic Expression> ::= <Arithmetic Expression> + <Term>
-                        |   <Arithmetic Expression> - <Term>
+<Program>               ::= <Arithmetic Expression>
+
+<Arithmetic Expression> ::= <Term> + <Arithmetic Expression>
+                        |   <Term> - <Arithmetic Expression>
                         |   <Term>
-<Term>                  ::= <Term> * <Factor>
-                        |   <Term> / <Factor>
+<Term>                  ::= <Factor> * <Term>
+                        |   <Factor> / <Term>
                         |   <Factor>
 <Factor>                ::= <Number>
                         |   <Identifier>
