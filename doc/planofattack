@@ -1,0 +1,7 @@
+lex the program string with the lexer
+                |
+                V
+parse the list of tokens returned by lexer
+                |
+                V
+perform a type check on the ast built by parser

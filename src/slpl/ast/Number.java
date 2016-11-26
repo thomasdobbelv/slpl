@@ -2,30 +2,23 @@ package slpl.ast;
 
 public class Number extends Ast {
 
-    private int intValue;
-    private double floatValue;
-    private boolean isInteger;
+    private double value;
 
-    public Number(String numberString) {
-        floatValue = Double.parseDouble(numberString);
-        intValue = (int) floatValue;
-        isInteger = !numberString.contains(".");
+    public Number(String number) {
+        value = Double.parseDouble(number);
     }
 
-    public boolean isInteger() {
-        return isInteger;
-    }
-
-    public int getIntValue() {
-        return intValue;
-    }
-
-    public double getFloatValue() {
-        return floatValue;
+    public double getValue() {
+        return value;
     }
 
     @Override
     public Ast evaluate() {
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("(Number %f)", value);
     }
 }

@@ -13,9 +13,17 @@ public class ProgramParser {
         List<Token> tokens = Lexer.lex(programText);
         Pair<Ast, Integer> p = ArithmeticExpressionParser.parseArithmeticExpression(0, tokens);
         if(p.snd < tokens.size()) {
-            throw new ParseException("Unexpected token " + tokens.get(p.snd));
+            throw new ParseException(String.format("unexpected token \"%s\"", tokens.get(p.snd)));
         }
         return p.fst;
+    }
+
+    public static void main(String[] args) throws ParseException {
+//        Ast ast = parseProgram("131 - (14 - 2) + 3 * 14 / (2 + 6 * 3)");
+        Ast ast = parseProgram("131 - (14 - 2) + 2.1");
+        System.out.println(ast);
+        System.out.println("evaluated: ");
+        System.out.println(ast.evaluate());
     }
 
 }
