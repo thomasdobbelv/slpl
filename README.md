@@ -36,6 +36,7 @@ After completing the project, I hope to have a better understanding of the follo
 
 Resources:
 [google](https://www.google.no/)
+[scrum board](https://scrumy.com/elf35guarded)
 http://giocc.com/writing-a-lexer-in-java-1-7-using-regex-named-capturing-groups.html
 
 Schedule: TBA

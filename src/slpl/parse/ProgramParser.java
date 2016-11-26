@@ -20,7 +20,8 @@ public class ProgramParser {
 
     public static void main(String[] args) throws ParseException {
 //        Ast ast = parseProgram("131 - (14 - 2) + 3 * 14 / (2 + 6 * 3)");
-        Ast ast = parseProgram("131 - (14 - 2) + 2.1");
+//        Ast ast = parseProgram("131 - (14 - 2) + 2.1");
+        Ast ast = parseProgram("(131 - (14 - 2)) + 2.1");
         System.out.println(ast);
         System.out.println("evaluated: ");
         System.out.println(ast.evaluate());
