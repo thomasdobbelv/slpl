@@ -2,19 +2,20 @@ GRAMMAR
 
 <Program>               ::= <Arithmetic Expression>
 
-<Arithmetic Expression> ::= <Term> + <Arithmetic Expression>
-                        |   <Term> - <Arithmetic Expression>
+<Arithmetic Expression> ::= <Term> "+" <Arithmetic Expression>
+                        |   <Term> "-" <Arithmetic Expression>
                         |   <Term>
-<Term>                  ::= <Factor> * <Term>
-                        |   <Factor> / <Term>
+<Term>                  ::= <Factor> "*" <Term>
+                        |   <Factor> "/" <Term>
                         |   <Factor>
 <Factor>                ::= <Number>
                         |   <Identifier>
                         |   ( <Arithmetic Expression> )
+                        |   "-" <Factor>
 
 LEXICAL
 
-<Number>            ::= -?[0-9]+
+<Number>            ::= [0-9]+(\.[0-9]+)?
 <Identifier>        ::= [A-Za-z][A-Za-z0-9]*
 <Binary Operator>   ::= [-+/*=]
 <Symbol>            ::= [,.;]
