@@ -19,12 +19,12 @@ public class ProgramParser {
     }
 
     public static void main(String[] args) throws ParseException {
-//        Ast ast = parseProgram("131 - (14 - 2) + 3 * 14 / (2 + 6 * 3)");
-        Ast ast = parseProgram("131 - (14 - 2) + 2.1");
-//        Ast ast = parseProgram("(131 - (14 - 2)) + 2.1");
-        System.out.println(ast);
-        System.out.println("evaluated: ");
-        System.out.println(ast.evaluate());
+//        String programText = "121 + 3/3 - 14 + (2*(2-1)/2) + 0.5 - 0 * 28";
+//        System.out.println(Lexer.lex(programText));
+//        System.out.println(ArithmeticExpressionParser.parseArithmeticExpression(0, Lexer.lex(programText)).fst.evaluate());
+        String programText = "2 - -1";
+        Ast program = parseProgram(programText);
+        System.out.println(program.evaluate());
     }
 
 }

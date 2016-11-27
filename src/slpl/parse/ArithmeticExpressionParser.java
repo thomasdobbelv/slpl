@@ -3,9 +3,7 @@ package slpl.parse;
 import slpl.Operator;
 import slpl.Token;
 import slpl.TokenType;
-import slpl.ast.Ast;
-import slpl.ast.BinaryArithmeticOperation;
-import slpl.ast.Identifier;
+import slpl.ast.*;
 import slpl.ast.Number;
 import slpl.util.Pair;
 
@@ -38,7 +36,7 @@ public class ArithmeticExpressionParser {
     private static Ast asOperationAst(Token t, Ast[] operands) {
         switch (t.getType()) {
             case UNARYOPERATOR:
-                return null; // FIXME
+                return new UnaryArithmeticOperation(t.getContent(), operands[0]);
             case BINARYOPERATOR:
                 return new BinaryArithmeticOperation(t.getContent(), operands[0], operands[1]);
         }
