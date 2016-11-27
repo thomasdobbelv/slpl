@@ -1,5 +1,6 @@
 package slpl;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -15,7 +16,7 @@ public class Lexer {
         }
         Pattern pattern = Pattern.compile(captureGroups.substring(1));
         Matcher matcher = pattern.matcher(programText);
-        LinkedList<Token> tokens = new LinkedList<>();
+        ArrayList<Token> tokens = new ArrayList<>();
         while(matcher.find()) {
             for(TokenType tokenType : TokenType.values()) {
                 if(tokenType == TokenType.WHITESPACE) {
@@ -31,14 +32,8 @@ public class Lexer {
         return tokens;
     }
 
-
     public static void main(String[] args) {
-//        String programText = "11 + 22 - 33";
-//        String programText = "let a = [1, 2, 4 + 2];";
-        String programText = "00000.42.3";
-        for(Token t : lex(programText)) {
-            System.out.println(t);
-        }
+        System.out.println(lex("2 + --1"));
     }
 
 }
