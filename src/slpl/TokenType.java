@@ -2,9 +2,10 @@ package slpl;
 
 public enum TokenType {
 
-    NUMBER("-?[0-9]+(\\.[0-9]+)?"),
+    NUMBER("[0-9]+(\\.[0-9]+)?"),
     KEYWORD("let|for|while|true|false"),
     IDENTIFIER("[A-Za-z][A-Za-z0-9]*"),
+    UNARYOPERATOR("\\+\\+|--|\\+=|-=|\\*=|/="),
     BINARYOPERATOR("[*/+=-]"),
     SYMBOL("[,.;]"),
     BRACKET("[<>(){}\\[\\]]"),
