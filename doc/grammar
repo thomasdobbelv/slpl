@@ -1,6 +1,9 @@
 GRAMMAR
 
-<Program>               ::= <Arithmetic Expression>
+<Program>               ::= <Statement>
+
+<Statement>             ::= <Arithmetic Expression> ";" <Statement>
+                        |   <Empty>
 
 <Arithmetic Expression> ::= <Term> "+" <Arithmetic Expression>
                         |   <Term> "-" <Arithmetic Expression>
