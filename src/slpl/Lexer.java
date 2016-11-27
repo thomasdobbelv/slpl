@@ -31,9 +31,4 @@ public class Lexer {
         }
         return tokens;
     }
-
-    public static void main(String[] args) {
-        System.out.println(lex("2 + --1"));
-    }
-
 }
