@@ -19,15 +19,40 @@ public class ArithmeticExpressionParser {
     public static Pair<Ast, Integer> parseArithmeticExpression(int start, List<Token> tokens) throws ParseException {
         int end = recognizeArithmeticExpression(start, tokens);
         Stack<Ast> s = new Stack<>();
-        for (Token t : infixToRPN(tokens.subList(start, end))) {
-            if (t.getType() == TokenType.BINARYOPERATOR) {
-                Ast rhsOperand = s.pop(), lhsOperand = s.pop();
-                s.push(new BinaryArithmeticOperation(t.getContent(), lhsOperand, rhsOperand));
+        for (Token t : transformInfixToPostfix(tokens.subList(start, end))) {
+            if (isOperator(t)) {
+                int arity = arity(t);
+                Ast[] operands = new Ast[arity];
+                for (int i = arity - 1; i >= 0; --i) {
+                    operands[i] = s.pop();
+                }
+                s.push(asOperationAst(t, operands));
             } else {
-                s.push(t.getType() == TokenType.NUMBER ? new Number(t.getContent()) : new Identifier(t.getContent()));
+                s.push(asValueAst(t));
             }
         }
         return new Pair<>(s.pop(), end);
+    }
+
+    // TODO: consider making an Ast subclass for each operation, instead of just BinaryArithmeticOperation for any binary operation
+    private static Ast asOperationAst(Token t, Ast[] operands) {
+        switch (t.getType()) {
+            case UNARYOPERATOR:
+                return null; // FIXME
+            case BINARYOPERATOR:
+                return new BinaryArithmeticOperation(t.getContent(), operands[0], operands[1]);
+        }
+        return null;
+    }
+
+    private static Ast asValueAst(Token t) {
+        switch (t.getType()) {
+            case NUMBER:
+                return new Number(t.getContent());
+            case IDENTIFIER:
+                return new Identifier(t.getContent());
+        }
+        return null;
     }
 
     public static int recognizeArithmeticExpression(int start, List<Token> tokens) throws ParseException {
@@ -48,8 +73,12 @@ public class ArithmeticExpressionParser {
 
     public static int recognizeFactor(int start, List<Token> tokens) throws ParseException {
         Token t = tokens.get(start);
-        if (t.getType() == TokenType.NUMBER || t.getType() == TokenType.IDENTIFIER) {
+        if (isValue(t)) {
             return start + 1;
+        } else if (t.getContent().equals("-")) {
+            // t must be the unary additive inverse operator
+            tokens.set(start, new Token(TokenType.UNARYOPERATOR, "-"));
+            return recognizeFactor(start + 1, tokens);
         } else if (t.getContent().equals("(")) {
             int end = recognizeArithmeticExpression(start + 1, tokens);
             if (!tokens.get(end).getContent().equals(")")) {
@@ -67,25 +96,15 @@ public class ArithmeticExpressionParser {
      * @param tokens
      * @return
      */
-    public static List<Token> infixToRPN(List<Token> tokens) throws ParseException {
+    public static List<Token> transformInfixToPostfix(List<Token> tokens) throws ParseException {
         LinkedList<Token> outputQueue = new LinkedList<>();
         Stack<Token> operatorStack = new Stack<>();
         for (Token t : tokens) {
-            if (t.getType() == TokenType.NUMBER || t.getType() == TokenType.IDENTIFIER) {
+            if (isValue(t)) {
                 outputQueue.add(t);
-            } else if (t.getType() == TokenType.BINARYOPERATOR) {
-                Operator o1 = Operator.fromString(t.getContent());
-                // TODO: extract method
-                while (!operatorStack.isEmpty() && operatorStack.peek().getType() == TokenType.BINARYOPERATOR) {
-                    Operator o2 = Operator.fromString(operatorStack.peek().getContent());
-                    if (o1.getFixity() == Operator.Fixity.LEFT && o1.getPrecedence() <= o2.getPrecedence()) {
-                        outputQueue.add(operatorStack.pop());
-                    } else if (o1.getFixity() == Operator.Fixity.RIGHT && o1.getPrecedence() < o2.getPrecedence()) {
-                        outputQueue.add(operatorStack.pop());
-                    } else {
-                        break;
-                    }
-                }
+            } else if (isOperator(t)) {
+                Operator o1 = Operator.fromString(t.getContent(), arity(t));
+                enqueuePrecedentOperators(outputQueue, operatorStack, o1);
                 operatorStack.push(t);
             } else if (t.getContent().equals("(")) {
                 operatorStack.push(t);
@@ -100,8 +119,8 @@ public class ArithmeticExpressionParser {
                 }
             }
         }
-        while(!operatorStack.isEmpty()) {
-            if(operatorStack.peek().getType() == TokenType.BRACKET) {
+        while (!operatorStack.isEmpty()) {
+            if (operatorStack.peek().getType() == TokenType.BRACKET) {
                 throw new ParseException("mismatched parentheses");
             }
             outputQueue.add(operatorStack.pop());
@@ -109,49 +128,46 @@ public class ArithmeticExpressionParser {
         return outputQueue;
     }
 
-//    public static Pair<Ast, Integer> parseArithmeticExpression(int next, List<Token> tokens) throws ParseException {
-//        Pair<Ast, Integer> p = parseTerm(next, tokens);
-//        Ast a0 = p.fst;
-//        next = p.snd;
-//        if(next < tokens.size()) {
-//            Token t = tokens.get(next);
-//            if(t.getContent().equals("+") || t.getContent().equals("-")) {
-//                p = parseArithmeticExpression(next + 1, tokens);
-//                return new Pair<>(new BinaryArithmeticOperation(t.getContent(), a0, p.fst), p.snd);
-//            }
-//        }
-//        return p;
-//    }
-//
-//    public static Pair<Ast, Integer> parseTerm(int next, List<Token> tokens) throws ParseException {
-//        Pair<Ast, Integer> p = parseFactor(next, tokens);
-//        Ast a0 = p.fst;
-//        next = p.snd;
-//        if(next < tokens.size()) {
-//            Token t = tokens.get(next);
-//            if(t.getContent().equals("*") || t.getContent().equals("/")) {
-//                p = parseTerm(next + 1, tokens);
-//                return new Pair<>(new BinaryArithmeticOperation(t.getContent(), a0, p.fst), p.snd);
-//            }
-//        }
-//        return p;
-//    }
-//
-//    public static Pair<Ast, Integer> parseFactor(int next, List<Token> tokens) throws ParseException {
-//        Token t = tokens.get(next++);
-//        if(t.getType() == TokenType.NUMBER) {
-//            return new Pair<>(new Number(t.getContent()), next);
-//        } else if(t.getType() == TokenType.IDENTIFIER) {
-//            return new Pair<>(new Identifier(t.getContent()), next);
-//        } else if (t.getContent().equals("(")) {
-//            Pair<Ast, Integer> p = parseArithmeticExpression(next, tokens);
-//            t = tokens.get(p.snd++);
-//            if(!t.getContent().equals(")")) {
-//                throw new ParseException(String.format("expected \")\" after token \"%s\"", t.getContent()));
-//            }
-//            return p;
-//        } else {
-//            throw new ParseException(String.format("unexpected token \"%s\"", t.getContent()));
-//        }
-//    }
+    /**
+     * Add to <b>outputQueue</b> every operator on <b>operatorStack</b> that has a higher precedence than <b>o1</b>.
+     *
+     * @param outputQueue
+     * @param operatorStack
+     * @param o1
+     */
+    private static void enqueuePrecedentOperators(LinkedList<Token> outputQueue, Stack<Token> operatorStack, Operator o1) {
+        while (!operatorStack.isEmpty() && isOperator(operatorStack.peek())) {
+            Token t = operatorStack.peek();
+            Operator o2 = Operator.fromString(t.getContent(), arity(t));
+            if (o1.getFixity() == Operator.Fixity.LEFT && o1.getPrecedence() <= o2.getPrecedence()) {
+                outputQueue.add(operatorStack.pop());
+            } else if (o1.getFixity() == Operator.Fixity.RIGHT && o1.getPrecedence() < o2.getPrecedence()) {
+                outputQueue.add(operatorStack.pop());
+            } else {
+                break;
+            }
+        }
+    }
+
+    private static boolean isOperator(Token t) {
+        return t.getType() == TokenType.UNARYOPERATOR || t.getType() == TokenType.BINARYOPERATOR;
+    }
+
+    /**
+     * @param t A Token.
+     * @return The arity of the operator that <b>t</b> represents, or -1 if <b>t</b> is not an operator.
+     */
+    private static int arity(Token t) {
+        switch (t.getType()) {
+            case UNARYOPERATOR:
+                return 1;
+            case BINARYOPERATOR:
+                return 2;
+        }
+        return -1;
+    }
+
+    private static boolean isValue(Token t) {
+        return t.getType() == TokenType.NUMBER || t.getType() == TokenType.IDENTIFIER;
+    }
 }
