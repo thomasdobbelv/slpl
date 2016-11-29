@@ -1,5 +1,8 @@
 package slpl;
 
+import slpl.parse.ParseException;
+import slpl.util.TokenStream;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,12 +42,14 @@ public class Lexer {
         return tokens;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         String programText = "a >= b && c || (d && e != f)";
-        List<Token> tokens = lex(programText, true);
-        for(Token t : tokens) {
-            System.out.print(t + " ");
-        }
+//        List<Token> tokens = lex(programText, true);
+//        for(Token t : tokens) {
+//            System.out.print(t + " ");
+//        }
+        TokenStream ts = new TokenStream(Lexer.lex(programText, true));
+        ts.expect("tull");
     }
 
 }

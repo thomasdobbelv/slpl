@@ -78,7 +78,7 @@ public class ArithmeticExpressionParser {
         } else if (t.getType() == TokenType.LPAR) {
             int end = recognizeArithmeticExpression(start + 1, tokens);
             if (tokens.get(end).getType() != TokenType.RPAR) {
-                throw ParseException.expectedAfter(TokenType.RPAR, tokens.get(end - 1));
+                throw ParseException.expected(TokenType.RPAR, tokens.get(end - 1));
             }
             return end + 1;
         } else {

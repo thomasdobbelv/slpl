@@ -14,7 +14,7 @@ public class StatementParser {
         Pair<AST, Integer> p1 = ArithmeticExpressionParser.parseArithmeticExpression(start, tokens);
         int next = p1.snd;
         if(tokens.get(next).getType() != TokenType.SEMICOLON) {
-            throw ParseException.expectedAfter(TokenType.SEMICOLON, tokens.get(next - 1));
+            throw ParseException.expected(TokenType.SEMICOLON, tokens.get(next - 1));
         }
         next++;
         if(next < tokens.size()) {
