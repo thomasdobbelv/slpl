@@ -1,5 +1,7 @@
 package slpl;
 
+import org.jetbrains.annotations.NotNull;
+
 public enum Operator {
 
     ADD("+", 2, 0, Fixity.LEFT),
@@ -21,17 +23,29 @@ public enum Operator {
     }
 
     /**
-     *
-     * @param operatorSymbol
-     * @return The {@link Operator} associated with <b>operatorSymbol</b>, or null if no such operator exists.
+     * @param t A {@link Token}
+     * @return The {@link Operator} associated with the {@link Token} t, or null if no such Operator exists.
      */
-    public static Operator fromString(String operatorSymbol, int arity) {
-        for(Operator o : values()) {
-            if(o.operatorSymbol.equals(operatorSymbol) && o.arity == arity) {
+    public static Operator fromToken(Token t) {
+        String operatorSymbol = t.getContent();
+        int arity = -1;
+        switch (t.getType().getTypeClass()) {
+            case UNARY_OPERATOR:
+                arity = 1;
+                break;
+            case BINARY_OPERATOR:
+                arity = 2;
+        }
+        for (Operator o : values()) {
+            if (o.operatorSymbol.equals(operatorSymbol) && o.arity == arity) {
                 return o;
             }
         }
         return null;
+    }
+
+    public int getArity() {
+        return this.arity;
     }
 
     public int getPrecedence() {
@@ -45,5 +59,4 @@ public enum Operator {
     public enum Fixity {
         LEFT, RIGHT
     }
-
 }

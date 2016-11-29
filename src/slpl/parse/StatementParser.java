@@ -1,7 +1,7 @@
 package slpl.parse;
 
 import slpl.Token;
-import slpl.ast.Ast;
+import slpl.ast.AST;
 import slpl.ast.Statement;
 import slpl.util.Pair;
 
@@ -10,7 +10,7 @@ import java.util.List;
 public class StatementParser {
 
     public static Pair<Statement, Integer> parseStatement(int start, List<Token> tokens) throws ParseException {
-        Pair<Ast, Integer> p1 = ArithmeticExpressionParser.parseArithmeticExpression(start, tokens);
+        Pair<AST, Integer> p1 = ArithmeticExpressionParser.parseArithmeticExpression(start, tokens);
         int next = p1.snd;
         if(next >= tokens.size() || !tokens.get(next++).getContent().equals(";")) {
             throw new ParseException("expected ;");

@@ -1,17 +1,17 @@
 package slpl.ast;
 
-public class UnaryArithmeticOperation extends Ast {
+public class UnaryArithmeticOperation extends AST {
 
     private String operator;
-    private Ast arg;
+    private AST arg;
 
-    public UnaryArithmeticOperation(String operator, Ast arg) {
+    public UnaryArithmeticOperation(String operator, AST arg) {
         this.operator = operator;
         this.arg = arg;
     }
 
     @Override
-    public Ast evaluate() {
+    public AST evaluate() {
         if(operator.equals("-")) {
             Number num = (Number) arg.evaluate();
             return new Number((-num.getValue()) + "");

@@ -1,17 +1,17 @@
 package slpl.ast;
 
-public class Statement extends Ast {
+public class Statement extends AST {
 
-    private Ast statement;
+    private AST statement;
     private Statement nextStatement;
 
-    public Statement(Ast statement, Statement nextStatement) {
+    public Statement(AST statement, Statement nextStatement) {
         this.statement = statement;
         this.nextStatement = nextStatement;
     }
 
     @Override
-    public Ast evaluate() {
+    public AST evaluate() {
         // FIXME: NYI
         if(nextStatement == null) {
             return statement.evaluate();

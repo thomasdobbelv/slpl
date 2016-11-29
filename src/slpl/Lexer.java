@@ -9,26 +9,52 @@ import java.util.regex.Pattern;
 
 public class Lexer {
 
-    public static List<Token> lex(String programText) {
+    public static List<Token> lex(String programText, boolean skipLayout) {
         StringBuilder captureGroups = new StringBuilder();
-        for(TokenType tokenType : TokenType.values()) {
-            captureGroups.append(String.format("|(?<%s>%s)", tokenType.name(), tokenType.pattern));
+        for (TokenType tokenType : TokenType.values()) {
+            captureGroups.append(String.format("|(?<%s>%s)", tokenType.name(), tokenType.getPattern()));
         }
         Pattern pattern = Pattern.compile(captureGroups.substring(1));
         Matcher matcher = pattern.matcher(programText);
         ArrayList<Token> tokens = new ArrayList<>();
-        while(matcher.find()) {
-            for(TokenType tokenType : TokenType.values()) {
-                if(tokenType == TokenType.WHITESPACE) {
-                    continue;
-                }
+        int row = 1, col = 1;
+        while (matcher.find()) {
+            for (TokenType tokenType : TokenType.values()) {
                 String capturedSubsequence = matcher.group(tokenType.name());
-                if(capturedSubsequence != null) {
-                    tokens.add(new Token(tokenType, capturedSubsequence));
-                    break;
+                if (capturedSubsequence != null) {
+                    Token t = new Token(tokenType, capturedSubsequence, row, col);
+                    if(tokenType == TokenType.EOL) {
+                        ++row;
+                        col = 1;
+                    } else {
+                        col += capturedSubsequence.length();
+                    }
+                    if (tokenType.getTypeClass() != TokenTypeClass.LAYOUT || !skipLayout) {
+                        tokens.add(t);
+                        break;
+                    }
                 }
             }
         }
         return tokens;
     }
+
+    public static void main(String[] args) {
+        String programText =
+                "7 + 3;\n" +
+                "15/2 == 7.5;\n" +
+                "if(someVar < someOtherVar++) {\n" +
+                "    28 *= c;\n" +
+                "} else if (someCondition) {\n" +
+                "    a + b;\n" +
+                "} else {\n" +
+                "    133 /= 2;\n" +
+                "}";
+        System.out.print(" ");
+        List<Token> tokens = lex(programText, false);
+        for(Token t : tokens) {
+            System.out.print(t + " ");
+        }
+    }
+
 }
