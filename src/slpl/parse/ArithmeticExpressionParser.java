@@ -7,14 +7,15 @@ import slpl.ast.*;
 import slpl.ast.Number;
 import slpl.util.InfixToPostfixTransformer;
 import slpl.util.Pair;
+import slpl.util.TokenStream;
 
-import java.util.List;
 import java.util.Stack;
 
 public class ArithmeticExpressionParser {
 
-    public static Pair<AST, Integer> parseArithmeticExpression(int start, List<Token> tokens) throws ParseException {
-        int end = recognizeArithmeticExpression(start, tokens);
+    public static AST parseArithmeticExpression(TokenStream ts) throws ParseException {
+        int start = ts.getCurrentIndex();
+        recognizeArithmeticExpression(ts);
         Stack<AST> s = new Stack<>();
         for (Token t : InfixToPostfixTransformer.transform(tokens.subList(start, end))) {
             if (t.isOperator()) {
@@ -51,23 +52,25 @@ public class ArithmeticExpressionParser {
         return null;
     }
 
-    public static int recognizeArithmeticExpression(int start, List<Token> tokens) throws ParseException {
-        int end = recognizeTerm(start, tokens);
+    public static void recognizeArithmeticExpression(TokenStream ts) throws ParseException {
+        recognizeTerm(ts);
+        if(ts.hasNext()) {
+            ts.expectOneOf(TokenType.ADD, TokenType.SUB);
+        }
         if (end < tokens.size() && (tokens.get(end).getContent().equals("+") || tokens.get(end).getContent().equals("-"))) {
             end = recognizeArithmeticExpression(end + 1, tokens);
         }
-        return end;
     }
 
-    public static int recognizeTerm(int start, List<Token> tokens) throws ParseException {
-        int end = recognizeFactor(start, tokens);
+    public static int recognizeTerm(TokenStream ts) throws ParseException {
+        recognizeFactor(ts);
         if (end < tokens.size() && (tokens.get(end).getContent().equals("*") || tokens.get(end).getContent().equals("/"))) {
             end = recognizeTerm(end + 1, tokens);
         }
         return end;
     }
 
-    public static int recognizeFactor(int start, List<Token> tokens) throws ParseException {
+    public static int recognizeFactor(TokenStream ts) throws ParseException {
         Token t = tokens.get(start);
         if (t.isValue()) {
             return start + 1;

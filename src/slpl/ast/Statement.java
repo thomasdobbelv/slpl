@@ -2,10 +2,9 @@ package slpl.ast;
 
 public class Statement extends AST {
 
-    private AST statement;
-    private Statement nextStatement;
+    private AST statement, nextStatement;
 
-    public Statement(AST statement, Statement nextStatement) {
+    public Statement(AST statement, AST nextStatement) {
         this.statement = statement;
         this.nextStatement = nextStatement;
     }

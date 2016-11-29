@@ -23,28 +23,48 @@ public class TokenStream {
         return index;
     }
 
-    public void expect(String expected) throws ParseException {
-        if (index >= tokens.size()) {
-            throw ParseException.unexpectedEOF(tokens.get(tokens.size() - 1));
-        } else if (!tokens.get(index).getContent().equals(expected)) {
+    public void expectOneOf(String ... tokens) throws ParseException {
+        if (index >= this.tokens.size()) {
+            throw ParseException.unexpectedEOF(this.tokens.get(this.tokens.size() - 1));
+        } else if (!nextTokenIn(tokens)) {
             if (index > 0) {
-                throw ParseException.expected(expected, tokens.get(index - 1));
+                throw ParseException.expectedOneOf(this.tokens.get(index - 1), tokens);
             } else {
-                throw ParseException.expected(expected, 0, 0);
+                throw ParseException.expectedOneOf(0, 0, tokens);
             }
         }
     }
 
-    public void expect(TokenType expected) throws ParseException {
+    public void expectOneOf(TokenType ... tokenTypes) throws ParseException {
         if (index >= tokens.size()) {
             throw ParseException.unexpectedEOF(tokens.get(tokens.size() - 1));
-        } else if (tokens.get(index).getType() != expected) {
+        } else if (!nextTokenTypeIn(tokenTypes)) {
             if (index > 0) {
-                throw ParseException.expected(expected, tokens.get(index - 1));
+                throw ParseException.expectedOneOf(tokens.get(index - 1), tokenTypes);
             } else {
-                throw ParseException.expected(expected, 0, 0);
+                throw ParseException.expectedOneOf(0, 0, tokenTypes);
             }
         }
+    }
+
+    private boolean nextTokenTypeIn(TokenType[] tokenTypes) {
+        TokenType nextTokenType = tokens.get(index).getType();
+        for(TokenType tt : tokenTypes) {
+            if(nextTokenType == tt) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean nextTokenIn(String[] tokens) {
+        String nextToken = this.tokens.get(index).getContent();
+        for(String token : tokens) {
+            if(nextToken.equals(token)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Token consume() {

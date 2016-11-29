@@ -40,7 +40,7 @@
 //
 //    @Test
 //    public void parseArithmeticExpression() throws Exception {
-//        // TODO: construct expected ast for each valid arithmetic expression and check equality
+//        // TODO: construct expectedOneOf ast for each valid arithmetic expression and check equality
 //        for(String arithmeticExpression : validArithmeticExpressions) {
 //            Pair<AST, Integer> p = ArithmeticExpressionParser.parseArithmeticExpression(0, Lexer.lex(arithmeticExpression));
 //            System.out.printf("AST: %s\n", p.fst);

@@ -4,7 +4,6 @@ import slpl.parse.ParseException;
 import slpl.util.TokenStream;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,7 +48,7 @@ public class Lexer {
 //            System.out.print(t + " ");
 //        }
         TokenStream ts = new TokenStream(Lexer.lex(programText, true));
-        ts.expect("tull");
+        ts.expectOneOf("tull");
     }
 
 }

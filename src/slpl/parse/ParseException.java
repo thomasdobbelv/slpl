@@ -15,20 +15,20 @@ public class ParseException extends Exception {
         return new ParseException(String.format("Bracket mismatch \"%s\"at %d:%d", t.getContent(), t.getRow(), t.getCol()));
     }
 
-    public static ParseException expected(TokenType expected, int row, int col) {
-        return new ParseException(String.format("Expected %s at %d:%d", expected, row, col));
+    public static ParseException expectedOneOf(int row, int col, TokenType ... tokenTypes) {
+        return new ParseException(String.format("Expected one of [%s] at %d:%d", toCSVString(tokenTypes), row, col));
     }
 
-    public static ParseException expected(String expected, int row, int col) {
-        return new ParseException(String.format("Expected token \"%s\" at %d:%d", expected, row, col));
+    public static ParseException expectedOneOf(int row, int col, String ... tokens) {
+        return new ParseException(String.format("Expected one of \"%s\" at %d:%d", toCSVString(tokens), row, col));
     }
 
-    public static ParseException expected(TokenType expected, Token t) {
-        return new ParseException(String.format("Expected %s after token \"%s\" at %d:%d", expected, t.getContent(), t.getRow(), t.getCol()));
+    public static ParseException expectedOneOf(Token t, TokenType ... tokenTypes) {
+        return new ParseException(String.format("Expected one of [%s] after token \"%s\" at %d:%d", toCSVString(tokenTypes), t.getContent(), t.getRow(), t.getCol()));
     }
 
-    public static ParseException expected(String expected, Token t) {
-        return new ParseException(String.format("Expected token \"%s\" after token \"%s\" at %d:%d", expected, t.getContent(), t.getRow(), t.getCol()));
+    public static ParseException expectedOneOf(Token t, String ... tokens) {
+        return new ParseException(String.format("Expected one of \"%s\" after token \"%s\" at %d:%d", toCSVString(tokens), t.getContent(), t.getRow(), t.getCol()));
     }
 
     public static ParseException unexpected(Token t) {
@@ -37,5 +37,13 @@ public class ParseException extends Exception {
 
     public static ParseException unexpectedEOF(Token t) {
         return new ParseException(String.format("Unexpected EOF after token \"%s\" at %d:%d", t.getContent(), t.getRow(), t.getCol()));
+    }
+
+    private static String toCSVString(Object[] objects) {
+        StringBuilder sb = new StringBuilder();
+        for(Object object : objects) {
+            sb.append(object + ", ");
+        }
+        return sb.substring(0, sb.length() - 2);
     }
 }
