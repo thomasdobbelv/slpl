@@ -21,7 +21,7 @@ public class ProgramParser {
 
     public static void main(String[] args) throws ParseException {
 //        String programText = "1 + 1; 2 / 3;(5 * (28/2 - 7) - 5)/10 - 3;";
-        String programText = "1 + 1; 2 / 3;(5 * (28/2 - 7) - 5)/10 - 3";
+        String programText = "1 + 1; 2 / 3;(5 * (28/2 - 7) - 5)/10 - 3;";
         Ast program = parseProgram(programText);
         System.out.println(program);
         System.out.println(program.evaluate());

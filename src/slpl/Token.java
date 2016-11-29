@@ -4,10 +4,13 @@ public class Token {
 
     private final TokenType type;
     private final String content;
+    private final int row, col;
 
-    public Token(TokenType type, String content) {
+    public Token(TokenType type, String content, int row, int col) {
         this.type = type;
         this.content = content;
+        this.row = row;
+        this.col = col;
     }
 
     @Override
@@ -21,6 +24,14 @@ public class Token {
 
     public String getContent() {
         return this.content;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getCol() {
+        return col;
     }
 
 }
