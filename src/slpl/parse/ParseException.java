@@ -16,7 +16,7 @@ public class ParseException extends Exception {
     }
 
     public static ParseException expectedAfter(TokenType expected, Token t) {
-        return new ParseException(String.format("Expected %s after \"%s\" at %d:%d", expected, t.getContent(), t.getRow(), t.getCol()));
+        return new ParseException(String.format("Expected %s after token \"%s\" at %d:%d", expected, t.getContent(), t.getRow(), t.getCol()));
     }
 
     public static ParseException unexpected(Token t) {

@@ -1,9 +1,0 @@
-7 + 3;
-15/2 == 7.5;
-if(someVar < someOtherVar++) {
-    28 *= c;
-} else if (someCondition) {
-    a + b;
-} else {
-    133 /= 2;
-}
