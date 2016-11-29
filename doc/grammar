@@ -5,16 +5,14 @@ GRAMMAR
 <Statement>             ::= <Arithmetic Expression> ";" <Statement>
                         |   <Empty>
 
-<Arithmetic Expression> ::= <Term> "+" <Arithmetic Expression>
-                        |   <Term> "-" <Arithmetic Expression>
-                        |   <Term>
-<Term>                  ::= <Factor> "*" <Term>
-                        |   <Factor> "/" <Term>
-                        |   <Factor>
-<Factor>                ::= <Number>
-                        |   <Identifier>
+<Arithmetic Expression> ::= <Term> ([+-]<Arithmetic Expression>)?
+<Term>                  ::= <Factor> ([*/]<Term>)?
+<Factor>                ::= <Value>
                         |   ( <Arithmetic Expression> )
                         |   "-" <Factor>
+
+<Value>                 ::= <Number>
+                        |   <Identifier>
 
 LEXICAL
 

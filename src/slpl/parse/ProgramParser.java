@@ -24,7 +24,7 @@ public class ProgramParser {
     }
 
     public static void main(String[] args) throws ParseException {
-        String programText = "5 + 14/2 - 3 * (18 - a/2)";
+        String programText = "15 + true /";
         AST program = parseProgram(programText);
         System.out.println(program);
         System.out.println(program.evaluate());
