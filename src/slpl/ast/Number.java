@@ -1,6 +1,6 @@
 package slpl.ast;
 
-public class Number extends Ast {
+public class Number extends AST {
 
     private double value;
 
@@ -13,7 +13,7 @@ public class Number extends Ast {
     }
 
     @Override
-    public Ast evaluate() {
+    public AST evaluate() {
         return this;
     }
 

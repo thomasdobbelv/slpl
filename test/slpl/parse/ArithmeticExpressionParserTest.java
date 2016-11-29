@@ -4,7 +4,7 @@
 //import org.junit.Before;
 //import org.junit.Test;
 //import slpl.Lexer;
-//import slpl.ast.Ast;
+//import slpl.ast.AST;
 //import slpl.util.Pair;
 //
 //import static org.junit.Assert.*;
@@ -42,7 +42,7 @@
 //    public void parseArithmeticExpression() throws Exception {
 //        // TODO: construct expected ast for each valid arithmetic expression and check equality
 //        for(String arithmeticExpression : validArithmeticExpressions) {
-//            Pair<Ast, Integer> p = ArithmeticExpressionParser.parseArithmeticExpression(0, Lexer.lex(arithmeticExpression));
+//            Pair<AST, Integer> p = ArithmeticExpressionParser.parseArithmeticExpression(0, Lexer.lex(arithmeticExpression));
 //            System.out.printf("AST: %s\n", p.fst);
 ////            System.out.printf("Evaluation result: %s", p.fst.evaluate());
 //        }

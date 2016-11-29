@@ -2,14 +2,14 @@ package slpl;
 
 public enum TokenType {
 
-    NUMBER("[0-9]+(\\.[0-9]+)?", TokenTypeClass.NUMBER),
+    NUMBER("[0-9]+(\\.[0-9]+)?", TokenTypeClass.VALUE),
     FOR("for", TokenTypeClass.KEYWORD),
     WHILE("while", TokenTypeClass.KEYWORD),
     TRUE("true", TokenTypeClass.KEYWORD),
     FALSE("false", TokenTypeClass.KEYWORD),
     IF("if", TokenTypeClass.KEYWORD),
     ELSE("else", TokenTypeClass.KEYWORD),
-    IDENTIFIER("[A-Za-z][A-Za-z0-9]*", TokenTypeClass.IDENTIFIER),
+    IDENTIFIER("[A-Za-z][A-Za-z0-9]*", TokenTypeClass.VALUE),
     INCR("\\+\\+", TokenTypeClass.UNARY_OPERATOR),
     DECR("--", TokenTypeClass.UNARY_OPERATOR),
     ADDEQ("\\+=", TokenTypeClass.BINARY_OPERATOR),
@@ -20,6 +20,7 @@ public enum TokenType {
     SUB("-", TokenTypeClass.BINARY_OPERATOR),
     MUL("\\*", TokenTypeClass.BINARY_OPERATOR),
     DIV("/", TokenTypeClass.BINARY_OPERATOR),
+    ADDINV("-", TokenTypeClass.UNARY_OPERATOR),
     EQ("==", TokenTypeClass.BINARY_OPERATOR),
     NEQ("!=", TokenTypeClass.BINARY_OPERATOR),
     GTE(">=", TokenTypeClass.BINARY_OPERATOR),

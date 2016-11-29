@@ -1,6 +1,6 @@
 package slpl.ast;
 
-public class Identifier extends Ast {
+public class Identifier extends AST {
 
     private String value;
 
@@ -13,7 +13,7 @@ public class Identifier extends Ast {
     }
 
     @Override
-    public Ast evaluate() {
+    public AST evaluate() {
         return this;
     }
 

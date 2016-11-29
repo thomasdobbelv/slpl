@@ -16,7 +16,7 @@ public class Token {
     @Override
     public String toString() {
         String nl = "", content = this.content;
-        if(type == TokenType.EOL) {
+        if (type == TokenType.EOL) {
             nl = "\n";
             content = "";
         }
@@ -37,6 +37,19 @@ public class Token {
 
     public int getCol() {
         return col;
+    }
+
+    public boolean isOperator() {
+        switch (type.getTypeClass()) {
+            case UNARY_OPERATOR:
+            case BINARY_OPERATOR:
+                return true;
+        }
+        return false;
+    }
+
+    public boolean isValue() {
+        return type.getTypeClass() == TokenTypeClass.VALUE;
     }
 
 }
