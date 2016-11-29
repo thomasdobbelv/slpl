@@ -12,15 +12,19 @@ public class ProgramParser {
 
     public static AST parseProgram(String programText) throws ParseException {
         List<Token> tokens = Lexer.lex(programText, true);
-        Pair<Statement, Integer> p = StatementParser.parseStatement(0, tokens);
-        if(p.snd < tokens.size()) {
-            throw new ParseException(String.format("unexpected token \"%s\"", tokens.get(p.snd)));
+        try {
+            Pair<Statement, Integer> p = StatementParser.parseStatement(0, tokens);
+            if(p.snd < tokens.size()) {
+                throw ParseException.unexpected(tokens.get(p.snd));
+            }
+            return p.fst;
+        } catch (IndexOutOfBoundsException e) {
+            throw ParseException.unexpectedEndOfInputAfter(tokens.get(tokens.size()-1));
         }
-        return p.fst;
     }
 
     public static void main(String[] args) throws ParseException {
-        String programText = "(5 + (3 * -2 + 6) * 4 + 18/9)/(3 * 0.5;";
+        String programText = "5 + 14/2 - 3 * (18 - a/2)";
         AST program = parseProgram(programText);
         System.out.println(program);
         System.out.println(program.evaluate());

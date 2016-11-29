@@ -23,4 +23,8 @@ public class ParseException extends Exception {
         return new ParseException(String.format("Unexpected token \"%s\" at %d:%d", t.getContent(), t.getRow(), t.getCol()));
     }
 
+    public static ParseException unexpectedEndOfInputAfter(Token t) {
+        return new ParseException(String.format("Unexpected end of input after token \"%s\" at %d:%d", t.getContent(), t.getRow(), t.getCol()));
+    }
+
 }
