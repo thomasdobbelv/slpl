@@ -15,7 +15,12 @@ public class Token {
 
     @Override
     public String toString() {
-        return String.format("(%s %s)", type.name(), content);
+        String nl = "", content = this.content;
+        if(type == TokenType.EOL) {
+            nl = "\n";
+            content = "";
+        }
+        return String.format("(%s %s %d:%d)%s", type.name(), content, row, col, nl);
     }
 
     public TokenType getType() {
