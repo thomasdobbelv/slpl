@@ -40,18 +40,8 @@ public class Lexer {
     }
 
     public static void main(String[] args) {
-        String programText =
-                "7 + 3;\n" +
-                "15/2 == 7.5;\n" +
-                "if(someVar < someOtherVar++) {\n" +
-                "    28 *= c;\n" +
-                "} else if (someCondition) {\n" +
-                "    a + b;\n" +
-                "} else {\n" +
-                "    133 /= 2;\n" +
-                "}";
-        System.out.print(" ");
-        List<Token> tokens = lex(programText, false);
+        String programText = "a >= b && c || (d && e != f)";
+        List<Token> tokens = lex(programText, true);
         for(Token t : tokens) {
             System.out.print(t + " ");
         }

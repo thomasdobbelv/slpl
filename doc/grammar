@@ -5,20 +5,27 @@ GRAMMAR
 <Statement>             ::= <Arithmetic Expression> ";" <Statement>
                         |   <Empty>
 
-<Arithmetic Expression> ::= <Term> ([+-]<Arithmetic Expression>)?
-<Term>                  ::= <Factor> ([*/]<Term>)?
+<Arithmetic Expression> ::= <Term> ([+-] <Arithmetic Expression>)?
+<Term>                  ::= <Factor> ([*/] <Term>)?
 <Factor>                ::= <Value>
                         |   ( <Arithmetic Expression> )
                         |   "-" <Factor>
 
+<Boolean Expression>    ::= <Logical Conjunction> ("||" <Boolean Expression>)?
+<Logical Conjunction>   ::= <Atomic Formula> ("&&" <Logical Conjunction>)?
+<Atomic Formula>        ::= <Value>
+                        |   "!" <Atomic Formula>
+                        |   <Arithmetic Expression> <Relational Operator> <Arithmetic Expression>
+
 <Value>                 ::= <Number>
                         |   <Identifier>
 
-LEXICAL
+<Number>                ::= [0-9]+(\.[0-9]+)?
+<Identifier>            ::= [A-Za-z][A-Za-z0-9]*
 
-<Number>            ::= [0-9]+(\.[0-9]+)?
-<Identifier>        ::= [A-Za-z][A-Za-z0-9]*
-<Binary Operator>   ::= [-+/*=]
-<Symbol>            ::= [,.;]
-<Bracket>           ::= [<>(){}\[\]]
-<Whitespace>        ::= [ \t\f\r\n]+
+<Relational Operator>   ::= "=="
+                        |   "!="
+                        |   ">="
+                        |   "<="
+                        |   ">"
+                        |   "<"
