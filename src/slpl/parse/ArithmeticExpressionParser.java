@@ -6,17 +6,19 @@ import slpl.TokenType;
 import slpl.ast.*;
 import slpl.ast.Number;
 import slpl.util.InfixToPostfixTransformer;
-import slpl.util.Pair;
+import slpl.util.TokenStream;
 
-import java.util.List;
 import java.util.Stack;
 
 public class ArithmeticExpressionParser {
 
-    public static Pair<AST, Integer> parseArithmeticExpression(int start, List<Token> tokens) throws ParseException {
-        int end = recognizeArithmeticExpression(start, tokens);
+    public static AST parseArithmeticExpression(TokenStream ts) throws ParseException {
+        int start = ts.getCurrentIndex();
+        recognizeArithmeticExpression(ts);
+        int end = ts.getCurrentIndex();
+        ts.setCurrentIndex(start);
         Stack<AST> s = new Stack<>();
-        for (Token t : InfixToPostfixTransformer.transform(tokens.subList(start, end))) {
+        for (Token t : InfixToPostfixTransformer.transform(ts, end)) {
             if (t.isOperator()) {
                 int arity = Operator.fromToken(t).getArity();
                 AST[] operands = new AST[arity];
@@ -28,7 +30,8 @@ public class ArithmeticExpressionParser {
                 s.push(toValueAST(t));
             }
         }
-        return new Pair<>(s.pop(), end);
+        assert ts.getCurrentIndex() == end;
+        return s.pop();
     }
 
     private static AST toArithmeticOperationAST(Token t, AST[] operands) {
@@ -51,38 +54,36 @@ public class ArithmeticExpressionParser {
         return null;
     }
 
-    public static int recognizeArithmeticExpression(int start, List<Token> tokens) throws ParseException {
-        int end = recognizeTerm(start, tokens);
-        if (end < tokens.size() && (tokens.get(end).getContent().equals("+") || tokens.get(end).getContent().equals("-"))) {
-            end = recognizeArithmeticExpression(end + 1, tokens);
+    public static void recognizeArithmeticExpression(TokenStream ts) throws ParseException {
+        recognizeTerm(ts);
+        if(ts.hasNext(TokenType.ADD, TokenType.SUB)) {
+            ts.consume();
+            recognizeArithmeticExpression(ts);
         }
-        return end;
     }
 
-    public static int recognizeTerm(int start, List<Token> tokens) throws ParseException {
-        int end = recognizeFactor(start, tokens);
-        if (end < tokens.size() && (tokens.get(end).getContent().equals("*") || tokens.get(end).getContent().equals("/"))) {
-            end = recognizeTerm(end + 1, tokens);
+    public static void recognizeTerm(TokenStream ts) throws ParseException {
+        recognizeFactor(ts);
+        if(ts.hasNext(TokenType.MUL, TokenType.DIV)) {
+            ts.consume();
+            recognizeTerm(ts);
         }
-        return end;
     }
 
-    public static int recognizeFactor(int start, List<Token> tokens) throws ParseException {
-        Token t = tokens.get(start);
-        if (t.isValue()) {
-            return start + 1;
-        } else if (t.getType() == TokenType.SUB) {
-            // t must be the unary additive inverse operator
-            tokens.set(start, new Token(TokenType.ADDINV, "-", t.getCol(), t.getRow()));
-            return recognizeFactor(start + 1, tokens);
-        } else if (t.getType() == TokenType.LPAR) {
-            int end = recognizeArithmeticExpression(start + 1, tokens);
-            if (tokens.get(end).getType() != TokenType.RPAR) {
-                throw ParseException.expectedAfter(TokenType.RPAR, tokens.get(end - 1));
-            }
-            return end + 1;
-        } else {
-            throw ParseException.unexpected(t);
+    public static void recognizeFactor(TokenStream ts) throws ParseException {
+        ts.expectOneOf(TokenType.NUMBER, TokenType.IDENTIFIER, TokenType.SUB, TokenType.LPAR);
+        if(ts.hasNext(TokenType.NUMBER, TokenType.IDENTIFIER)) {
+            ts.consume();
+        } else if(ts.hasNext(TokenType.SUB)) {
+            Token t = ts.inspect();
+            ts.replaceCurrentToken(new Token(TokenType.ADDINV, "-", t.getCol(), t.getRow()));
+            ts.consume();
+            recognizeFactor(ts);
+        } else if(ts.hasNext(TokenType.LPAR)) {
+            ts.consume();
+            recognizeArithmeticExpression(ts);
+            ts.expectOneOf(TokenType.RPAR);
+            ts.consume();
         }
     }
 }

@@ -1,7 +1,9 @@
 package slpl;
 
+import slpl.parse.ParseException;
+import slpl.util.TokenStream;
+
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,22 +41,14 @@ public class Lexer {
         return tokens;
     }
 
-    public static void main(String[] args) {
-        String programText =
-                "7 + 3;\n" +
-                "15/2 == 7.5;\n" +
-                "if(someVar < someOtherVar++) {\n" +
-                "    28 *= c;\n" +
-                "} else if (someCondition) {\n" +
-                "    a + b;\n" +
-                "} else {\n" +
-                "    133 /= 2;\n" +
-                "}";
-        System.out.print(" ");
-        List<Token> tokens = lex(programText, false);
-        for(Token t : tokens) {
-            System.out.print(t + " ");
-        }
+    public static void main(String[] args) throws ParseException {
+        String programText = "a >= b && c || (d && e != f)";
+//        List<Token> tokens = lex(programText, true);
+//        for(Token t : tokens) {
+//            System.out.print(t + " ");
+//        }
+        TokenStream ts = new TokenStream(Lexer.lex(programText, true));
+        ts.expectOneOf("tull");
     }
 
 }
