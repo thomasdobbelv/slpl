@@ -23,16 +23,8 @@ public class TokenStream {
         return index;
     }
 
-    public void expectOneOf(String ... tokens) throws ParseException {
-        if (index >= this.tokens.size()) {
-            throw ParseException.unexpectedEOF(this.tokens.get(this.tokens.size() - 1));
-        } else if (!nextTokenIn(tokens)) {
-            if (index > 0) {
-                throw ParseException.expectedOneOf(this.tokens.get(index - 1), tokens);
-            } else {
-                throw ParseException.expectedOneOf(0, 0, tokens);
-            }
-        }
+    public void replaceCurrentToken(Token t) {
+        tokens.set(index, t);
     }
 
     public void expectOneOf(TokenType ... tokenTypes) throws ParseException {
@@ -43,6 +35,18 @@ public class TokenStream {
                 throw ParseException.expectedOneOf(tokens.get(index - 1), tokenTypes);
             } else {
                 throw ParseException.expectedOneOf(0, 0, tokenTypes);
+            }
+        }
+    }
+
+    public void expectOneOf(String ... tokens) throws ParseException {
+        if (index >= this.tokens.size()) {
+            throw ParseException.unexpectedEOF(this.tokens.get(this.tokens.size() - 1));
+        } else if (!nextTokenIn(tokens)) {
+            if (index > 0) {
+                throw ParseException.expectedOneOf(this.tokens.get(index - 1), tokens);
+            } else {
+                throw ParseException.expectedOneOf(0, 0, tokens);
             }
         }
     }
@@ -67,12 +71,29 @@ public class TokenStream {
         return false;
     }
 
-    public Token consume() {
+    public Token consume() throws ParseException {
+        if(index >= tokens.size()) {
+            throw ParseException.unexpectedEOF(tokens.get(tokens.size() - 1));
+        }
         return tokens.get(index++);
+    }
+
+    public Token inspect() throws ParseException {
+        Token t = consume();
+        --index;
+        return t;
     }
 
     public boolean hasNext() {
         return index < tokens.size();
+    }
+
+    public boolean hasNext(TokenType ... tokenTypes) {
+        return index < tokens.size() && nextTokenTypeIn(tokenTypes);
+    }
+
+    public boolean hasNext(String ... tokens) {
+        return index < this.tokens.size() && nextTokenIn(tokens);
     }
 
 }

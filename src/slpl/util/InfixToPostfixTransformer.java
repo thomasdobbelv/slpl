@@ -15,14 +15,12 @@ public class InfixToPostfixTransformer {
 
     /**
      * Dijkstra's Shunting Yard algorithm.
-     *
-     * @param tokens
-     * @return
      */
-    public static List<Token> transform(List<Token> tokens) throws ParseException {
+    public static List<Token> transform(TokenStream ts, int end) throws ParseException {
         LinkedList<Token> outputQueue = new LinkedList<>();
         Stack<Token> operatorStack = new Stack<>();
-        for (Token t : tokens) {
+        while (ts.getCurrentIndex() != end) {
+            Token t = ts.consume();
             if (t.isValue()) {
                 outputQueue.add(t);
             } else if (t.isOperator()) {
