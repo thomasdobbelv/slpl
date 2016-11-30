@@ -3,6 +3,7 @@ GRAMMAR
 <Program>               ::= <Statement>
 
 <Statement>             ::= <Arithmetic Expression> ";" <Statement>
+                        |   <Boolean Expression> ";" <Statement>
                         |   <Empty>
 
 <Arithmetic Expression> ::= <Term> ([+-] <Arithmetic Expression>)?
@@ -13,8 +14,9 @@ GRAMMAR
 
 <Boolean Expression>    ::= <Logical Conjunction> ("||" <Boolean Expression>)?
 <Logical Conjunction>   ::= <Atomic Formula> ("&&" <Logical Conjunction>)?
-<Atomic Formula>        ::= <Value>
+<Atomic Formula>        ::= <Identifier>
                         |   "!" <Atomic Formula>
+                        |   "(" <Boolean Expression> ")"
                         |   <Arithmetic Expression> <Relational Operator> <Arithmetic Expression>
 
 <Value>                 ::= <Number>

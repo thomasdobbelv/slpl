@@ -71,7 +71,7 @@ public class ArithmeticExpressionParser {
     }
 
     public static void recognizeFactor(TokenStream ts) throws ParseException {
-        ts.expectOneOf(TokenType.NUMBER, TokenType.IDENTIFIER, TokenType.SUB, TokenType.LPAR);
+        ts.expect(TokenType.NUMBER, TokenType.IDENTIFIER, TokenType.SUB, TokenType.LPAR);
         if(ts.hasNext(TokenType.NUMBER, TokenType.IDENTIFIER)) {
             ts.consume();
         } else if(ts.hasNext(TokenType.SUB)) {
@@ -82,7 +82,7 @@ public class ArithmeticExpressionParser {
         } else if(ts.hasNext(TokenType.LPAR)) {
             ts.consume();
             recognizeArithmeticExpression(ts);
-            ts.expectOneOf(TokenType.RPAR);
+            ts.expect(TokenType.RPAR);
             ts.consume();
         }
     }

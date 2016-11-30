@@ -48,7 +48,7 @@ public class Lexer {
 //            System.out.print(t + " ");
 //        }
         TokenStream ts = new TokenStream(Lexer.lex(programText, true));
-        ts.expectOneOf("tull");
+        ts.expect("tull");
     }
 
 }

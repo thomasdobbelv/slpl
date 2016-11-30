@@ -8,7 +8,16 @@ public enum Operator {
     SUB("-", 2, 0, Fixity.LEFT),
     MUL("*", 2, 1, Fixity.LEFT),
     DIV("/", 2, 1, Fixity.LEFT),
-    ADDITIVE_INVERSE("-", 1, 2, Fixity.RIGHT);
+    ADDITIVE_INVERSE("-", 1, 2, Fixity.RIGHT),
+    EQ("==", 2, 0, Fixity.LEFT),
+    NEQ("!=", 2, 0, Fixity.LEFT),
+    GTE(">=", 2, 0, Fixity.LEFT),
+    LTE("<)", 2, 0, Fixity.LEFT),
+    GT(">", 2, 0, Fixity.LEFT),
+    LT("<", 2, 0, Fixity.LEFT),
+    OR("||", 2, 1, Fixity.LEFT),
+    AND("&&", 2, 2, Fixity.LEFT),
+    NOT("!", 1, 3, Fixity.RIGHT);
 
     private final String operatorSymbol;
     private final Fixity fixity;

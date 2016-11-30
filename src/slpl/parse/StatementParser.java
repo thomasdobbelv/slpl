@@ -8,8 +8,9 @@ import slpl.util.TokenStream;
 public class StatementParser {
 
     public static AST parseStatement(TokenStream ts) throws ParseException {
-        AST a1 = ArithmeticExpressionParser.parseArithmeticExpression(ts);
-        ts.expectOneOf(TokenType.SEMICOLON);
+        //AST a1 = ArithmeticExpressionParser.parseArithmeticExpression(ts);
+        AST a1 = BooleanExpressionParser.parseBooleanExpression(ts);
+        ts.expect(TokenType.SEMICOLON);
         ts.consume();
         if(ts.hasNext()) {
             AST a2 = parseStatement(ts);
