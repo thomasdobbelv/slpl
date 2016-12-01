@@ -6,14 +6,20 @@ import slpl.TokenType;
 import slpl.ast.*;
 import slpl.ast.Boolean;
 import slpl.util.InfixToPostfixTransformer;
+import slpl.util.Pair;
 import slpl.util.TokenStream;
 
+import java.util.List;
 import java.util.Stack;
 
 public class BooleanExpressionParser {
 
+    private static List<Pair<Token, AST>>
 
     public static AST parseBooleanExpression(TokenStream ts) throws ParseException {
+
+        // ITS STARTING TO LOOK LIKE parseBooleanExpr and parseArithExpr should merge into parseExpr......
+
         int start = ts.getCurrentIndex();
         recognizeBooleanExpression(ts);
         int end = ts.getCurrentIndex();
@@ -94,6 +100,8 @@ public class BooleanExpressionParser {
             if (ts.hasNext(TokenType.EQ, TokenType.NEQ, TokenType.GTE, TokenType.LTE, TokenType.GT, TokenType.LT)) {
                 ts.consume();
                 AST a1 = ArithmeticExpressionParser.parseArithmeticExpression(ts);
+                // at this point, every token in the interval [i, ts.curIdx]
+                // construct comparison AST, and map every token to this AST in hashmap??
             } else {
                 ts.setCurrentIndex(i);
                 ts.expect(TokenType.IDENTIFIER);

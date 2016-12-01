@@ -1,23 +1,21 @@
 package slpl;
 
-import org.jetbrains.annotations.NotNull;
-
 public enum Operator {
 
-    ADD("+", 2, 0, Fixity.LEFT),
-    SUB("-", 2, 0, Fixity.LEFT),
-    MUL("*", 2, 1, Fixity.LEFT),
-    DIV("/", 2, 1, Fixity.LEFT),
-    ADDITIVE_INVERSE("-", 1, 2, Fixity.RIGHT),
-    EQ("==", 2, 0, Fixity.LEFT),
-    NEQ("!=", 2, 0, Fixity.LEFT),
-    GTE(">=", 2, 0, Fixity.LEFT),
-    LTE("<)", 2, 0, Fixity.LEFT),
-    GT(">", 2, 0, Fixity.LEFT),
-    LT("<", 2, 0, Fixity.LEFT),
-    OR("||", 2, 1, Fixity.LEFT),
-    AND("&&", 2, 2, Fixity.LEFT),
-    NOT("!", 1, 3, Fixity.RIGHT);
+    OR("||", 2, 0, Fixity.LEFT),
+    AND("&&", 2, 1, Fixity.LEFT),
+    NOT("!", 1, 2, Fixity.RIGHT),
+    EQ("==", 2, 3, Fixity.LEFT),
+    NEQ("!=", 2, 3, Fixity.LEFT),
+    GTE(">=", 2, 3, Fixity.LEFT),
+    LTE("<)", 2, 3, Fixity.LEFT),
+    GT(">", 2, 3, Fixity.LEFT),
+    LT("<", 2, 3, Fixity.LEFT),
+    ADD("+", 2, 4, Fixity.LEFT),
+    SUB("-", 2, 4, Fixity.LEFT),
+    MUL("*", 2, 5, Fixity.LEFT),
+    DIV("/", 2, 5, Fixity.LEFT),
+    ADDITIVE_INVERSE("-", 1, 6, Fixity.RIGHT);
 
     private final String operatorSymbol;
     private final Fixity fixity;
