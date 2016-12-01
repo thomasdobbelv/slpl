@@ -8,7 +8,7 @@ public enum Operator {
     EQ("==", 2, 3, Fixity.LEFT),
     NEQ("!=", 2, 3, Fixity.LEFT),
     GTE(">=", 2, 3, Fixity.LEFT),
-    LTE("<)", 2, 3, Fixity.LEFT),
+    LTE("<=", 2, 3, Fixity.LEFT),
     GT(">", 2, 3, Fixity.LEFT),
     LT("<", 2, 3, Fixity.LEFT),
     ADD("+", 2, 4, Fixity.LEFT),
