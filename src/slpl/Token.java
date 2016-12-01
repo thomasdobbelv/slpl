@@ -40,16 +40,11 @@ public class Token {
     }
 
     public boolean isOperator() {
-        switch (type.getTypeClass()) {
-            case UNARY_OPERATOR:
-            case BINARY_OPERATOR:
-                return true;
-        }
-        return false;
+        return type.instanceOf(TokenTypeClass.UNARY_OPERATOR) || type.instanceOf(TokenTypeClass.BINARY_OPERATOR);
     }
 
     public boolean isValue() {
-        return type.getTypeClass() == TokenTypeClass.VALUE;
+        return type.instanceOf(TokenTypeClass.VALUE);
     }
 
 }

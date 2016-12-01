@@ -36,16 +36,17 @@ public enum Operator {
     public static Operator fromToken(Token t) {
         String operatorSymbol = t.getContent();
         int arity = -1;
-        switch (t.getType().getTypeClass()) {
-            case UNARY_OPERATOR:
-                arity = 1;
-                break;
-            case BINARY_OPERATOR:
-                arity = 2;
+        TokenType tt = t.getType();
+        if(tt.instanceOf(TokenTypeClass.UNARY_OPERATOR)) {
+            arity = 1;
+        } else if(tt.instanceOf(TokenTypeClass.BINARY_OPERATOR)) {
+            arity = 2;
         }
-        for (Operator o : values()) {
-            if (o.operatorSymbol.equals(operatorSymbol) && o.arity == arity) {
-                return o;
+        if(arity >= 0) {
+            for (Operator o : values()) {
+                if (o.operatorSymbol.equals(operatorSymbol) && o.arity == arity) {
+                    return o;
+                }
             }
         }
         return null;

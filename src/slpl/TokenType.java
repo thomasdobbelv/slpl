@@ -1,64 +1,69 @@
 package slpl;
 
+import java.util.HashSet;
+import static slpl.TokenTypeClass.*;
+
 public enum TokenType {
 
-    NUMBER("[0-9]+(\\.[0-9]+)?", TokenTypeClass.VALUE),
-    FOR("for", TokenTypeClass.KEYWORD),
-    WHILE("while", TokenTypeClass.KEYWORD),
-    TRUE("true", TokenTypeClass.KEYWORD),
-    FALSE("false", TokenTypeClass.KEYWORD),
-    IF("if", TokenTypeClass.KEYWORD),
-    ELSE("else", TokenTypeClass.KEYWORD),
-    IDENTIFIER("[A-Za-z][A-Za-z0-9]*", TokenTypeClass.VALUE),
-    INCR("\\+\\+", TokenTypeClass.UNARY_OPERATOR),
-    DECR("--", TokenTypeClass.UNARY_OPERATOR),
-    ADDEQ("\\+=", TokenTypeClass.BINARY_OPERATOR),
-    SUBEQ("-=", TokenTypeClass.BINARY_OPERATOR),
-    MULEQ("\\*=", TokenTypeClass.BINARY_OPERATOR),
-    DIVEQ("/=", TokenTypeClass.BINARY_OPERATOR),
-    ADD("\\+", TokenTypeClass.BINARY_OPERATOR),
-    SUB("-", TokenTypeClass.BINARY_OPERATOR),
-    MUL("\\*", TokenTypeClass.BINARY_OPERATOR),
-    DIV("/", TokenTypeClass.BINARY_OPERATOR),
-    ADDINV("-", TokenTypeClass.UNARY_OPERATOR),
-    EQ("==", TokenTypeClass.BINARY_OPERATOR),
-    NEQ("!=", TokenTypeClass.BINARY_OPERATOR),
-    GTE(">=", TokenTypeClass.BINARY_OPERATOR),
-    LTE("<=", TokenTypeClass.BINARY_OPERATOR),
-    GT(">", TokenTypeClass.BINARY_OPERATOR),
-    LT("<", TokenTypeClass.BINARY_OPERATOR),
-    NOT("!", TokenTypeClass.UNARY_OPERATOR),
-    AND("&&", TokenTypeClass.BINARY_OPERATOR),
-    OR("\\|\\|", TokenTypeClass.BINARY_OPERATOR),
-    ASSIGN("=", TokenTypeClass.BINARY_OPERATOR),
-    COMMA(",", TokenTypeClass.SYMBOL),
-    DOT("\\.", TokenTypeClass.SYMBOL),
-    COLON(":", TokenTypeClass.SYMBOL),
-    SEMICOLON(";",TokenTypeClass.SYMBOL),
-    LSQR("\\[", TokenTypeClass.BRACKET),
-    RSQR("]", TokenTypeClass.BRACKET),
-    LCRL("\\{", TokenTypeClass.BRACKET),
-    RCRL("}", TokenTypeClass.BRACKET),
-    LPAR("\\(", TokenTypeClass.BRACKET),
-    RPAR("\\)", TokenTypeClass.BRACKET),
-    EOL("\\r?\\n", TokenTypeClass.LAYOUT),
-    TAB("\\t", TokenTypeClass.LAYOUT),
-    WS("[ \\f]+", TokenTypeClass.LAYOUT);
+    NUMBER("[0-9]+(\\.[0-9]+)?", VALUE),
+    FOR("for", KEYWORD),
+    WHILE("while", KEYWORD),
+    TRUE("true", KEYWORD),
+    FALSE("false", KEYWORD),
+    IF("if", KEYWORD),
+    ELSE("else", KEYWORD),
+    IDENTIFIER("[A-Za-z][A-Za-z0-9]*", VALUE),
+    INCR("\\+\\+", UNARY_OPERATOR, ARITHMETIC_OPERATOR),
+    DECR("--", UNARY_OPERATOR, ARITHMETIC_OPERATOR),
+    ADDEQ("\\+=", BINARY_OPERATOR, ASSIGNMENT_OPERATOR),
+    SUBEQ("-=", BINARY_OPERATOR, ASSIGNMENT_OPERATOR),
+    MULEQ("\\*=", BINARY_OPERATOR, ASSIGNMENT_OPERATOR),
+    DIVEQ("/=", BINARY_OPERATOR, ASSIGNMENT_OPERATOR),
+    ADD("\\+", BINARY_OPERATOR, ARITHMETIC_OPERATOR),
+    SUB("-", BINARY_OPERATOR, ARITHMETIC_OPERATOR),
+    MUL("\\*", BINARY_OPERATOR, ARITHMETIC_OPERATOR),
+    DIV("/", BINARY_OPERATOR, ARITHMETIC_OPERATOR),
+    ADDINV("-", UNARY_OPERATOR, ARITHMETIC_OPERATOR),
+    EQ("==", BINARY_OPERATOR, RELATIONAL_OPERATOR),
+    NEQ("!=", BINARY_OPERATOR, RELATIONAL_OPERATOR),
+    GTE(">=", BINARY_OPERATOR, RELATIONAL_OPERATOR),
+    LTE("<=", BINARY_OPERATOR, RELATIONAL_OPERATOR),
+    GT(">", BINARY_OPERATOR, RELATIONAL_OPERATOR),
+    LT("<", BINARY_OPERATOR, RELATIONAL_OPERATOR),
+    NOT("!", UNARY_OPERATOR, LOGICAL_OPERATOR),
+    AND("&&", BINARY_OPERATOR, LOGICAL_OPERATOR),
+    OR("\\|\\|", BINARY_OPERATOR, LOGICAL_OPERATOR),
+    ASSIGN("=", BINARY_OPERATOR, ASSIGNMENT_OPERATOR),
+    COMMA(",", SYMBOL),
+    DOT("\\.", SYMBOL),
+    COLON(":", SYMBOL),
+    SEMICOLON(";",SYMBOL),
+    LSQR("\\[", BRACKET),
+    RSQR("]", BRACKET),
+    LCRL("\\{", BRACKET),
+    RCRL("}", BRACKET),
+    LPAR("\\(", BRACKET),
+    RPAR("\\)", BRACKET),
+    EOL("\\r?\\n", LAYOUT),
+    TAB("\\t", LAYOUT),
+    WS("[ \\f]+", LAYOUT);
 
     private final String pattern;
-    private final TokenTypeClass typeClass;
+    private final HashSet<TokenTypeClass> typeClasses = new HashSet<>();
 
-    TokenType(String pattern, TokenTypeClass typeClass) {
+    TokenType(String pattern, TokenTypeClass ... tokenTypeClasses) {
         this.pattern = pattern;
-        this.typeClass = typeClass;
+        for(TokenTypeClass ttc : tokenTypeClasses) {
+            typeClasses.add(ttc);
+        }
     }
 
     public String getPattern() {
         return pattern;
     }
 
-    public TokenTypeClass getTypeClass() {
-        return typeClass;
+    public boolean instanceOf(TokenTypeClass ttc) {
+        return typeClasses.contains(ttc);
     }
 
 }

@@ -40,7 +40,7 @@ public class InfixToPostfixTransformer {
             }
         }
         while (!operatorStack.isEmpty()) {
-            if (operatorStack.peek().getType().getTypeClass() == TokenTypeClass.BRACKET) {
+            if (operatorStack.peek().getType().instanceOf(TokenTypeClass.BRACKET)) {
                 throw ParseException.bracketMismatch(operatorStack.peek());
             }
             outputQueue.add(operatorStack.pop());

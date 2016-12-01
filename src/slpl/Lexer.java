@@ -31,7 +31,7 @@ public class Lexer {
                     } else {
                         col += capturedSubsequence.length();
                     }
-                    if (tokenType.getTypeClass() != TokenTypeClass.LAYOUT || !skipLayout) {
+                    if (!tokenType.instanceOf(TokenTypeClass.LAYOUT) || !skipLayout) {
                         tokens.add(t);
                         break;
                     }

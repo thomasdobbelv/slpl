@@ -2,9 +2,11 @@ GRAMMAR
 
 <Program>               ::= <Statement>
 
-<Statement>             ::= <Arithmetic Expression> ";" <Statement>
-                        |   <Boolean Expression> ";" <Statement>
+<Statement>             ::= <Expression> ";" <Statement>
                         |   <Empty>
+
+<Expression>            ::= <Arithmetic Expression>
+                        |   <Boolean Expression>
 
 <Arithmetic Expression> ::= <Term> ([+-] <Arithmetic Expression>)?
 <Term>                  ::= <Factor> ([*/] <Term>)?

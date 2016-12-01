@@ -1,11 +1,11 @@
 package slpl.ast;
 
-public class BinaryBooleanOperation extends AST {
+public class BinaryLogicalOperation extends AST {
 
     private String operator;
     private AST arg1, arg2;
 
-    public BinaryBooleanOperation(String operator, AST arg1, AST arg2) {
+    public BinaryLogicalOperation(String operator, AST arg1, AST arg2) {
         this.operator = operator;
         this.arg1 = arg1;
         this.arg2 = arg2;
@@ -18,6 +18,6 @@ public class BinaryBooleanOperation extends AST {
 
     @Override
     public String toString() {
-        return String.format("(BinaryBooleanOperation %s %s %s)", operator, arg1, arg2);
+        return String.format("(BinaryLogicalOperation %s %s %s)", operator, arg1, arg2);
     }
 }

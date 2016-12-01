@@ -1,11 +1,11 @@
 package slpl.ast;
 
-public class UnaryBooleanOperation extends AST {
+public class UnaryLogicalOperation extends AST {
 
     private String operator;
     private AST arg;
 
-    public UnaryBooleanOperation(String operator, AST arg) {
+    public UnaryLogicalOperation(String operator, AST arg) {
         this.operator = operator;
         this.arg = arg;
     }
@@ -17,6 +17,6 @@ public class UnaryBooleanOperation extends AST {
 
     @Override
     public String toString() {
-        return String.format("(UnaryBooleanOperation %s %s)", operator, arg);
+        return String.format("(UnaryLogicalOperation %s %s)", operator, arg);
     }
 }

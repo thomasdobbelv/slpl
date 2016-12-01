@@ -11,7 +11,7 @@ public class ParseException extends Exception {
     }
 
     public static ParseException bracketMismatch(Token t) {
-        assert t.getType().getTypeClass() == TokenTypeClass.BRACKET;
+        assert t.getType().instanceOf(TokenTypeClass.BRACKET);
         return new ParseException(String.format("Bracket mismatch \"%s\"at %d:%d", t.getContent(), t.getRow(), t.getCol()));
     }
 
