@@ -16,10 +16,18 @@ public class ProgramParser {
     }
 
     public static void main(String[] args) throws ParseException {
-        String programText = "1 + 5 * (-3 * ((18/9 + 1) * 6)/3) <= 1 + 5 * (-3 * ((18/9 + 1) * 6)/3);";
+        String programText = "" +
+                "if(3 + a < 22 * b) {\n" +
+                "    1 + 2;\n" +
+                "} else if(c || !d && 5 >= e) {\n" +
+                "    3 + 4;\n" +
+                "    5 + 6;\n" +
+                "} else {\n" +
+                "    a;\n" +
+                "}";
         AST program = parseProgram(programText);
         System.out.println(program);
-        System.out.println(program.evaluate());
+//        System.out.println(program.evaluate());
     }
 
 }

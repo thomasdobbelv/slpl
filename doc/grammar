@@ -2,8 +2,14 @@ GRAMMAR
 
 <Program>               ::= <Statement>
 
+<Block>                 ::= "{" <Statement> "}"
+
 <Statement>             ::= <Expression> ";" <Statement>
+                        |   <If> <Statement>
                         |   <Empty>
+
+<If>                    ::= "if" "(" <Expression> ")" <Block> <Else>?
+<Else>                  ::= "else" (<If>|<Block>)
 
 <Expression>            ::= <Arithmetic Expression>
                         |   <Boolean Expression>

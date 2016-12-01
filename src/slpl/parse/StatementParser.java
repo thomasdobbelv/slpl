@@ -8,14 +8,18 @@ import slpl.util.TokenStream;
 public class StatementParser {
 
     public static AST parseStatement(TokenStream ts) throws ParseException {
-        AST a1 = ExpressionParser.parseExpression(ts);
-        ts.expect(TokenType.SEMICOLON);
-        ts.consume();
-        if(ts.hasNext()) {
+        if(!ts.hasNext()) {
+            return null; // VOID ??
+        } else if(ts.hasNext(TokenType.IF)) {
+            AST a1 = IfParser.parseIf(ts);
             AST a2 = parseStatement(ts);
             return new Statement(a1, a2);
         } else {
-            return new Statement(a1, null);
+            AST a1 = ExpressionParser.parseExpression(ts);
+            ts.expect(TokenType.SEMICOLON);
+            ts.consume();
+            AST a2 = parseStatement(ts);
+            return new Statement(a1, a2);
         }
     }
 

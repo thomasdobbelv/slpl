@@ -1,0 +1,31 @@
+package slpl.parse;
+
+import slpl.TokenType;
+import slpl.ast.AST;
+import slpl.ast.If;
+import slpl.util.TokenStream;
+
+public class IfParser {
+
+    public static AST parseIf(TokenStream ts) throws ParseException {
+        ts.expect(TokenType.IF);
+        ts.consume();
+        ts.expect(TokenType.LPAR);
+        ts.consume();
+        AST condition = ExpressionParser.parseExpression(ts);
+        ts.expect(TokenType.RPAR);
+        ts.consume();
+        AST then = BlockParser.parseBlock(ts);
+        if(ts.hasNext(TokenType.ELSE)) {
+            ts.consume();
+            if(ts.hasNext(TokenType.IF)) {
+                return new If(condition, then, parseIf(ts));
+            } else {
+                return new If(condition, then, BlockParser.parseBlock(ts));
+            }
+        } else {
+            return new If(condition, then);
+        }
+    }
+
+}
