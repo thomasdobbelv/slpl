@@ -2,17 +2,24 @@ package slpl.parse;
 
 import slpl.TokenType;
 import slpl.ast.AST;
+import slpl.ast.Block;
 import slpl.util.TokenStream;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class BlockParser {
 
     public static AST parseBlock(TokenStream ts) throws ParseException {
         ts.expect(TokenType.LCRL);
         ts.consume();
-        AST statement = StatementParser.parseStatement(ts);
-        ts.expect(TokenType.RCRL);
+        List<AST> blockStatements = new LinkedList<>();
+        while(!ts.hasNext(TokenType.RCRL)) {
+            blockStatements.add(StatementParser.parseStatement(ts));
+        }
         ts.consume();
-        return statement;
+        return new Block(blockStatements);
     }
+
 
 }

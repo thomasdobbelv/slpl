@@ -1,8 +1,26 @@
-if(3 + a < 22 * b) {
-    1 + 2;
-} else if(c || !d && 5 >= e) {
-    3 + 4;
-    5 + 6;
-} else {
-    a;
+module IfStatements {
+    println "Entering module IfStatements";
+    println "Checking whether (4 + 18)/11 - 2 == 0 (spoiler: it is)";
+    if((4 + 18)/11 - 2 == 0) {
+        println "(4 + 18)/11 - 2 == 0 indeed";
+    } else {
+        println "Won't arrive here";
+    }
+    println "Moving on";
+    if(1 < 0) {
+        println "Won't arrive here";
+    } else if(3 == 3 && !(15 - 2 < 2)) {
+        println "Coolbeans";
+    } else {
+        println "Won't arrive here";
+    }
+    println "Moving on yet again";
+    if(1 < 0) {
+        println "Won't arrive here";
+    } else if(false) {
+        println "Won't arrive here either";
+    } else {
+        println "In the else";
+    }
+    println "Leaving module IfStatements";
 }

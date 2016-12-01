@@ -1,31 +1,28 @@
 GRAMMAR
 
-<Program>               ::= <Statement>
+<Program>               ::= <Module>
 
-<Block>                 ::= "{" <Statement> "}"
+<Module>                ::= <Identifier> <Block>
 
-<Statement>             ::= <Expression> ";" <Statement>
-                        |   <If> <Statement>
-                        |   <Empty>
+<Block>                 ::= "{" <Statement>* "}"
+
+<Statement>             ::= <If>
+                        |   <Expression> ";"
+                        |   <Print> ";"
+
+<Print>                 ::= "println" <String> <------ FIXME println is a temporary keyword
 
 <If>                    ::= "if" "(" <Expression> ")" <Block> <Else>?
 <Else>                  ::= "else" (<If>|<Block>)
 
-<Expression>            ::= <Arithmetic Expression>
-                        |   <Boolean Expression>
 
-<Arithmetic Expression> ::= <Term> ([+-] <Arithmetic Expression>)?
-<Term>                  ::= <Factor> ([*/] <Term>)?
-<Factor>                ::= <Value>
-                        |   ( <Arithmetic Expression> )
-                        |   "-" <Factor>
 
-<Boolean Expression>    ::= <Logical Conjunction> ("||" <Boolean Expression>)?
-<Logical Conjunction>   ::= <Atomic Formula> ("&&" <Logical Conjunction>)?
-<Atomic Formula>        ::= <Identifier>
-                        |   "!" <Atomic Formula>
-                        |   "(" <Boolean Expression> ")"
-                        |   <Arithmetic Expression> <Relational Operator> <Arithmetic Expression>
+<Expression>            ::= <Term> ((+|-|\|\|<Relational Operator>) <Expression>)?
+<Term>                  ::= <Factor> ((*|/|&&) <Term>)?
+<Factor>                ::= [!-]? <Factor>
+                        |   "(" <Expression> ")"
+                        |   <Value>
+
 
 <Value>                 ::= <Number>
                         |   <Identifier>

@@ -15,19 +15,19 @@ public class ParseException extends Exception {
         return new ParseException(String.format("Bracket mismatch \"%s\"at %d:%d", t.getContent(), t.getRow(), t.getCol()));
     }
 
-    public static ParseException expectedOneOf(int row, int col, TokenType ... tokenTypes) {
+    public static ParseException expected(int row, int col, TokenType ... tokenTypes) {
         return new ParseException(String.format("Expected one of [%s] at %d:%d", toCSVString(tokenTypes), row, col));
     }
 
-    public static ParseException expectedOneOf(int row, int col, String ... tokens) {
+    public static ParseException expected(int row, int col, String ... tokens) {
         return new ParseException(String.format("Expected one of \"%s\" at %d:%d", toCSVString(tokens), row, col));
     }
 
-    public static ParseException expectedOneOf(Token t, TokenType ... tokenTypes) {
+    public static ParseException expected(Token t, TokenType ... tokenTypes) {
         return new ParseException(String.format("Expected one of [%s] after token \"%s\" at %d:%d", toCSVString(tokenTypes), t.getContent(), t.getRow(), t.getCol()));
     }
 
-    public static ParseException expectedOneOf(Token t, String ... tokens) {
+    public static ParseException expected(Token t, String ... tokens) {
         return new ParseException(String.format("Expected one of \"%s\" after token \"%s\" at %d:%d", toCSVString(tokens), t.getContent(), t.getRow(), t.getCol()));
     }
 

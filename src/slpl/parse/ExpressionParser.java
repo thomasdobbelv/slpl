@@ -74,7 +74,37 @@ public class ExpressionParser {
     }
 
     public static void recognizeExpression(TokenStream ts) throws ParseException {
-//        ArithmeticExpressionRecognizer.recognizeArithmeticExpression(ts);
-        BooleanExpressionRecognizer.recognizeBooleanExpression(ts);
+        recognizeTerm(ts);
+        if(ts.hasNext(TokenType.ADD, TokenType.SUB, TokenType.OR) || (ts.hasNext() && ts.inspect().getType().instanceOf(TokenTypeClass.RELATIONAL_OPERATOR))) {
+            ts.consume();
+            recognizeExpression(ts);
+        }
+    }
+
+    private static void recognizeTerm(TokenStream ts) throws ParseException {
+        recognizeFactor(ts);
+        if(ts.hasNext(TokenType.MUL, TokenType.DIV, TokenType.AND)) {
+            ts.consume();
+            recognizeTerm(ts);
+        }
+    }
+
+    private static void recognizeFactor(TokenStream ts) throws ParseException {
+        ts.expect(TokenType.NOT, TokenType.SUB, TokenType.LPAR, TokenType.NUMBER, TokenType.IDENTIFIER, TokenType.TRUE, TokenType.FALSE);
+        if(ts.hasNext(TokenType.NOT, TokenType.SUB)) {
+            if(ts.hasNext(TokenType.SUB)) {
+                Token t = ts.inspect();
+                ts.replaceCurrentToken(new Token(TokenType.ADDINV, t.getContent(), t.getRow(), t.getCol()));
+            }
+            ts.consume();
+            recognizeFactor(ts);
+        } else if(ts.hasNext(TokenType.LPAR)) {
+            ts.consume();
+            recognizeExpression(ts);
+            ts.expect(TokenType.RPAR);
+            ts.consume();
+        } else {
+            ts.consume();
+        }
     }
 }

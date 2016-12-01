@@ -22,11 +22,11 @@ public class If extends AST {
         } else {
             _else.evaluate();
         }
-        return null; // void?
+        return this;
     }
 
     @Override
     public String toString() {
-        return String.format("(If %s %s %s)", condition, then, _else);
+        return String.format("(If %s Then %s Else %s)", condition, then, _else);
     }
 }
