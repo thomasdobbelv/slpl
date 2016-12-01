@@ -12,7 +12,8 @@ public class UnaryLogicalOperation extends AST {
 
     @Override
     public AST evaluate() {
-        return null;
+        Boolean b = (Boolean) arg.evaluate();
+        return new Boolean(!b.getValue());
     }
 
     @Override

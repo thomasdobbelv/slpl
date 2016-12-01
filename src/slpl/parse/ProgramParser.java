@@ -17,8 +17,9 @@ public class ProgramParser {
 
     public static void main(String[] args) throws ParseException {
 //        String programText = "1 + 5 * (-3 * ((18/9 + 1) * 6)/3);";
-        String programText = "!a || b && c >= 3 + 5;";
+//        String programText = "!a || b && c >= 3 + 5;";
 //        String programText = "!a || b && c;";
+        String programText = "1 + 3 == 4 && 4 < 5/5 + 4;";
         AST program = parseProgram(programText);
         System.out.println(program);
         System.out.println(program.evaluate());

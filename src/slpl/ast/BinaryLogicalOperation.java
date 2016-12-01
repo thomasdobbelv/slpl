@@ -13,6 +13,13 @@ public class BinaryLogicalOperation extends AST {
 
     @Override
     public AST evaluate() {
+        Boolean b1 = (Boolean) arg1.evaluate(), b2 = (Boolean) arg2.evaluate();
+        switch (operator) {
+            case "||":
+                return new Boolean(b1.getValue() || b2.getValue());
+            case "&&":
+                return new Boolean(b1.getValue() && b2.getValue());
+        }
         return null;
     }
 

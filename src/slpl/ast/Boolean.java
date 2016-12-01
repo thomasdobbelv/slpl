@@ -17,4 +17,8 @@ public class Boolean extends AST {
     public String toString() {
         return String.format("(Boolean %s)", value);
     }
+
+    public boolean getValue() {
+        return value;
+    }
 }
