@@ -42,15 +42,15 @@
 //    public void parseArithmeticExpression() throws Exception {
 //        // TODO: construct expectedOneOf ast for each valid arithmetic expression and check equality
 //        for(String arithmeticExpression : validArithmeticExpressions) {
-//            Pair<AST, Integer> p = ArithmeticExpressionParser.parseArithmeticExpression(0, Lexer.lex(arithmeticExpression));
+//            Pair<AST, Integer> p = ArithmeticExpressionRecognizer.parseArithmeticExpression(0, Lexer.lex(arithmeticExpression));
 //            System.out.printf("AST: %s\n", p.fst);
 ////            System.out.printf("Evaluation result: %s", p.fst.evaluate());
 //        }
 ////        for(String arithmeticExpression : invalidArithmeticExpressions) {
 ////            try {
-////                ArithmeticExpressionParser.parseArithmeticExpression(0, Lexer.lex(arithmeticExpression));
+////                ArithmeticExpressionRecognizer.parseArithmeticExpression(0, Lexer.lex(arithmeticExpression));
 ////                fail(String.format("invalid arithmetic expression \"%s\" passed to %s, but no instance of %s thrown",
-////                        arithmeticExpression, ArithmeticExpressionParser.class, ParseException.class));
+////                        arithmeticExpression, ArithmeticExpressionRecognizer.class, ParseException.class));
 ////            } catch (ParseException e) {
 ////                // OK
 ////            }

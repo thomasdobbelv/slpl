@@ -27,9 +27,9 @@ public class TokenStream {
         tokens.set(index, t);
     }
 
-    public void expectOneOf(TokenType ... tokenTypes) throws ParseException {
+    public void expect(TokenType ... tokenTypes) throws ParseException {
         if (index >= tokens.size()) {
-            throw ParseException.unexpectedEOF(tokens.get(tokens.size() - 1));
+            throw ParseException.expectedOneOf(tokens.get(tokens.size() - 1), tokenTypes);
         } else if (!nextTokenTypeIn(tokenTypes)) {
             if (index > 0) {
                 throw ParseException.expectedOneOf(tokens.get(index - 1), tokenTypes);
@@ -39,9 +39,9 @@ public class TokenStream {
         }
     }
 
-    public void expectOneOf(String ... tokens) throws ParseException {
+    public void expect(String ... tokens) throws ParseException {
         if (index >= this.tokens.size()) {
-            throw ParseException.unexpectedEOF(this.tokens.get(this.tokens.size() - 1));
+            throw ParseException.expectedOneOf(this.tokens.get(this.tokens.size() - 1), tokens);
         } else if (!nextTokenIn(tokens)) {
             if (index > 0) {
                 throw ParseException.expectedOneOf(this.tokens.get(index - 1), tokens);

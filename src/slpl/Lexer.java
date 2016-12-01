@@ -31,7 +31,7 @@ public class Lexer {
                     } else {
                         col += capturedSubsequence.length();
                     }
-                    if (tokenType.getTypeClass() != TokenTypeClass.LAYOUT || !skipLayout) {
+                    if (!tokenType.instanceOf(TokenTypeClass.LAYOUT) || !skipLayout) {
                         tokens.add(t);
                         break;
                     }
@@ -48,7 +48,7 @@ public class Lexer {
 //            System.out.print(t + " ");
 //        }
         TokenStream ts = new TokenStream(Lexer.lex(programText, true));
-        ts.expectOneOf("tull");
+        ts.expect("tull");
     }
 
 }

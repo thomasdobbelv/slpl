@@ -1,14 +1,21 @@
 package slpl;
 
-import org.jetbrains.annotations.NotNull;
-
 public enum Operator {
 
-    ADD("+", 2, 0, Fixity.LEFT),
-    SUB("-", 2, 0, Fixity.LEFT),
-    MUL("*", 2, 1, Fixity.LEFT),
-    DIV("/", 2, 1, Fixity.LEFT),
-    ADDITIVE_INVERSE("-", 1, 2, Fixity.RIGHT);
+    OR("||", 2, 0, Fixity.LEFT),
+    AND("&&", 2, 1, Fixity.LEFT),
+    NOT("!", 1, 2, Fixity.RIGHT),
+    EQ("==", 2, 3, Fixity.LEFT),
+    NEQ("!=", 2, 3, Fixity.LEFT),
+    GTE(">=", 2, 3, Fixity.LEFT),
+    LTE("<=", 2, 3, Fixity.LEFT),
+    GT(">", 2, 3, Fixity.LEFT),
+    LT("<", 2, 3, Fixity.LEFT),
+    ADD("+", 2, 4, Fixity.LEFT),
+    SUB("-", 2, 4, Fixity.LEFT),
+    MUL("*", 2, 5, Fixity.LEFT),
+    DIV("/", 2, 5, Fixity.LEFT),
+    ADDITIVE_INVERSE("-", 1, 6, Fixity.RIGHT);
 
     private final String operatorSymbol;
     private final Fixity fixity;
@@ -29,16 +36,17 @@ public enum Operator {
     public static Operator fromToken(Token t) {
         String operatorSymbol = t.getContent();
         int arity = -1;
-        switch (t.getType().getTypeClass()) {
-            case UNARY_OPERATOR:
-                arity = 1;
-                break;
-            case BINARY_OPERATOR:
-                arity = 2;
+        TokenType tt = t.getType();
+        if(tt.instanceOf(TokenTypeClass.UNARY_OPERATOR)) {
+            arity = 1;
+        } else if(tt.instanceOf(TokenTypeClass.BINARY_OPERATOR)) {
+            arity = 2;
         }
-        for (Operator o : values()) {
-            if (o.operatorSymbol.equals(operatorSymbol) && o.arity == arity) {
-                return o;
+        if(arity >= 0) {
+            for (Operator o : values()) {
+                if (o.operatorSymbol.equals(operatorSymbol) && o.arity == arity) {
+                    return o;
+                }
             }
         }
         return null;
