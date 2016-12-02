@@ -13,14 +13,11 @@
 <If>                    ::= "if" "(" <Expression> ")" <Block> <Else>?
 <Else>                  ::= "else" (<If>|<Block>)
 
-
-
 <Expression>            ::= <Term> ((+|-|\|\|<Relational Operator>) <Expression>)?
 <Term>                  ::= <Factor> ((*|/|&&) <Term>)?
 <Factor>                ::= [!-]? <Factor>
                         |   "(" <Expression> ")"
                         |   <Value>
-
 
 <Value>                 ::= <Number>
                         |   <Identifier>

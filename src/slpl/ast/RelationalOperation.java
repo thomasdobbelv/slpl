@@ -1,5 +1,7 @@
 package slpl.ast;
 
+import slpl.util.Context;
+
 public class RelationalOperation extends AST {
 
     private String operator;
@@ -12,8 +14,8 @@ public class RelationalOperation extends AST {
     }
 
     @Override
-    public AST evaluate() {
-        Number num1 = (Number) arg1.evaluate(), num2 = (Number) arg2.evaluate();
+    public AST evaluate(Context context) {
+        Number num1 = (Number) arg1.evaluate(context), num2 = (Number) arg2.evaluate(context);
         switch (operator) {
             case "==":
                 return new Boolean(num1.getValue() == num2.getValue());
@@ -28,7 +30,7 @@ public class RelationalOperation extends AST {
             case "<":
                 return new Boolean(num1.getValue() < num2.getValue());
         }
-        return null;
+        throw new UnsupportedOperationException(operator);
     }
 
     @Override

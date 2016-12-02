@@ -1,13 +1,15 @@
 package slpl.ast;
 
+import slpl.util.Context;
+
 public class If extends AST {
 
-    private AST condition, then, _else;
+    private AST condition, then, else_;
 
-    public If(AST condition, AST then, AST _else) {
+    public If(AST condition, AST then, AST else_) {
         this.condition = condition;
         this.then = then;
-        this._else = _else;
+        this.else_ = else_;
     }
 
     public If(AST condition, AST then) {
@@ -15,18 +17,18 @@ public class If extends AST {
     }
 
     @Override
-    public AST evaluate() {
-        Boolean b = (Boolean) condition.evaluate();
+    public AST evaluate(Context context) {
+        Boolean b = (Boolean) condition.evaluate(context);
         if(b.getValue()) {
-            then.evaluate();
-        } else if (_else != null){
-            _else.evaluate();
+            then.evaluate(context);
+        } else if (else_ != null){
+            else_.evaluate(context);
         }
         return this;
     }
 
     @Override
     public String toString() {
-        return String.format("(If %s Then %s Else %s)", condition, then, _else);
+        return String.format("(If %s Then %s Else %s)", condition, then, else_);
     }
 }

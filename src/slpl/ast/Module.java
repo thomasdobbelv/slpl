@@ -1,5 +1,7 @@
 package slpl.ast;
 
+import slpl.util.Context;
+
 public class Module extends AST {
 
     private String name;
@@ -11,8 +13,10 @@ public class Module extends AST {
     }
 
     @Override
-    public AST evaluate() {
-        return body.evaluate();
+    public AST evaluate(Context context) {
+        // TODO: consider what it means to evaluate a module
+        body.evaluate(context);
+        return this;
     }
 
     @Override

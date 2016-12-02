@@ -1,5 +1,7 @@
 package slpl.ast;
 
+import slpl.util.Context;
+
 import java.util.List;
 
 public class Block extends AST {
@@ -11,9 +13,9 @@ public class Block extends AST {
     }
 
     @Override
-    public AST evaluate() {
+    public AST evaluate(Context context) {
         for(AST blockStatement : blockStatements) {
-            blockStatement.evaluate();
+            blockStatement.evaluate(context);
         }
         return this;
     }

@@ -1,0 +1,38 @@
+module IdentifiersInExpressions {
+    println "Entering module IdentifiersInExpressions";
+    println "a=";
+    println a;
+    println "b=";
+    println b;
+    println "c=";
+    println c;
+    println "a + b - c =";
+    println a + b - c;
+    println "a - c > b =";
+    println a - c > b;
+    println "a - c < b =";
+    println a - c < b;
+    println "a > b && b > c && a > c =";
+    println a > b && b > c && a > c;
+    println "d=";
+    println d;
+    println "e=";
+    println e;
+    println "f=";
+    println f;
+
+    if(d) {
+        println f;
+    }
+
+    if(e) {
+        println "no";
+    } else {
+        println "yes";
+    }
+
+    if(!e) {
+        println f;
+    }
+
+}

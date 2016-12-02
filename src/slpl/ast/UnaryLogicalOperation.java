@@ -1,5 +1,7 @@
 package slpl.ast;
 
+import slpl.util.Context;
+
 public class UnaryLogicalOperation extends AST {
 
     private String operator;
@@ -11,9 +13,13 @@ public class UnaryLogicalOperation extends AST {
     }
 
     @Override
-    public AST evaluate() {
-        Boolean b = (Boolean) arg.evaluate();
-        return new Boolean(!b.getValue());
+    public AST evaluate(Context context) {
+        Boolean b = (Boolean) arg.evaluate(context);
+        switch (operator) {
+            case "!":
+                return new Boolean(!b.getValue());
+        }
+        throw new UnsupportedOperationException(operator);
     }
 
     @Override

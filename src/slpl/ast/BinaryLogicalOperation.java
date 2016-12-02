@@ -1,5 +1,7 @@
 package slpl.ast;
 
+import slpl.util.Context;
+
 public class BinaryLogicalOperation extends AST {
 
     private String operator;
@@ -12,15 +14,15 @@ public class BinaryLogicalOperation extends AST {
     }
 
     @Override
-    public AST evaluate() {
-        Boolean b1 = (Boolean) arg1.evaluate(), b2 = (Boolean) arg2.evaluate();
+    public AST evaluate(Context context) {
+        Boolean b1 = (Boolean) arg1.evaluate(context), b2 = (Boolean) arg2.evaluate(context);
         switch (operator) {
             case "||":
                 return new Boolean(b1.getValue() || b2.getValue());
             case "&&":
                 return new Boolean(b1.getValue() && b2.getValue());
         }
-        return null;
+        throw new UnsupportedOperationException(operator);
     }
 
     @Override
