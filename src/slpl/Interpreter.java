@@ -1,9 +1,6 @@
 package slpl;
 
 import slpl.ast.AST;
-import slpl.ast.Boolean;
-import slpl.ast.Number;
-import slpl.ast.Str;
 import slpl.syntax.ParseException;
 import slpl.syntax.ProgramParser;
 import slpl.util.Context;
@@ -13,9 +10,9 @@ import java.io.*;
 public class Interpreter {
 
     public static void main(String[] args) throws IOException, ParseException {
-        String f = "samples/declarations.slpl";
+        String f = "samples/variables.slpl";
         String program = load(f);
-        run(program, getPredefinedContext());
+        run(program);
     }
 
     private static String load(String f) throws IOException {
@@ -28,16 +25,11 @@ public class Interpreter {
         return sb.toString();
     }
 
-    private static void run(String programText, Context context) throws ParseException {
+    private static void run(String programText) throws ParseException {
         AST program = ProgramParser.parseProgram(programText);
+        Context context = new Context();
         program.evaluate(context);
         System.out.println(context); // TODO: rm statement
-    }
-
-    // TODO: remove at some point
-    private static Context getPredefinedContext() {
-        Context c = new Context();
-        return c;
     }
 
 }

@@ -4,24 +4,26 @@ import slpl.util.Context;
 
 public class Declaration extends AST {
 
-    String name;
-    AST definition;
+    private String name;
+    private Type type;
+    private AST definition;
 
-    public Declaration(String name, AST definition) {
+    public Declaration(String name, Type type, AST definition) {
         this.name = name;
+        this.type = type;
         this.definition = definition;
     }
 
-    public Declaration(String name) {
-        definition = new Null();
+    public Declaration(String name, Type type) {
         this.name = name;
+        this.type = type;
+        definition = new Null();
     }
 
     @Override
     public AST evaluate(Context context) {
-        definition = definition.evaluate(context);
-        context.set(name, definition);
-        return definition; // FIXME ?
+        context.set(name, new Variable(name, type, definition.evaluate(context)));
+        return this;
     }
 
     @Override

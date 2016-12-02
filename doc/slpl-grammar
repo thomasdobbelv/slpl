@@ -8,10 +8,16 @@
                         |   <Expression> ";"
                         |   <Print> ";"
                         |   <Declaration> ";"
+                        |   <Assignment> ";"
+
+<Assignment>            ::= <Identifier> "=" <Expression>
 
 <Declaration>           ::= <Identifier> ":" <Type> ("=" <Expression>)?
 
-<Type>                  ::= <Empty>
+<Type>                  ::= <Primitive Type>
+<Primitive Type>        ::= "int"
+                        |   "boolean"
+                        |   "string" <-- FIXME: string should be a reference type
 
 <Print>                 ::= "println" (<String>|<Expression>)
 

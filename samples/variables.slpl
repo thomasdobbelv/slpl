@@ -1,0 +1,8 @@
+module Declarations {
+    a:int = 15;
+    println a;
+    b:int;
+    println b;
+    b = 2;
+    println b;
+}

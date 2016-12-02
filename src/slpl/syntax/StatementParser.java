@@ -21,7 +21,15 @@ public class StatementParser {
                 statement = new Statement(new Print(ExpressionParser.parseExpression(ts)));
             }
         } else if(ts.hasNext(TokenType.IDENTIFIER)) {
-            statement = new Statement(DeclarationParser.parseDeclaration(ts));
+            int i = ts.getCurrentIndex();
+            ts.consume();
+            if(ts.hasNext(TokenType.COLON)) {
+                ts.setCurrentIndex(i);
+                statement = new Statement(DeclarationParser.parseDeclaration(ts));
+            } else {
+                ts.setCurrentIndex(i);
+                statement = new Statement(AssignmentParser.parseAssignment(ts));
+            }
         } else {
             statement = new Statement(ExpressionParser.parseExpression(ts));
         }
