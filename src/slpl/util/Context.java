@@ -24,4 +24,13 @@ public class Context {
         return map.containsKey(name);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for(String key : map.keySet()) {
+            sb.append(key + " -> " + map.get(key) + "\n");
+        }
+        return sb.toString();
+    }
+
 }

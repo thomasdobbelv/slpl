@@ -19,6 +19,8 @@ public class Print extends AST {
             System.out.println(((Boolean) out).getValue());
         } else if(out instanceof Number) {
             System.out.println(((Number) out).getValue());
+        } else if(out instanceof Null) {
+            System.out.println("null");
         } else {
             throw new IllegalArgumentException(out + " is not printable");
         }

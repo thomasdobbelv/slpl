@@ -20,6 +20,8 @@ public class StatementParser {
             } else {
                 statement = new Statement(new Print(ExpressionParser.parseExpression(ts)));
             }
+        } else if(ts.hasNext(TokenType.IDENTIFIER)) {
+            statement = new Statement(DeclarationParser.parseDeclaration(ts));
         } else {
             statement = new Statement(ExpressionParser.parseExpression(ts));
         }

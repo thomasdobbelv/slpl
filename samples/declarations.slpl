@@ -1,0 +1,7 @@
+module Declarations {
+    a:;
+    println a;
+    b: = 15;
+    c: = true;
+    d: = b < 16 && c;
+}
