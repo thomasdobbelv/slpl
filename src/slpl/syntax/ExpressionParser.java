@@ -1,9 +1,9 @@
-package slpl.parse;
+package slpl.syntax;
 
-import slpl.Operator;
-import slpl.Token;
-import slpl.TokenType;
-import slpl.TokenTypeClass;
+import slpl.util.Operator;
+import slpl.syntax.lexical.Token;
+import slpl.syntax.lexical.TokenType;
+import slpl.syntax.lexical.TokenTypeClass;
 import slpl.ast.*;
 import slpl.ast.Boolean;
 import slpl.ast.Number;

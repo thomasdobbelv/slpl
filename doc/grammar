@@ -1,5 +1,3 @@
-GRAMMAR
-
 <Program>               ::= <Module>
 
 <Module>                ::= <Identifier> <Block>
@@ -10,7 +8,7 @@ GRAMMAR
                         |   <Expression> ";"
                         |   <Print> ";"
 
-<Print>                 ::= "println" <String> <------ FIXME println is a temporary keyword
+<Print>                 ::= "println" (<String>|<Expression>)
 
 <If>                    ::= "if" "(" <Expression> ")" <Block> <Else>?
 <Else>                  ::= "else" (<If>|<Block>)
@@ -26,9 +24,11 @@ GRAMMAR
 
 <Value>                 ::= <Number>
                         |   <Identifier>
+                        |   <String>
 
 <Number>                ::= [0-9]+(\.[0-9]+)?
 <Identifier>            ::= [A-Za-z][A-Za-z0-9]*
+<String>                ::= ^"[^"\\]*(\\.[^"\\]*)*"$
 
 <Relational Operator>   ::= "=="
                         |   "!="

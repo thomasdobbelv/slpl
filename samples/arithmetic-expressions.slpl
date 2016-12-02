@@ -1,0 +1,5 @@
+module ArithmeticExpressions {
+    println "Entering module ArithmeticExpressions";
+    println "Evaluating the expression 15 + 3 * ((19-1)/2 + 3)/2 should yield 33, and yields:";
+    println 15 + 3 * ((19-1)/2 + 3)/2;
+}

@@ -1,10 +1,9 @@
 package slpl.util;
 
-import slpl.Operator;
-import slpl.Token;
-import slpl.TokenType;
-import slpl.TokenTypeClass;
-import slpl.parse.ParseException;
+import slpl.syntax.lexical.Token;
+import slpl.syntax.lexical.TokenType;
+import slpl.syntax.lexical.TokenTypeClass;
+import slpl.syntax.ParseException;
 
 import java.util.EmptyStackException;
 import java.util.LinkedList;

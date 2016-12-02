@@ -1,6 +1,6 @@
-package slpl.parse;
+package slpl.syntax;
 
-import slpl.TokenType;
+import slpl.syntax.lexical.TokenType;
 import slpl.ast.AST;
 import slpl.ast.If;
 import slpl.util.TokenStream;

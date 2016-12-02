@@ -1,7 +1,6 @@
-package slpl;
+package slpl.syntax.lexical;
 
-import slpl.parse.ParseException;
-import slpl.util.TokenStream;
+import slpl.syntax.ParseException;
 
 import java.util.ArrayList;
 import java.util.List;

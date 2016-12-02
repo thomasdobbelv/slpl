@@ -1,7 +1,7 @@
-package slpl;
+package slpl.syntax.lexical;
 
 import java.util.HashSet;
-import static slpl.TokenTypeClass.*;
+import static slpl.syntax.lexical.TokenTypeClass.*;
 
 public enum TokenType {
 
@@ -13,7 +13,7 @@ public enum TokenType {
     IF("if", KEYWORD),
     ELSE("else", KEYWORD),
     MODULE("module", KEYWORD),
-    PRINTLN("println", KEYWORD),
+    PRINTLN("println", KEYWORD), // TODO remove temporary keyword at some point
     STRING("\"[^\"\\\\]*(\\\\.[^\"\\\\]*)*\"", VALUE),
     IDENTIFIER("[A-Za-z][A-Za-z0-9]*", VALUE),
     INCR("\\+\\+", UNARY_OPERATOR, ARITHMETIC_OPERATOR),
@@ -40,7 +40,7 @@ public enum TokenType {
     COMMA(",", SYMBOL),
     DOT("\\.", SYMBOL),
     COLON(":", SYMBOL),
-    SEMICOLON(";",SYMBOL),
+    SEMICOLON(";", SYMBOL),
     LSQR("\\[", BRACKET),
     RSQR("]", BRACKET),
     LCRL("\\{", BRACKET),

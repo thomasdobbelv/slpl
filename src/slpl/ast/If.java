@@ -19,7 +19,7 @@ public class If extends AST {
         Boolean b = (Boolean) condition.evaluate();
         if(b.getValue()) {
             then.evaluate();
-        } else {
+        } else if (_else != null){
             _else.evaluate();
         }
         return this;

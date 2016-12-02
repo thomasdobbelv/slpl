@@ -1,8 +1,8 @@
-package slpl.parse;
+package slpl.syntax;
 
-import slpl.Token;
-import slpl.TokenType;
-import slpl.TokenTypeClass;
+import slpl.syntax.lexical.Token;
+import slpl.syntax.lexical.TokenType;
+import slpl.syntax.lexical.TokenTypeClass;
 
 public class ParseException extends Exception {
 

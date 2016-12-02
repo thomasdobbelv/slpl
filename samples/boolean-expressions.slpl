@@ -1,0 +1,5 @@
+module BooleanExpressions {
+    println "Entering module BooleanExpressions";
+    println "Evaluating the expression (1 + 7 >= 8 || 13 < 2 && !(5 > 2)) && 15 == 14 + 1 should yield true, and yields:";
+    println (1 + 7 >= 8 || 13 < 2 && !(5 > 2)) && 15 == 14 + 1;
+}

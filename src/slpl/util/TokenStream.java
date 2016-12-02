@@ -1,8 +1,8 @@
 package slpl.util;
 
-import slpl.Token;
-import slpl.TokenType;
-import slpl.parse.ParseException;
+import slpl.syntax.lexical.Token;
+import slpl.syntax.lexical.TokenType;
+import slpl.syntax.ParseException;
 
 import java.util.List;
 
