@@ -1,5 +1,6 @@
 package slpl.syntax;
 
+import slpl.ast.Block;
 import slpl.syntax.lexical.TokenType;
 import slpl.ast.AST;
 import slpl.ast.If;
@@ -7,7 +8,7 @@ import slpl.util.TokenStream;
 
 public class IfParser {
 
-    public static AST parseIf(TokenStream ts) throws ParseException {
+    public static If parseIf(TokenStream ts) throws ParseException {
         ts.expect(TokenType.IF);
         ts.consume();
         ts.expect(TokenType.LPAR);
@@ -15,7 +16,7 @@ public class IfParser {
         AST condition = ExpressionParser.parseExpression(ts);
         ts.expect(TokenType.RPAR);
         ts.consume();
-        AST then = BlockParser.parseBlock(ts);
+        Block then = BlockParser.parseBlock(ts);
         if(ts.hasNext(TokenType.ELSE)) {
             ts.consume();
             if(ts.hasNext(TokenType.IF)) {

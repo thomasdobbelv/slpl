@@ -7,12 +7,12 @@ import slpl.util.TokenStream;
 
 public class ModuleParser {
 
-    public static AST parseModule(TokenStream ts) throws ParseException {
+    public static Module parseModule(TokenStream ts) throws ParseException {
         ts.expect(TokenType.MODULE);
         ts.consume();
         ts.expect(TokenType.IDENTIFIER);
-        String name = ts.consume().getContent();
-        return new Module(name, BlockParser.parseBlock(ts));
+        String moduleName = ts.consume().getContent();
+        return new Module(moduleName, BlockParser.parseBlock(ts));
     }
 
 }

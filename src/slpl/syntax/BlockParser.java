@@ -10,7 +10,7 @@ import java.util.List;
 
 public class BlockParser {
 
-    public static AST parseBlock(TokenStream ts) throws ParseException {
+    public static Block parseBlock(TokenStream ts) throws ParseException {
         ts.expect(TokenType.LCRL);
         ts.consume();
         List<AST> blockStatements = new LinkedList<>();
