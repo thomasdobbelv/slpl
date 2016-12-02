@@ -13,7 +13,7 @@ public enum TokenType {
     IF("if", KEYWORD),
     ELSE("else", KEYWORD),
     MODULE("module", KEYWORD),
-    PRINTLN("println", KEYWORD), // TODO remove temporary keyword at some point
+    PRINTLN("println", KEYWORD), // TODO: find alternative way to print to std. out
     STRING("\"[^\"\\\\]*(\\\\.[^\"\\\\]*)*\"", VALUE),
     IDENTIFIER("[A-Za-z][A-Za-z0-9]*", VALUE),
     INCR("\\+\\+", UNARY_OPERATOR, ARITHMETIC_OPERATOR),
