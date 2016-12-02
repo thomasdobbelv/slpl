@@ -1,5 +1,7 @@
 package slpl.ast;
 
+import slpl.util.Context;
+
 public class BinaryArithmeticOperation extends AST {
 
     private String operator;
@@ -12,14 +14,17 @@ public class BinaryArithmeticOperation extends AST {
     }
 
     @Override
-    public AST evaluate() {
-        Number num1 = (Number) arg1.evaluate(), num2 = (Number) arg2.evaluate();
-        double val1 = num1.getValue(), val2 = num2.getValue();
+    public AST evaluate(Context context) {
+        Number num1 = (Number) arg1.evaluate(context), num2 = (Number) arg2.evaluate(context);
         switch (operator) {
-            case "+": return new Number((val1 + val2) + "");
-            case "-": return new Number((val1 - val2) + "");
-            case "*": return new Number((val1 * val2) + "");
-            case "/": return new Number((val1 / val2) + "");
+            case "+":
+                return new Number((num1.getValue() + num2.getValue()) + "");
+            case "-":
+                return new Number((num1.getValue() - num2.getValue()) + "");
+            case "*":
+                return new Number((num1.getValue() * num2.getValue()) + "");
+            case "/":
+                return new Number((num1.getValue() / num2.getValue()) + "");
         }
         throw new UnsupportedOperationException(operator);
     }

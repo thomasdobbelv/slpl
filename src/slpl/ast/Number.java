@@ -1,5 +1,7 @@
 package slpl.ast;
 
+import slpl.util.Context;
+
 public class Number extends AST {
 
     private double value;
@@ -13,7 +15,7 @@ public class Number extends AST {
     }
 
     @Override
-    public AST evaluate() {
+    public AST evaluate(Context _) {
         return this;
     }
 

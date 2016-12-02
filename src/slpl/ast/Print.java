@@ -1,5 +1,7 @@
 package slpl.ast;
 
+import slpl.util.Context;
+
 public class Print extends AST {
 
     private AST arg;
@@ -9,16 +11,16 @@ public class Print extends AST {
     }
 
     @Override
-    public AST evaluate() {
-        AST a = arg.evaluate();
-        if(a instanceof Str) {
-            System.out.println(((Str) a).getValue());
-        } else if(a instanceof Boolean) {
-            System.out.println(((Boolean) a).getValue());
-        } else if(a instanceof Number) {
-            System.out.println(((Number) a).getValue());
+    public AST evaluate(Context context) {
+        AST out = arg.evaluate(context);
+        if(out instanceof Str) {
+            System.out.println(((Str) out).getValue());
+        } else if(out instanceof Boolean) {
+            System.out.println(((Boolean) out).getValue());
+        } else if(out instanceof Number) {
+            System.out.println(((Number) out).getValue());
         } else {
-            throw new IllegalArgumentException(a + " is not printable");
+            throw new IllegalArgumentException(out + " is not printable");
         }
         return this;
     }

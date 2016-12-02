@@ -1,5 +1,7 @@
 package slpl.ast;
 
+import slpl.util.Context;
+
 public class Statement extends AST {
 
     private AST statement;
@@ -9,8 +11,8 @@ public class Statement extends AST {
     }
 
     @Override
-    public AST evaluate() {
-        statement.evaluate();
+    public AST evaluate(Context context) {
+        statement.evaluate(context);
         return this;
     }
 

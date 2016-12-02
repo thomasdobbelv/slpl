@@ -1,5 +1,7 @@
 package slpl.ast;
 
+import slpl.util.Context;
+
 public class UnaryArithmeticOperation extends AST {
 
     private String operator;
@@ -11,12 +13,13 @@ public class UnaryArithmeticOperation extends AST {
     }
 
     @Override
-    public AST evaluate() {
-        if(operator.equals("-")) {
-            Number num = (Number) arg.evaluate();
-            return new Number((-num.getValue()) + "");
+    public AST evaluate(Context context) {
+        Number num = (Number) arg.evaluate(context);
+        switch (operator) {
+            case "-":
+                return new Number((-num.getValue()) + "");
         }
-        return null;
+        throw new UnsupportedOperationException(operator);
     }
 
     @Override

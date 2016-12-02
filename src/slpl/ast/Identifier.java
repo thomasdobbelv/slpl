@@ -1,5 +1,7 @@
 package slpl.ast;
 
+import slpl.util.Context;
+
 public class Identifier extends AST {
 
     private String value;
@@ -13,8 +15,8 @@ public class Identifier extends AST {
     }
 
     @Override
-    public AST evaluate() {
-        return this;
+    public AST evaluate(Context context) {
+        return context.get(value);
     }
 
     @Override
