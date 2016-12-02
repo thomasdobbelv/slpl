@@ -1,31 +1,34 @@
-GRAMMAR
+<Program>               ::= <Module>
 
-<Program>               ::= <Statement>
+<Module>                ::= <Identifier> <Block>
 
-<Statement>             ::= <Expression> ";" <Statement>
-                        |   <Empty>
+<Block>                 ::= "{" <Statement>* "}"
 
-<Expression>            ::= <Arithmetic Expression>
-                        |   <Boolean Expression>
+<Statement>             ::= <If>
+                        |   <Expression> ";"
+                        |   <Print> ";"
 
-<Arithmetic Expression> ::= <Term> ([+-] <Arithmetic Expression>)?
-<Term>                  ::= <Factor> ([*/] <Term>)?
-<Factor>                ::= <Value>
-                        |   ( <Arithmetic Expression> )
-                        |   "-" <Factor>
+<Print>                 ::= "println" (<String>|<Expression>)
 
-<Boolean Expression>    ::= <Logical Conjunction> ("||" <Boolean Expression>)?
-<Logical Conjunction>   ::= <Atomic Formula> ("&&" <Logical Conjunction>)?
-<Atomic Formula>        ::= <Identifier>
-                        |   "!" <Atomic Formula>
-                        |   "(" <Boolean Expression> ")"
-                        |   <Arithmetic Expression> <Relational Operator> <Arithmetic Expression>
+<If>                    ::= "if" "(" <Expression> ")" <Block> <Else>?
+<Else>                  ::= "else" (<If>|<Block>)
+
+
+
+<Expression>            ::= <Term> ((+|-|\|\|<Relational Operator>) <Expression>)?
+<Term>                  ::= <Factor> ((*|/|&&) <Term>)?
+<Factor>                ::= [!-]? <Factor>
+                        |   "(" <Expression> ")"
+                        |   <Value>
+
 
 <Value>                 ::= <Number>
                         |   <Identifier>
+                        |   <String>
 
 <Number>                ::= [0-9]+(\.[0-9]+)?
 <Identifier>            ::= [A-Za-z][A-Za-z0-9]*
+<String>                ::= ^"[^"\\]*(\\.[^"\\]*)*"$
 
 <Relational Operator>   ::= "=="
                         |   "!="

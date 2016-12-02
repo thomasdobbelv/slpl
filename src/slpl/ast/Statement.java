@@ -2,25 +2,20 @@ package slpl.ast;
 
 public class Statement extends AST {
 
-    private AST statement, nextStatement;
+    private AST statement;
 
-    public Statement(AST statement, AST nextStatement) {
+    public Statement(AST statement) {
         this.statement = statement;
-        this.nextStatement = nextStatement;
     }
 
     @Override
     public AST evaluate() {
-        // FIXME: NYI
-        if(nextStatement == null) {
-            return statement.evaluate();
-        }
         statement.evaluate();
-        return nextStatement.evaluate();
+        return this;
     }
 
     @Override
     public String toString() {
-        return String.format("(Statement %s %s)", statement, nextStatement);
+        return String.format("(Statement %s)", statement);
     }
 }

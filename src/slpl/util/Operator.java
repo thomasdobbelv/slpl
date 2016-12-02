@@ -1,4 +1,8 @@
-package slpl;
+package slpl.util;
+
+import slpl.syntax.lexical.Token;
+import slpl.syntax.lexical.TokenType;
+import slpl.syntax.lexical.TokenTypeClass;
 
 public enum Operator {
 

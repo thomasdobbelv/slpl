@@ -1,8 +1,8 @@
 package slpl.util;
 
-import slpl.Token;
-import slpl.TokenType;
-import slpl.parse.ParseException;
+import slpl.syntax.lexical.Token;
+import slpl.syntax.lexical.TokenType;
+import slpl.syntax.ParseException;
 
 import java.util.List;
 
@@ -29,24 +29,24 @@ public class TokenStream {
 
     public void expect(TokenType ... tokenTypes) throws ParseException {
         if (index >= tokens.size()) {
-            throw ParseException.expectedOneOf(tokens.get(tokens.size() - 1), tokenTypes);
+            throw ParseException.expected(tokens.get(tokens.size() - 1), tokenTypes);
         } else if (!nextTokenTypeIn(tokenTypes)) {
             if (index > 0) {
-                throw ParseException.expectedOneOf(tokens.get(index - 1), tokenTypes);
+                throw ParseException.expected(tokens.get(index - 1), tokenTypes);
             } else {
-                throw ParseException.expectedOneOf(0, 0, tokenTypes);
+                throw ParseException.expected(0, 0, tokenTypes);
             }
         }
     }
 
     public void expect(String ... tokens) throws ParseException {
         if (index >= this.tokens.size()) {
-            throw ParseException.expectedOneOf(this.tokens.get(this.tokens.size() - 1), tokens);
+            throw ParseException.expected(this.tokens.get(this.tokens.size() - 1), tokens);
         } else if (!nextTokenIn(tokens)) {
             if (index > 0) {
-                throw ParseException.expectedOneOf(this.tokens.get(index - 1), tokens);
+                throw ParseException.expected(this.tokens.get(index - 1), tokens);
             } else {
-                throw ParseException.expectedOneOf(0, 0, tokens);
+                throw ParseException.expected(0, 0, tokens);
             }
         }
     }

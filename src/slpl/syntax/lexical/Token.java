@@ -1,4 +1,4 @@
-package slpl;
+package slpl.syntax.lexical;
 
 public class Token {
 
