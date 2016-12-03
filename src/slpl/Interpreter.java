@@ -15,8 +15,8 @@ public class Interpreter {
         run(program);
     }
 
-    private static String load(String f) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(new File(f)));
+    private static String load(String path) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(new File(path)));
         StringBuilder sb = new StringBuilder();
         String line;
         while((line = br.readLine()) != null) {
@@ -27,9 +27,7 @@ public class Interpreter {
 
     private static void run(String programText) throws ParseException {
         AST program = ProgramParser.parseProgram(programText);
-        Context context = new Context();
-        program.evaluate(context);
-        System.out.println(context); // TODO: rm statement
+        program.evaluate(new Context());
     }
 
 }

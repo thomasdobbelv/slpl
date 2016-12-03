@@ -1,8 +1,7 @@
 module Declarations {
-    a:int = 15;
-    println a;
-    b:int;
-    println b;
-    b = 2;
-    println b;
+    someString:string = "this is a string";
+    println someString;
+    num1:number = 3;
+    num2:number = 2.18;
+    println num1 + num2;
 }

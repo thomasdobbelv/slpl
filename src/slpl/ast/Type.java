@@ -8,15 +8,19 @@ import java.util.HashMap;
 // TODO: find other solution to typing
 public class Type extends AST {
 
-    public static final HashMap<String, Type> types = new HashMap<>();
+    private static final HashMap<String, Type> types = new HashMap<>();
+
     static {
-        types.put("int", new Type("int"));
-        types.put("boolean", new Type("boolean"));
-        types.put("string", new Type("string"));
+        String[] primitives = {
+                "number",
+                "boolean"
+        };
+        for(String typeName : primitives) {
+            types.put(typeName, new Type(typeName));
+        }
     }
 
     private final String name;
-    private Type superType; // NYI
 
     public Type(String name) {
         this.name = name;
@@ -34,7 +38,7 @@ public class Type extends AST {
 
     public static Type fromToken(Token t) {
         Type type = types.get(t.getContent());
-        if(type == null) {
+        if (type == null) {
             throw new IllegalArgumentException(String.format("The type %s is not defined", type));
         }
         return type;

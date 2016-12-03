@@ -1,8 +1,6 @@
 package slpl.syntax;
 
-import slpl.ast.Str;
 import slpl.syntax.lexical.TokenType;
-import slpl.ast.Print;
 import slpl.ast.Statement;
 import slpl.util.TokenStream;
 
@@ -14,20 +12,15 @@ public class StatementParser {
         if(ts.hasNext(TokenType.IF)) {
             return new Statement(IfParser.parseIf(ts));
         } else if(ts.hasNext(TokenType.PRINTLN)) {
-            ts.consume();
-            if(ts.hasNext(TokenType.STRING)) {
-                statement = new Statement(new Print(new Str(ts.consume().getContent())));
-            } else {
-                statement = new Statement(new Print(ExpressionParser.parseExpression(ts)));
-            }
+            statement = new Statement(PrintParser.parsePrint(ts));
         } else if(ts.hasNext(TokenType.IDENTIFIER)) {
-            int i = ts.getCurrentIndex();
+            int indexBeforeLookahead = ts.getCurrentIndex();
             ts.consume();
             if(ts.hasNext(TokenType.COLON)) {
-                ts.setCurrentIndex(i);
+                ts.setCurrentIndex(indexBeforeLookahead);
                 statement = new Statement(DeclarationParser.parseDeclaration(ts));
             } else {
-                ts.setCurrentIndex(i);
+                ts.setCurrentIndex(indexBeforeLookahead);
                 statement = new Statement(AssignmentParser.parseAssignment(ts));
             }
         } else {

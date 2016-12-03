@@ -72,6 +72,8 @@ public class ExpressionParser {
                 return new Identifier(t.getContent());
             case NUMBER:
                 return new Number(t.getContent());
+            case STRING:
+                return new Str(t.getContent());
         }
         throw new IllegalArgumentException(t + " is not a value");
     }
@@ -93,7 +95,7 @@ public class ExpressionParser {
     }
 
     private static void recognizeFactor(TokenStream ts) throws ParseException {
-        ts.expect(TokenType.NOT, TokenType.SUB, TokenType.LPAR, TokenType.NUMBER, TokenType.IDENTIFIER, TokenType.TRUE, TokenType.FALSE);
+        ts.expect(TokenType.NOT, TokenType.SUB, TokenType.LPAR, TokenType.NUMBER, TokenType.IDENTIFIER, TokenType.TRUE, TokenType.FALSE, TokenType.STRING);
         if(ts.hasNext(TokenType.NOT, TokenType.SUB)) {
             if(ts.hasNext(TokenType.SUB)) {
                 Token t = ts.inspect();
