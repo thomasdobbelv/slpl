@@ -13,13 +13,24 @@
 
 <While>                 ::= "while" "(" <Expression> ")" <Block>
 
-<Assignment>            ::= <Identifier> "=" <Expression>
-                        |   "++" pre/post, "--" pre/post, +=, etc <-- add these
+<Assignment>            :== <Prefix Operator> <Identifier>
+                        |   <Identifier> <Postfix Operator>
+                        |   <Identifier> <Assignment Operator> <Expression>
+
+<Prefix Operator>       ::= "++"
+                        |   "--"
+
+<Postfix Operator>      ::= "++"
+                        |   "--"
+
+<Assignment Operator>   ::= "+="
+                        |   "-="
+                        |   "*="
+                        |   "/="
 
 <Declaration>           ::= <Identifier> ":" <Type> ("=" <Expression>)?
 
-<Type>                  ::= <Primitive Type>
-                        |   <Reference Type>
+<Type>                  ::= <Identifier>
 
 <Primitive Type>        ::= number|boolean
 

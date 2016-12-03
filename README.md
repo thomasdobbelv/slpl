@@ -63,7 +63,7 @@ first: int = intTriple[0], second: int = intTriple[1], third: int = intTriple[2]
 
 return (1, 2); // return an (int, int) literal in a function with return type (int, int);
 
-(a: int, b: int, _) = intTriple; // _ tells slpl to do nothing with the third value
+(a: int, b: int, _) = intTriple; // _ tells slpl to do nothing with the third rvalue
 return (a, b);
 
 quadruple: (char, bool, int, string);

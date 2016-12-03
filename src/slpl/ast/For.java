@@ -6,10 +6,10 @@ public class For extends AST {
 
     private Declaration init;
     private AST condition;
-    private Assign update;
+    private AssignmentOperation update;
     private Block body;
 
-    public For(Declaration init, AST condition, Assign update, Block body) {
+    public For(Declaration init, AST condition, AssignmentOperation update, Block body) {
         this.init = init;
         this.condition = condition;
         this.update = update;
@@ -34,6 +34,10 @@ public class For extends AST {
             while(true) {
                 body.evaluate(context); // TODO: add break statement
                 update.evaluate(context);
+            }
+        } else {
+            while(true) {
+                body.evaluate(context);
             }
         }
         return this;

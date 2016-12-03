@@ -11,8 +11,8 @@ public class ModuleParser {
         ts.expect(TokenType.MODULE);
         ts.consume();
         ts.expect(TokenType.IDENTIFIER);
-        String moduleName = ts.consume().getContent();
-        return new Module(moduleName, BlockParser.parseBlock(ts));
+        String name = ts.consume().getContent();
+        return new Module(name, BlockParser.parseBlock(ts));
     }
 
 }

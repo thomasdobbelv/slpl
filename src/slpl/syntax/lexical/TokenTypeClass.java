@@ -8,7 +8,6 @@ public enum TokenTypeClass {
     LOGICAL_OPERATOR,
     RELATIONAL_OPERATOR,
     ASSIGNMENT_OPERATOR,
-    DATA_TYPE,
     LAYOUT,
     KEYWORD,
     VALUE,

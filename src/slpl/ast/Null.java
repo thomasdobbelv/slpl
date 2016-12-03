@@ -5,7 +5,7 @@ import slpl.util.Context;
 public class Null extends AST {
 
     @Override
-    public AST evaluate(Context context) {
+    public AST evaluate(Context _) {
         return this;
     }
 

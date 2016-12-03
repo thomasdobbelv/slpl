@@ -10,8 +10,8 @@ import java.io.*;
 public class Interpreter {
 
     public static void main(String[] args) throws IOException, ParseException {
-        String f = "samples/for.slpl";
-        String program = load(f);
+        String path = "samples/assignment.slpl";
+        String program = load(path);
         run(program);
     }
 

@@ -1,17 +1,30 @@
 package slpl.syntax;
 
-import slpl.ast.Assign;
+import slpl.ast.AssignmentOperation;
+import slpl.ast.UnaryAssignmentOperation;
 import slpl.syntax.lexical.TokenType;
+import slpl.util.Operator;
 import slpl.util.TokenStream;
 
 public class AssignmentParser {
 
-    public static Assign parseAssignment(TokenStream ts) throws ParseException {
-        ts.expect(TokenType.IDENTIFIER);
-        String name = ts.consume().getContent();
-        ts.expect(TokenType.ASSIGN);
-        ts.consume();
-        return new Assign(ExpressionParser.parseExpression(ts), name);
+    public static AssignmentOperation parseAssignment(TokenStream ts) throws ParseException {
+        if(ts.hasNext(TokenType.INCR, TokenType.DECR)) {
+            Operator operator = Operator.fromToken(ts.consume());
+            ts.expect(TokenType.IDENTIFIER);
+            return new UnaryAssignmentOperation(ts.consume().getContent(), operator, true);
+        } else {
+            ts.expect(TokenType.IDENTIFIER);
+            String name = ts.consume().getContent();
+            if(ts.hasNext(TokenType.INCR, TokenType.DECR)) {
+                Operator operator = Operator.fromToken(ts.consume());
+                return new UnaryAssignmentOperation(name, operator, false);
+            } else {
+                ts.expect(TokenType.ADDEQ, TokenType.SUBEQ, TokenType.MULEQ, TokenType.DIVEQ, TokenType.ASSIGN);
+                Operator operator = Operator.fromToken(ts.consume());
+                return new AssignmentOperation(name, operator, ExpressionParser.parseExpression(ts));
+            }
+        }
     }
 
 }

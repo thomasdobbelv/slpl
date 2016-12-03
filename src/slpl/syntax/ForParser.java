@@ -1,7 +1,7 @@
 package slpl.syntax;
 
 import slpl.ast.AST;
-import slpl.ast.Assign;
+import slpl.ast.AssignmentOperation;
 import slpl.ast.Declaration;
 import slpl.ast.For;
 import slpl.syntax.lexical.TokenType;
@@ -16,7 +16,7 @@ public class ForParser {
         ts.consume();
         Declaration init = null;
         AST condition = null;
-        Assign update = null;
+        AssignmentOperation update = null;
         if(!ts.hasNext(TokenType.SEMICOLON)) {
             init = DeclarationParser.parseDeclaration(ts);
         }

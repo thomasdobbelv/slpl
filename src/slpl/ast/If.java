@@ -4,16 +4,17 @@ import slpl.util.Context;
 
 public class If extends AST {
 
-    private AST condition, then, else_;
+    private AST condition, else_;
+    private Block then;
 
-    public If(AST condition, AST then, AST else_) {
+    public If(AST condition, Block then, AST else_) {
         this.condition = condition;
         this.then = then;
         this.else_ = else_;
     }
 
-    public If(AST condition, AST then) {
-        this(condition, then, null); // TODO: pass some kind of empty node instead of null. VOID? define type of If else statement to be VOID
+    public If(AST condition, Block then) {
+        this(condition, then, null);
     }
 
     @Override
