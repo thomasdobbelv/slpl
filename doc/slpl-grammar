@@ -23,7 +23,7 @@
 
 <Primitive Type>        ::= number|boolean
 
-<Print>                 ::= "println" (<String>|<Expression>)
+<Print>                 ::= println|print (<String>|<Expression>)
 
 <If>                    ::= "if" "(" <Expression> ")" <Block> <Else>?
 <Else>                  ::= "else" (<If>|<Block>)

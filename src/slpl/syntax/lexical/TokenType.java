@@ -14,6 +14,7 @@ public enum TokenType {
     ELSE("else", KEYWORD),
     MODULE("module", KEYWORD),
     PRINTLN("println", KEYWORD), // TODO: find alternative way to print to std. out
+    PRINT("print", KEYWORD), // TODO: find alternative way to print to std. out
     YIELD("yield", KEYWORD),
     PRIMITIVE("number|boolean", DATA_TYPE, KEYWORD),
     STRING("\"[^\"\\\\]*(\\\\.[^\"\\\\]*)*\"", VALUE),

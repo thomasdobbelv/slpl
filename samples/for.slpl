@@ -1,5 +1,14 @@
 module For {
-    for(i:number = 0; i < 10; i = i + 1) {
-        println i;
+    println "Entering module For";
+    X:number = 20;
+    Y:number = 10;
+    for(x:number = 0; x < X; x = x + 1) {
+        for(y:number = 0; y < Y; y = y + 1) {
+            print "(";
+            print x;
+            print ", ";
+            print y;
+            println ")";
+        }
     }
 }

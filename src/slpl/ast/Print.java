@@ -5,24 +5,29 @@ import slpl.util.Context;
 public class Print extends AST {
 
     private AST arg;
+    private boolean nl;
 
-    public Print(AST arg) {
+    public Print(AST arg, boolean nl) {
         this.arg = arg;
+        this.nl = nl;
     }
 
     @Override
     public AST evaluate(Context context) {
         AST out = arg.evaluate(context);
         if (out instanceof Str) {
-            System.out.println(((Str) out).getValue());
+            System.out.print(((Str) out).getValue());
         } else if (out instanceof Boolean) {
-            System.out.println(((Boolean) out).getValue());
+            System.out.print(((Boolean) out).getValue());
         } else if (out instanceof Number) {
-            System.out.println(((Number) out).getValue());
+            System.out.print(((Number) out).getValue());
         } else if (out instanceof Null) {
-            System.out.println("null");
+            System.out.print("null");
         } else {
             throw new IllegalArgumentException(out + " is not printable");
+        }
+        if(nl) {
+            System.out.println();
         }
         return this;
     }
