@@ -11,6 +11,8 @@ public class StatementParser {
         Statement statement;
         if(ts.hasNext(TokenType.IF)) {
             return new Statement(IfParser.parseIf(ts));
+        } else if(ts.hasNext(TokenType.WHILE)) {
+            return new Statement(WhileParser.parseWhile(ts));
         } else if(ts.hasNext(TokenType.PRINTLN)) {
             statement = new Statement(PrintParser.parsePrint(ts));
         } else if(ts.hasNext(TokenType.IDENTIFIER)) {

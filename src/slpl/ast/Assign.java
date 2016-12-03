@@ -14,9 +14,9 @@ public class Assign extends AST {
 
     @Override
     public AST evaluate(Context context) {
-        value = value.evaluate(context);
-        context.set(name, value);
-        return value;
+        AST evaluated = value.evaluate(context);
+        context.set(name, evaluated);
+        return evaluated;
     }
 
     @Override

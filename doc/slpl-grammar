@@ -5,7 +5,10 @@
 <Block>                 ::= "{" <Statement>* "}"
 
 <Statement>             ::= <If>
+                        |   <While>
                         |   (<Expression>|<Print>|<Declaration>|<Assignment>) ";"
+
+<While>                 ::= "while" "(" <Expression> ")" <Block>
 
 <Assignment>            ::= <Identifier> "=" <Expression>
 

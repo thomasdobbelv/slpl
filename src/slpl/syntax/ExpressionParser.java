@@ -95,7 +95,6 @@ public class ExpressionParser {
     }
 
     private static void recognizeFactor(TokenStream ts) throws ParseException {
-        ts.expect(TokenType.NOT, TokenType.SUB, TokenType.LPAR, TokenType.NUMBER, TokenType.IDENTIFIER, TokenType.TRUE, TokenType.FALSE, TokenType.STRING);
         if(ts.hasNext(TokenType.NOT, TokenType.SUB)) {
             if(ts.hasNext(TokenType.SUB)) {
                 Token t = ts.inspect();
@@ -109,6 +108,7 @@ public class ExpressionParser {
             ts.expect(TokenType.RPAR);
             ts.consume();
         } else {
+            ts.expect(TokenType.NUMBER, TokenType.IDENTIFIER, TokenType.TRUE, TokenType.FALSE);
             ts.consume();
         }
     }
