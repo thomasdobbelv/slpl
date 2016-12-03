@@ -6,11 +6,15 @@
 
 <Statement>             ::= <If>
                         |   <While>
+                        |   <For>
                         |   (<Expression>|<Print>|<Declaration>|<Assignment>) ";"
+
+<For>                   ::= "for" "(" <Declaration>? ";" <Expression>? ";" <Assignment>? ")" <Block>
 
 <While>                 ::= "while" "(" <Expression> ")" <Block>
 
 <Assignment>            ::= <Identifier> "=" <Expression>
+                        |   "++" pre/post, "--" pre/post, +=, etc <-- add these
 
 <Declaration>           ::= <Identifier> ":" <Type> ("=" <Expression>)?
 

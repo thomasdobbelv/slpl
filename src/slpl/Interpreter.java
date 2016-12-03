@@ -10,7 +10,7 @@ import java.io.*;
 public class Interpreter {
 
     public static void main(String[] args) throws IOException, ParseException {
-        String f = "samples/while.slpl";
+        String f = "samples/for.slpl";
         String program = load(f);
         run(program);
     }
