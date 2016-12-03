@@ -1,12 +1,27 @@
 <Program>               ::= <Module>
 
-<Module>                ::= <Identifier> <Block>
+<Module>                ::= "module" <Identifier> <Block>
 
 <Block>                 ::= "{" <Statement>* "}"
 
 <Statement>             ::= <If>
-                        |   <Expression> ";"
-                        |   <Print> ";"
+                        |   <While>
+                        |   <For>
+                        |   (<Expression>|<Print>|<Declaration>|<Assignment>) ";"
+
+<For>                   ::= "for" "(" <Declaration>? ";" <Expression>? ";" <Assignment>? ")" <Block>
+
+<While>                 ::= "while" "(" <Expression> ")" <Block>
+
+<Assignment>            ::= <Identifier> "=" <Expression>
+                        |   "++" pre/post, "--" pre/post, +=, etc <-- add these
+
+<Declaration>           ::= <Identifier> ":" <Type> ("=" <Expression>)?
+
+<Type>                  ::= <Primitive Type>
+                        |   <Reference Type>
+
+<Primitive Type>        ::= number|boolean
 
 <Print>                 ::= "println" (<String>|<Expression>)
 
@@ -15,16 +30,17 @@
 
 <Expression>            ::= <Term> ((+|-|\|\|<Relational Operator>) <Expression>)?
 <Term>                  ::= <Factor> ((*|/|&&) <Term>)?
-<Factor>                ::= [!-]? <Factor>
+<Factor>                ::= [!-] <Factor>
                         |   "(" <Expression> ")"
                         |   <Value>
 
 <Value>                 ::= <Number>
+                        |   <Boolean>
                         |   <Identifier>
-                        |   <String>
 
 <Number>                ::= [0-9]+(\.[0-9]+)?
 <Identifier>            ::= [A-Za-z][A-Za-z0-9]*
+<Boolean>               ::= true|false
 <String>                ::= ^"[^"\\]*(\\.[^"\\]*)*"$
 
 <Relational Operator>   ::= "=="

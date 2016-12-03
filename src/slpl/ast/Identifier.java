@@ -16,7 +16,11 @@ public class Identifier extends AST {
 
     @Override
     public AST evaluate(Context context) {
-        return context.get(value);
+        if(context.get(value) instanceof Variable) {
+            return context.get(value).evaluate(context);
+        } else {
+            return context.get(value);
+        }
     }
 
     @Override

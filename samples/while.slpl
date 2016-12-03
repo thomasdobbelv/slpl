@@ -1,0 +1,15 @@
+module While {
+    fib1:number = 1;
+    fib2:number = 1;
+    tmp:number;
+    i:number = 1;
+    while(fib1 < 1803213) {
+        println "fib";
+        println i;
+        println "is:";
+        println fib1;
+        tmp = fib1;
+        fib1 = fib2;
+        fib2 = tmp + fib1;
+    }
+}

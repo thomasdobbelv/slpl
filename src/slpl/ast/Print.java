@@ -13,12 +13,14 @@ public class Print extends AST {
     @Override
     public AST evaluate(Context context) {
         AST out = arg.evaluate(context);
-        if(out instanceof Str) {
+        if (out instanceof Str) {
             System.out.println(((Str) out).getValue());
-        } else if(out instanceof Boolean) {
+        } else if (out instanceof Boolean) {
             System.out.println(((Boolean) out).getValue());
-        } else if(out instanceof Number) {
+        } else if (out instanceof Number) {
             System.out.println(((Number) out).getValue());
+        } else if (out instanceof Null) {
+            System.out.println("null");
         } else {
             throw new IllegalArgumentException(out + " is not printable");
         }

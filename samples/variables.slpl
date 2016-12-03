@@ -1,0 +1,7 @@
+module Declarations {
+    someString:string = "this is a string";
+    println someString;
+    num1:number = 3;
+    num2:number = 2.18;
+    println num1 + num2;
+}
