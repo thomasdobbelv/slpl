@@ -5,16 +5,16 @@ import slpl.util.Context;
 public class Declaration extends AST {
 
     private String name;
-    private Type type;
+    private String type;
     private AST definition;
 
-    public Declaration(String name, Type type, AST definition) {
+    public Declaration(String name, String type, AST definition) {
         this.name = name;
         this.type = type;
         this.definition = definition;
     }
 
-    public Declaration(String name, Type type) {
+    public Declaration(String name, String type) {
         this.name = name;
         this.type = type;
         definition = new Null();
@@ -22,7 +22,7 @@ public class Declaration extends AST {
 
     @Override
     public AST evaluate(Context context) {
-        context.set(name, new Variable(name, type, definition.evaluate(context)));
+        context.add(new Variable(name, type, definition.evaluate(context)));
         return this;
     }
 

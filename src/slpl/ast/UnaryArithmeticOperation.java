@@ -1,13 +1,14 @@
 package slpl.ast;
 
 import slpl.util.Context;
+import slpl.util.Operator;
 
 public class UnaryArithmeticOperation extends AST {
 
-    private String operator;
+    private Operator operator;
     private AST arg;
 
-    public UnaryArithmeticOperation(String operator, AST arg) {
+    public UnaryArithmeticOperation(Operator operator, AST arg) {
         this.operator = operator;
         this.arg = arg;
     }
@@ -16,10 +17,10 @@ public class UnaryArithmeticOperation extends AST {
     public AST evaluate(Context context) {
         Number num = (Number) arg.evaluate(context);
         switch (operator) {
-            case "-":
+            case ADDITIVE_INVERSE:
                 return new Number((-num.getValue()) + "");
         }
-        throw new UnsupportedOperationException(operator);
+        throw new UnsupportedOperationException(operator.toString());
     }
 
     @Override

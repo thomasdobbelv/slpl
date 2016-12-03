@@ -19,7 +19,14 @@ public enum Operator {
     SUB("-", 2, 4, Fixity.LEFT),
     MUL("*", 2, 5, Fixity.LEFT),
     DIV("/", 2, 5, Fixity.LEFT),
-    ADDITIVE_INVERSE("-", 1, 6, Fixity.RIGHT);
+    ADDITIVE_INVERSE("-", 1, 6, Fixity.RIGHT),
+    ADDEQ("+=", 2, -1, Fixity.LEFT),
+    SUBEQ("-=", 2, -1, Fixity.LEFT),
+    MULEQ("*=", 2, -1, Fixity.LEFT),
+    DIVEQ("/=", 2, -1, Fixity.LEFT),
+    ASSIGN("=", 2, -1, Fixity.LEFT),
+    INCR("++", 1, -1, Fixity.LEFT),
+    DECR("--", 1, -1, Fixity.LEFT);
 
     private final String operatorSymbol;
     private final Fixity fixity;
@@ -66,6 +73,11 @@ public enum Operator {
 
     public Fixity getFixity() {
         return fixity;
+    }
+
+    @Override
+    public String toString() {
+        return operatorSymbol;
     }
 
     public enum Fixity {

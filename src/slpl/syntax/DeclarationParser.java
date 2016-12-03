@@ -1,7 +1,6 @@
 package slpl.syntax;
 
 import slpl.ast.Declaration;
-import slpl.ast.Type;
 import slpl.syntax.lexical.TokenType;
 import slpl.util.TokenStream;
 
@@ -12,8 +11,8 @@ public class DeclarationParser {
         String name = ts.consume().getContent();
         ts.expect(TokenType.COLON);
         ts.consume();
-        ts.expect(TokenType.PRIMITIVE);
-        Type type = Type.fromToken(ts.consume());
+        ts.expect(TokenType.IDENTIFIER);
+        String type = ts.consume().getContent();
         if(ts.hasNext(TokenType.ASSIGN)) {
             ts.consume();
             return new Declaration(name, type, ExpressionParser.parseExpression(ts));

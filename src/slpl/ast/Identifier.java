@@ -4,27 +4,19 @@ import slpl.util.Context;
 
 public class Identifier extends AST {
 
-    private String value;
+    private String id;
 
-    public Identifier(String identifier) {
-        this.value = identifier;
-    }
-
-    public String getValue() {
-        return value;
+    public Identifier(String id) {
+        this.id = id;
     }
 
     @Override
     public AST evaluate(Context context) {
-        if(context.get(value) instanceof Variable) {
-            return context.get(value).evaluate(context);
-        } else {
-            return context.get(value);
-        }
+        return context.get(id).evaluate(context);
     }
 
     @Override
     public String toString() {
-        return String.format("(Identifier %s)", value);
+        return String.format("(Identifier %s)", id);
     }
 }

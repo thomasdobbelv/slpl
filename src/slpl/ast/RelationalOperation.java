@@ -1,13 +1,14 @@
 package slpl.ast;
 
 import slpl.util.Context;
+import slpl.util.Operator;
 
 public class RelationalOperation extends AST {
 
-    private String operator;
+    private Operator operator;
     private AST arg1, arg2;
 
-    public RelationalOperation(String operator, AST arg1, AST arg2) {
+    public RelationalOperation(Operator operator, AST arg1, AST arg2) {
         this.operator = operator;
         this.arg1 = arg1;
         this.arg2 = arg2;
@@ -17,20 +18,20 @@ public class RelationalOperation extends AST {
     public AST evaluate(Context context) {
         Number num1 = (Number) arg1.evaluate(context), num2 = (Number) arg2.evaluate(context);
         switch (operator) {
-            case "==":
+            case EQ:
                 return new Boolean(num1.getValue() == num2.getValue());
-            case "!=":
+            case NEQ:
                 return new Boolean(num1.getValue() != num2.getValue());
-            case ">=":
+            case GTE:
                 return new Boolean(num1.getValue() >= num2.getValue());
-            case "<=":
-                return new Boolean(num1.getValue() >= num2.getValue());
-            case ">":
+            case LTE:
+                return new Boolean(num1.getValue() <= num2.getValue());
+            case GT:
                 return new Boolean(num1.getValue() > num2.getValue());
-            case "<":
+            case LT:
                 return new Boolean(num1.getValue() < num2.getValue());
         }
-        throw new UnsupportedOperationException(operator);
+        throw new UnsupportedOperationException(operator.toString());
     }
 
     @Override

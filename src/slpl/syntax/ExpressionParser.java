@@ -40,23 +40,24 @@ public class ExpressionParser {
 
     public static AST toOperationNode(Token t, AST[] operands) {
         TokenType tt = t.getType();
-        if(tt.instanceOf(TokenTypeClass.UNARY_OPERATOR)) {
-            if(tt.instanceOf(TokenTypeClass.ARITHMETIC_OPERATOR)) {
-                return new UnaryArithmeticOperation(t.getContent(), operands[0]);
-            } else if(tt.instanceOf(TokenTypeClass.LOGICAL_OPERATOR)) {
-                return new UnaryLogicalOperation(t.getContent(), operands[0]);
+        Operator operator = Operator.fromToken(t);
+        if (tt.instanceOf(TokenTypeClass.UNARY_OPERATOR)) {
+            if (tt.instanceOf(TokenTypeClass.ARITHMETIC_OPERATOR)) {
+                return new UnaryArithmeticOperation(operator, operands[0]);
+            } else if (tt.instanceOf(TokenTypeClass.LOGICAL_OPERATOR)) {
+                return new UnaryLogicalOperation(operator, operands[0]);
             }
-        } else if(tt.instanceOf(TokenTypeClass.BINARY_OPERATOR)) {
-            if(tt.instanceOf(TokenTypeClass.ARITHMETIC_OPERATOR)) {
-                return new BinaryArithmeticOperation(t.getContent(), operands[0], operands[1]);
-            } else if(tt.instanceOf(TokenTypeClass.LOGICAL_OPERATOR)) {
-                return new BinaryLogicalOperation(t.getContent(), operands[0], operands[1]);
-            } else if(tt.instanceOf(TokenTypeClass.RELATIONAL_OPERATOR)) {
-                return new RelationalOperation(t.getContent(), operands[0], operands[1]);
+        } else if (tt.instanceOf(TokenTypeClass.BINARY_OPERATOR)) {
+            if (tt.instanceOf(TokenTypeClass.ARITHMETIC_OPERATOR)) {
+                return new BinaryArithmeticOperation(operator, operands[0], operands[1]);
+            } else if (tt.instanceOf(TokenTypeClass.LOGICAL_OPERATOR)) {
+                return new BinaryLogicalOperation(operator, operands[0], operands[1]);
+            } else if (tt.instanceOf(TokenTypeClass.RELATIONAL_OPERATOR)) {
+                return new RelationalOperation(operator, operands[0], operands[1]);
             }
         }
         StringBuilder sb = new StringBuilder();
-        for(AST a : operands) {
+        for (AST a : operands) {
             sb.append(a + " ");
         }
         throw new IllegalArgumentException(String.format("The operation %s is not defined for %s", t, sb.toString()));
@@ -80,7 +81,7 @@ public class ExpressionParser {
 
     public static void recognizeExpression(TokenStream ts) throws ParseException {
         recognizeTerm(ts);
-        if(ts.hasNext(TokenType.ADD, TokenType.SUB, TokenType.OR) || (ts.hasNext() && ts.inspect().getType().instanceOf(TokenTypeClass.RELATIONAL_OPERATOR))) {
+        if (ts.hasNext(TokenType.ADD, TokenType.SUB, TokenType.OR) || (ts.hasNext() && ts.inspect().getType().instanceOf(TokenTypeClass.RELATIONAL_OPERATOR))) {
             ts.consume();
             recognizeExpression(ts);
         }
@@ -88,21 +89,21 @@ public class ExpressionParser {
 
     private static void recognizeTerm(TokenStream ts) throws ParseException {
         recognizeFactor(ts);
-        if(ts.hasNext(TokenType.MUL, TokenType.DIV, TokenType.AND)) {
+        if (ts.hasNext(TokenType.MUL, TokenType.DIV, TokenType.AND)) {
             ts.consume();
             recognizeTerm(ts);
         }
     }
 
     private static void recognizeFactor(TokenStream ts) throws ParseException {
-        if(ts.hasNext(TokenType.NOT, TokenType.SUB)) {
-            if(ts.hasNext(TokenType.SUB)) {
+        if (ts.hasNext(TokenType.NOT, TokenType.SUB)) {
+            if (ts.hasNext(TokenType.SUB)) {
                 Token t = ts.inspect();
                 ts.replaceCurrentToken(new Token(TokenType.ADDINV, t.getContent(), t.getRow(), t.getCol()));
             }
             ts.consume();
             recognizeFactor(ts);
-        } else if(ts.hasNext(TokenType.LPAR)) {
+        } else if (ts.hasNext(TokenType.LPAR)) {
             ts.consume();
             recognizeExpression(ts);
             ts.expect(TokenType.RPAR);

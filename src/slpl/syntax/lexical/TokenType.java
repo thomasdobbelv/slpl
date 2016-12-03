@@ -16,11 +16,10 @@ public enum TokenType {
     PRINTLN("println", KEYWORD), // TODO: find alternative way to print to std. out
     PRINT("print", KEYWORD), // TODO: find alternative way to print to std. out
     YIELD("yield", KEYWORD),
-    PRIMITIVE("number|boolean", DATA_TYPE, KEYWORD),
     STRING("\"[^\"\\\\]*(\\\\.[^\"\\\\]*)*\"", VALUE),
     IDENTIFIER("[A-Za-z][A-Za-z0-9]*", VALUE),
-    INCR("\\+\\+", UNARY_OPERATOR, ARITHMETIC_OPERATOR),
-    DECR("--", UNARY_OPERATOR, ARITHMETIC_OPERATOR),
+    INCR("\\+\\+", UNARY_OPERATOR, ASSIGNMENT_OPERATOR),
+    DECR("--", UNARY_OPERATOR, ASSIGNMENT_OPERATOR),
     ADDEQ("\\+=", BINARY_OPERATOR, ASSIGNMENT_OPERATOR),
     SUBEQ("-=", BINARY_OPERATOR, ASSIGNMENT_OPERATOR),
     MULEQ("\\*=", BINARY_OPERATOR, ASSIGNMENT_OPERATOR),

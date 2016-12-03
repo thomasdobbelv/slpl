@@ -14,7 +14,7 @@ public class Module extends AST {
 
     @Override
     public AST evaluate(Context context) {
-        // TODO: consider what it means to evaluate a module
+        // TODO: consider what it means to evaluate a module. does it mean building a context (set of predef. functions, variables)?
         body.evaluate(context);
         return this;
     }

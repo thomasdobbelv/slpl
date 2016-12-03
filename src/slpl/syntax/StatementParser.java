@@ -17,7 +17,7 @@ public class StatementParser {
             return new Statement(ForParser.parseFor(ts));
         } else if(ts.hasNext(TokenType.PRINT, TokenType.PRINTLN)) {
             statement = new Statement(PrintParser.parsePrint(ts));
-        } else if(ts.hasNext(TokenType.IDENTIFIER)) {
+        } else if(ts.hasNext(TokenType.IDENTIFIER, TokenType.INCR, TokenType.DECR)) {
             int indexBeforeLookahead = ts.getCurrentIndex();
             ts.consume();
             if(ts.hasNext(TokenType.COLON)) {

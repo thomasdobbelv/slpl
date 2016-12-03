@@ -1,13 +1,14 @@
 package slpl.ast;
 
 import slpl.util.Context;
+import slpl.util.Operator;
 
 public class UnaryLogicalOperation extends AST {
 
-    private String operator;
+    private Operator operator;
     private AST arg;
 
-    public UnaryLogicalOperation(String operator, AST arg) {
+    public UnaryLogicalOperation(Operator operator, AST arg) {
         this.operator = operator;
         this.arg = arg;
     }
@@ -16,10 +17,10 @@ public class UnaryLogicalOperation extends AST {
     public AST evaluate(Context context) {
         Boolean b = (Boolean) arg.evaluate(context);
         switch (operator) {
-            case "!":
+            case NOT:
                 return new Boolean(!b.getValue());
         }
-        throw new UnsupportedOperationException(operator);
+        throw new UnsupportedOperationException(operator.toString());
     }
 
     @Override

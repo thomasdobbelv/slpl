@@ -1,13 +1,14 @@
 package slpl.ast;
 
 import slpl.util.Context;
+import slpl.util.Operator;
 
 public class BinaryLogicalOperation extends AST {
 
-    private String operator;
+    private Operator operator;
     private AST arg1, arg2;
 
-    public BinaryLogicalOperation(String operator, AST arg1, AST arg2) {
+    public BinaryLogicalOperation(Operator operator, AST arg1, AST arg2) {
         this.operator = operator;
         this.arg1 = arg1;
         this.arg2 = arg2;
@@ -17,12 +18,12 @@ public class BinaryLogicalOperation extends AST {
     public AST evaluate(Context context) {
         Boolean b1 = (Boolean) arg1.evaluate(context), b2 = (Boolean) arg2.evaluate(context);
         switch (operator) {
-            case "||":
+            case OR:
                 return new Boolean(b1.getValue() || b2.getValue());
-            case "&&":
+            case AND:
                 return new Boolean(b1.getValue() && b2.getValue());
         }
-        throw new UnsupportedOperationException(operator);
+        throw new UnsupportedOperationException(operator.toString());
     }
 
     @Override
