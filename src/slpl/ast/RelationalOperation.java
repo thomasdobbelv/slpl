@@ -25,7 +25,7 @@ public class RelationalOperation extends AST {
             case GTE:
                 return new Boolean(num1.getValue() >= num2.getValue());
             case LTE:
-                return new Boolean(num1.getValue() >= num2.getValue());
+                return new Boolean(num1.getValue() <= num2.getValue());
             case GT:
                 return new Boolean(num1.getValue() > num2.getValue());
             case LT:

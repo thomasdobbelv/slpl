@@ -20,4 +20,15 @@ public class Context {
     public Variable get(String name) {
         return map.get(name);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Context:\n");
+        for(String id : map.keySet()) {
+            sb.append(id + " -> " + map.get(id) + "\n");
+        }
+        return sb.toString();
+    }
+
 }

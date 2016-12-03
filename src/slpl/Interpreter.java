@@ -10,7 +10,7 @@ import java.io.*;
 public class Interpreter {
 
     public static void main(String[] args) throws IOException, ParseException {
-        String path = "samples/assignment.slpl";
+        String path = "samples/prog.slpl";
         String program = load(path);
         run(program);
     }
@@ -27,7 +27,9 @@ public class Interpreter {
 
     private static void run(String programText) throws ParseException {
         AST program = ProgramParser.parseProgram(programText);
-        program.evaluate(new Context());
+        Context context = new Context();
+        program.evaluate(context);
+        System.out.println(context);
     }
 
 }

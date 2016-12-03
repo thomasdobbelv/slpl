@@ -1,0 +1,21 @@
+module Prog {
+    println "Entering module Prog";
+    i:number = 0;
+    I:number = 10;
+    while(i < I) {
+        print "i=";
+        println i;
+        ++i;
+    }
+    J:number = 30;
+    for(j:number = 0; j < J; j += 2) {
+        print "j=";
+        println j;
+    }
+    powerOfTwo:specialNumberQuestionMarkNoDotButTypesAreJustIdentifiersNow = 2;
+    while(powerOfTwo <= 1000000) {
+        print "power of two:";
+        println powerOfTwo;
+        powerOfTwo *= 2;
+    }
+}
