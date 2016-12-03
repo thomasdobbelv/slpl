@@ -1,6 +1,7 @@
 package slpl.syntax;
 
 import slpl.ast.Module;
+import slpl.err.ParseException;
 import slpl.syntax.lexical.Lexer;
 import slpl.util.TokenStream;
 

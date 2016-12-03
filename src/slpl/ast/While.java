@@ -1,5 +1,7 @@
 package slpl.ast;
 
+import slpl.PrimitiveType;
+import slpl.err.TypeError;
 import slpl.util.Context;
 
 public class While extends AST {
@@ -18,6 +20,12 @@ public class While extends AST {
             body.evaluate(context);
         }
         return this;
+    }
+
+    @Override
+    public String typeCheck(Context context) throws TypeError {
+        body.typeCheck(context);
+        return PrimitiveType.VOID.getTypeName();
     }
 
     @Override

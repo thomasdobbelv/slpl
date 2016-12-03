@@ -1,5 +1,7 @@
 package slpl.ast;
 
+import slpl.PrimitiveType;
+import slpl.err.TypeError;
 import slpl.util.Context;
 import slpl.util.Operator;
 
@@ -32,6 +34,16 @@ public class RelationalOperation extends AST {
                 return new Boolean(num1.getValue() < num2.getValue());
         }
         throw new UnsupportedOperationException(operator.toString());
+    }
+
+    @Override
+    public String typeCheck(Context context) throws TypeError {
+        String arg1t = arg1.typeCheck(context), arg2t = arg2.typeCheck(context);
+        if(arg1t.equals(PrimitiveType.NUMBER.getTypeName()) && arg2t.equals(PrimitiveType.NUMBER.getTypeName())) {
+            return PrimitiveType.BOOLEAN.getTypeName();
+        } else {
+            throw TypeError.expected(PrimitiveType.BOOLEAN.getTypeName(), "?"); // FIXME
+        }
     }
 
     @Override

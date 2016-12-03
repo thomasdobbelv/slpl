@@ -2,6 +2,7 @@ package slpl.syntax;
 
 import slpl.ast.Print;
 import slpl.ast.Str;
+import slpl.err.ParseException;
 import slpl.syntax.lexical.TokenType;
 import slpl.util.TokenStream;
 

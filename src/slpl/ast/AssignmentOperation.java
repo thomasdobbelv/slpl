@@ -1,5 +1,6 @@
 package slpl.ast;
 
+import slpl.err.TypeError;
 import slpl.util.Context;
 import slpl.util.Operator;
 
@@ -38,6 +39,16 @@ public class AssignmentOperation extends AST {
         }
         context.set(name, rvalue);
         return rvalue;
+    }
+
+    @Override
+    public String typeCheck(Context context) throws TypeError {
+        String rvaluet = rvalue.typeCheck(context);
+        if(context.get(name).typeCheck(context).equals(rvaluet)) {
+            return rvaluet;
+        } else {
+            throw TypeError.expected(context.get(name).typeCheck(context), rvaluet);
+        }
     }
 
     @Override

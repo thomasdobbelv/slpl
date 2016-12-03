@@ -1,5 +1,7 @@
 package slpl.ast;
 
+import slpl.PrimitiveType;
+import slpl.err.TypeError;
 import slpl.util.Context;
 import slpl.util.Operator;
 
@@ -21,6 +23,16 @@ public class UnaryLogicalOperation extends AST {
                 return new Boolean(!b.getValue());
         }
         throw new UnsupportedOperationException(operator.toString());
+    }
+
+    @Override
+    public String typeCheck(Context context) throws TypeError {
+        String argt = arg.typeCheck(context);
+        String expected = PrimitiveType.BOOLEAN.getTypeName();
+        if(!argt.equals(expected)) {
+            throw TypeError.expected(expected, argt);
+        }
+        return expected;
     }
 
     @Override

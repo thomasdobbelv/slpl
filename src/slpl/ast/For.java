@@ -1,5 +1,7 @@
 package slpl.ast;
 
+import slpl.PrimitiveType;
+import slpl.err.TypeError;
 import slpl.util.Context;
 
 public class For extends AST {
@@ -41,6 +43,12 @@ public class For extends AST {
             }
         }
         return this;
+    }
+
+    @Override
+    public String typeCheck(Context context) throws TypeError {
+        body.typeCheck(context);
+        return PrimitiveType.VOID.getTypeName();
     }
 
     @Override

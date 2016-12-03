@@ -1,5 +1,6 @@
 package slpl.ast;
 
+import slpl.err.TypeError;
 import slpl.util.Context;
 
 public class Identifier extends AST {
@@ -13,6 +14,11 @@ public class Identifier extends AST {
     @Override
     public AST evaluate(Context context) {
         return context.get(id).evaluate(context);
+    }
+
+    @Override
+    public String typeCheck(Context context) throws TypeError {
+        return context.get(id).typeCheck(context);
     }
 
     @Override

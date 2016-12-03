@@ -1,4 +1,4 @@
-package slpl.syntax;
+package slpl.err;
 
 import slpl.syntax.lexical.Token;
 import slpl.syntax.lexical.TokenType;

@@ -1,5 +1,7 @@
 package slpl.ast;
 
+import slpl.PrimitiveType;
+import slpl.err.TypeError;
 import slpl.util.Context;
 
 public class Print extends AST {
@@ -30,6 +32,12 @@ public class Print extends AST {
             System.out.println();
         }
         return this;
+    }
+
+    @Override
+    public String typeCheck(Context context) throws TypeError {
+        // FIXME
+        return PrimitiveType.VOID.getTypeName();
     }
 
     @Override

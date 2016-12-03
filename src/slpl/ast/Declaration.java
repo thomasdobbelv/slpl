@@ -1,5 +1,7 @@
 package slpl.ast;
 
+import slpl.PrimitiveType;
+import slpl.err.TypeError;
 import slpl.util.Context;
 
 public class Declaration extends AST {
@@ -24,6 +26,15 @@ public class Declaration extends AST {
     public AST evaluate(Context context) {
         context.add(new Variable(name, type, definition.evaluate(context)));
         return this;
+    }
+
+    @Override
+    public String typeCheck(Context context) throws TypeError {
+        if(type.equals(definition.typeCheck(context))) {
+            return PrimitiveType.VOID.getTypeName();
+        } else {
+            throw TypeError.expected(type, definition.typeCheck(context));
+        }
     }
 
     @Override
