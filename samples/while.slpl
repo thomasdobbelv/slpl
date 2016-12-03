@@ -1,9 +1,15 @@
 module While {
-    i:number = 0;
-    while(i < 10) {
+    fib1:number = 1;
+    fib2:number = 1;
+    tmp:number;
+    i:number = 1;
+    while(fib1 < 1803213) {
+        println "fib";
         println i;
-        i = i + 1;
+        println "is:";
+        println fib1;
+        tmp = fib1;
+        fib1 = fib2;
+        fib2 = tmp + fib1;
     }
-    println "after while, i =";
-    println i;
 }
