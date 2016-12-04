@@ -9,15 +9,23 @@ public class Context {
 
     private HashMap<String, Variable> map = new HashMap<>();
 
-    public void add(Variable variable) {
-        map.put(variable.getName(), variable);
+    public void add(Variable v) {
+        map.put(v.getName(), v);
     }
 
     public void set(String name, AST value) {
-        map.get(name).setReferencedValue(value);
+        Variable v = map.get(name);
+        if(v == null) {
+            throw new IllegalArgumentException(String.format("%s is not defined", name));
+        }
+        v.setReferencedValue(value);
     }
 
     public Variable get(String name) {
+        Variable v = map.get(name);
+        if(v == null) {
+            throw new IllegalArgumentException(String.format("%s is not defined", name));
+        }
         return map.get(name);
     }
 

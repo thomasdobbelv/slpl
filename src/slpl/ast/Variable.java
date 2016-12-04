@@ -1,6 +1,5 @@
 package slpl.ast;
 
-import slpl.err.TypeError;
 import slpl.util.Context;
 
 public class Variable extends AST {
@@ -18,15 +17,6 @@ public class Variable extends AST {
     @Override
     public AST evaluate(Context context) {
         return referencedValue.evaluate(context);
-    }
-
-    @Override
-    public String typeCheck(Context context) throws TypeError {
-        String refvalt = referencedValue.typeCheck(context);
-        if(!type.equals(refvalt)) {
-            throw TypeError.expected(type, refvalt);
-        }
-        return type;
     }
 
     @Override

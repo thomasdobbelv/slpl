@@ -1,7 +1,5 @@
 package slpl.ast;
 
-import slpl.PrimitiveType;
-import slpl.err.TypeError;
 import slpl.util.Context;
 
 public class If extends AST {
@@ -28,17 +26,6 @@ public class If extends AST {
             else_.evaluate(context);
         }
         return this;
-    }
-
-    @Override
-    public String typeCheck(Context context) throws TypeError {
-        if(condition.typeCheck(context).equals(PrimitiveType.BOOLEAN.getTypeName())) {
-            then.typeCheck(context);
-            if(else_ != null) {
-                else_.typeCheck(context);
-            }
-        }
-        return PrimitiveType.VOID.getTypeName();
     }
 
     @Override

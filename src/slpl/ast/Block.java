@@ -1,7 +1,5 @@
 package slpl.ast;
 
-import slpl.PrimitiveType;
-import slpl.err.TypeError;
 import slpl.util.Context;
 
 import java.util.List;
@@ -20,14 +18,6 @@ public class Block extends AST {
             blockStatement.evaluate(context);
         }
         return this;
-    }
-
-    @Override
-    public String typeCheck(Context context) throws TypeError {
-        for(AST blockStatement : blockStatements) {
-            blockStatement.typeCheck(context);
-        }
-        return PrimitiveType.VOID.getTypeName();
     }
 
     @Override

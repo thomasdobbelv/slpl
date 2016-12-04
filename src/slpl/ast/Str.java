@@ -1,6 +1,5 @@
 package slpl.ast;
 
-import slpl.err.TypeError;
 import slpl.util.Context;
 
 public class Str extends AST {
@@ -16,10 +15,6 @@ public class Str extends AST {
         return this;
     }
 
-    @Override
-    public String typeCheck(Context context) throws TypeError {
-        return "string"; // FIXME
-    }
 
     @Override
     public String toString() {

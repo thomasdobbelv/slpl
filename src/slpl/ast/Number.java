@@ -1,6 +1,5 @@
 package slpl.ast;
 
-import slpl.PrimitiveType;
 import slpl.util.Context;
 
 public class Number extends AST {
@@ -18,11 +17,6 @@ public class Number extends AST {
     @Override
     public AST evaluate(Context _) {
         return this;
-    }
-
-    @Override
-    public String typeCheck(Context context) {
-        return PrimitiveType.NUMBER.getTypeName();
     }
 
     @Override

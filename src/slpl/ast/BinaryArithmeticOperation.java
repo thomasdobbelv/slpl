@@ -1,7 +1,5 @@
 package slpl.ast;
 
-import slpl.PrimitiveType;
-import slpl.err.TypeError;
 import slpl.util.Context;
 import slpl.util.Operator;
 
@@ -30,16 +28,6 @@ public class BinaryArithmeticOperation extends AST {
                 return new Number((num1.getValue() / num2.getValue()) + "");
         }
         throw new UnsupportedOperationException(operator.toString());
-    }
-
-    @Override
-    public String typeCheck(Context context) throws TypeError {
-        String arg1t = arg1.typeCheck(context), arg2t = arg2.typeCheck(context);
-        String expected = PrimitiveType.NUMBER.getTypeName();
-        if(!(arg1t.equals(expected) && arg2t.equals(expected))) {
-            throw TypeError.expected(expected, arg1t);
-        }
-        return expected;
     }
 
     @Override

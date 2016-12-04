@@ -1,7 +1,5 @@
 package slpl.ast;
 
-import slpl.PrimitiveType;
-import slpl.err.TypeError;
 import slpl.util.Context;
 import slpl.util.Operator;
 
@@ -23,16 +21,6 @@ public class UnaryArithmeticOperation extends AST {
                 return new Number((-num.getValue()) + "");
         }
         throw new UnsupportedOperationException(operator.toString());
-    }
-
-    @Override
-    public String typeCheck(Context context) throws TypeError {
-        String type = arg.typeCheck(context);
-        String expected = PrimitiveType.NUMBER.getTypeName();
-        if(!type.equals(expected)) {
-            throw TypeError.expected(expected, type);
-        }
-        return expected;
     }
 
     @Override
