@@ -10,14 +10,15 @@ public class StatementParser {
 
     // TODO: refactor
     public static Statement parseStatement(TokenStream ts) throws ParseException {
-        Statement statement;
         if(ts.hasNext(TokenType.IF)) {
             return new Statement(IfParser.parseIf(ts));
         } else if(ts.hasNext(TokenType.WHILE)) {
             return new Statement(WhileParser.parseWhile(ts));
         } else if(ts.hasNext(TokenType.FOR)) {
             return new Statement(ForParser.parseFor(ts));
-        } else if(ts.hasNext(TokenType.PRINT, TokenType.PRINTLN)) {
+        }
+        Statement statement;
+        if(ts.hasNext(TokenType.PRINT, TokenType.PRINTLN)) {
             statement = new Statement(PrintParser.parsePrint(ts));
         } else if(ts.hasNext(TokenType.IDENTIFIER)) {
             int indexBeforeLookahead = ts.getCurrentIndex();
