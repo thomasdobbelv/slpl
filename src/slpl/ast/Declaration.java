@@ -23,6 +23,10 @@ public class Declaration extends AST {
         rvalue = new Null();
     }
 
+    public String getType() {
+        return type;
+    }
+
     @Override
     public AST evaluate(Context context) {
         context.add(new Variable(name, type, rvalue.evaluate(context)));

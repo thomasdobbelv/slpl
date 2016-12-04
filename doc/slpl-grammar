@@ -7,7 +7,14 @@
 <Statement>             ::= <If>
                         |   <While>
                         |   <For>
-                        |   (<Expression>|<Print>|<Declaration>|<Assignment>) ";"
+                        |   (<Expression>|<Print>|<Declaration>|<Assignment>|<Return Statement>) ";"
+
+<Return Statement>      ::= "return" <Rvalue>
+
+<Lambda Function>       ::= <Parameter List> ":" <Type> "->" <Block>
+
+<Parameter List>        ::= "(" (<Parameter> ",")* ")"
+<Parameter>             ::= <Declaration>
 
 <For>                   ::= "for" "(" <Declaration>? ";" <Expression>? ";" <Assignment>? ")" <Block>
 
@@ -15,7 +22,10 @@
 
 <Assignment>            :== <Prefix Operator> <Identifier>
                         |   <Identifier> <Postfix Operator>
-                        |   <Identifier> <Assignment Operator> <Expression>
+                        |   <Identifier> <Assignment Operator> <Rvalue>
+
+<Rvalue>                ::= <Lambda Function>
+                        |   <Expression>
 
 <Prefix Operator>       ::= "++"
                         |   "--"
@@ -27,19 +37,21 @@
                         |   "-="
                         |   "*="
                         |   "/="
+                        |   "="
 
-<Declaration>           ::= <Identifier> ":" <Type> ("=" <Expression>)?
+<Invocation>            ::= "(" (<Expression> ",")* ")"
+
+<Declaration>           ::= <Identifier> ":" <Type> ("=" <Rvalue>)?
 
 <Type>                  ::= <Identifier>
-
-<Primitive Type>        ::= number|boolean
+                        |   "(" (<Type> ",")* ")" -> <Type>
 
 <Print>                 ::= println|print (<String>|<Expression>)
 
 <If>                    ::= "if" "(" <Expression> ")" <Block> <Else>?
 <Else>                  ::= "else" (<If>|<Block>)
 
-<Expression>            ::= <Term> ((+|-|\|\|<Relational Operator>) <Expression>)?
+<Expression>            ::= <Term> ((+|-|\|\||<Relational Operator>) <Expression>)?
 <Term>                  ::= <Factor> ((*|/|&&) <Term>)?
 <Factor>                ::= [!-] <Factor>
                         |   "(" <Expression> ")"
@@ -49,7 +61,7 @@
                         |   <Boolean>
                         |   <String>
                         |   <Null>
-                        |   <Identifier>
+                        |   <Identifier> <Invocation>? <-- invocation NYI
 
 <Number>                ::= [0-9]+(\.[0-9]+)?
 <Boolean>               ::= true|false

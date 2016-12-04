@@ -23,7 +23,7 @@ public class AssignmentParser {
             } else {
                 ts.expect(TokenType.ADDEQ, TokenType.SUBEQ, TokenType.MULEQ, TokenType.DIVEQ, TokenType.ASSIGN);
                 Operator operator = Operator.fromToken(ts.consume());
-                return new AssignmentOperation(name, operator, ExpressionParser.parseExpression(ts));
+                return new AssignmentOperation(name, operator, RvalueParser.parseRvalue(ts));
             }
         }
     }

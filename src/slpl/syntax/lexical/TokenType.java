@@ -15,10 +15,11 @@ public enum TokenType {
     MODULE("module", KEYWORD),
     PRINTLN("println", KEYWORD), // TODO: find alternative way to print to std. out
     PRINT("print", KEYWORD), // TODO: find alternative way to print to std. out
-    YIELD("yield", KEYWORD),
+    RETURN("return", KEYWORD),
     NULL("null", KEYWORD, VALUE),
     STRING("\"[^\"\\\\]*(\\\\.[^\"\\\\]*)*\"", VALUE),
     IDENTIFIER("[A-Za-z][A-Za-z0-9]*", VALUE),
+    ARROW("->", SYMBOL),
     INCR("\\+\\+", UNARY_OPERATOR, ASSIGNMENT_OPERATOR),
     DECR("--", UNARY_OPERATOR, ASSIGNMENT_OPERATOR),
     ADDEQ("\\+=", BINARY_OPERATOR, ASSIGNMENT_OPERATOR),

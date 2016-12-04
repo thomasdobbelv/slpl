@@ -12,11 +12,10 @@ public class DeclarationParser {
         String name = ts.consume().getContent();
         ts.expect(TokenType.COLON);
         ts.consume();
-        ts.expect(TokenType.IDENTIFIER);
-        String type = ts.consume().getContent();
+        String type = TypeParser.parseType(ts);
         if(ts.hasNext(TokenType.ASSIGN)) {
             ts.consume();
-            return new Declaration(name, type, ExpressionParser.parseExpression(ts));
+            return new Declaration(name, type, RvalueParser.parseRvalue(ts));
         } else {
             return new Declaration(name, type);
         }

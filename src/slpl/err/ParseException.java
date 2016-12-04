@@ -39,6 +39,10 @@ public class ParseException extends Exception {
         return new ParseException(String.format("Unexpected EOF after token \"%s\" at %d:%d", t.getContent(), t.getRow(), t.getCol()));
     }
 
+    public static ParseException notAStatement(Token t) {
+        return new ParseException(String.format("Not a statement %d:%d", t.getRow(), t.getCol()));
+    }
+
     private static String toCSVString(Object[] objects) {
         StringBuilder sb = new StringBuilder();
         for(Object object : objects) {
@@ -46,4 +50,5 @@ public class ParseException extends Exception {
         }
         return sb.substring(0, sb.length() - 2);
     }
+
 }

@@ -1,5 +1,6 @@
 package slpl.syntax;
 
+import slpl.ast.Return;
 import slpl.err.ParseException;
 import slpl.syntax.lexical.TokenType;
 import slpl.ast.Statement;
@@ -18,7 +19,7 @@ public class StatementParser {
             return new Statement(ForParser.parseFor(ts));
         } else if(ts.hasNext(TokenType.PRINT, TokenType.PRINTLN)) {
             statement = new Statement(PrintParser.parsePrint(ts));
-        } else if(ts.hasNext(TokenType.IDENTIFIER, TokenType.INCR, TokenType.DECR)) {
+        } else if(ts.hasNext(TokenType.IDENTIFIER)) {
             int indexBeforeLookahead = ts.getCurrentIndex();
             ts.consume();
             if(ts.hasNext(TokenType.COLON)) {
@@ -28,8 +29,13 @@ public class StatementParser {
                 ts.setCurrentIndex(indexBeforeLookahead);
                 statement = new Statement(AssignmentParser.parseAssignment(ts));
             }
+        } else if(ts.hasNext(TokenType.INCR, TokenType.DECR)) {
+            statement = new Statement(AssignmentParser.parseAssignment(ts));
+        } else if(ts.hasNext(TokenType.RETURN)) {
+            ts.consume();
+            statement = new Statement(new Return(RvalueParser.parseRvalue(ts)));
         } else {
-            statement = new Statement(ExpressionParser.parseExpression(ts));
+            throw ParseException.notAStatement(ts.consume());
         }
         ts.expect(TokenType.SEMICOLON);
         ts.consume();
