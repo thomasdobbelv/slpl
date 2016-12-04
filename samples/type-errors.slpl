@@ -1,8 +1,6 @@
 module TypeErrors {
-    i:number = 13;
-    j:boolean = null;
-    println j;
-    j = 3 > 2;
-    println j;
-    j = 13 + 14 > 0;
+    hw: string = "hello, world";
+    println hw;
+    hw = "3";
+    println hw;
 }
