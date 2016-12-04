@@ -34,13 +34,13 @@ public class LambdaFunction extends AST {
 
     @Override
     public AST evaluate(Context context) {
-        return null;
+        return this;
     }
 
     @Override
     public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
         // FIXME: NYI
-        System.err.println("WARN: LambdaFunction typeCheck NYI");
+        System.err.println("WARN: LambdaFunction typeCheck not yet implemented");
         return type;
     }
 

@@ -12,7 +12,12 @@ public class TypeParser {
             sb.append(ts.consume().getContent());
             if(!ts.hasNext(TokenType.RPAR)) {
                 while(!ts.hasNext(TokenType.RPAR)) {
-                    sb.append(TypeParser.parseType(ts) + ",");
+                    sb.append(TypeParser.parseType(ts));
+                    if(ts.hasNext(TokenType.COMMA)) {
+                        sb.append(ts.consume().getContent());
+                    } else {
+                        ts.expect(TokenType.RPAR);
+                    }
                 }
                 sb.setLength(sb.length() - 1);
             }
@@ -22,9 +27,10 @@ public class TypeParser {
             sb.append(ts.consume().getContent());
             sb.append(TypeParser.parseType(ts));
             return sb.toString();
+        } else {
+            ts.expect(TokenType.IDENTIFIER);
+            return ts.consume().getContent();
         }
-        ts.expect(TokenType.IDENTIFIER);
-        return ts.consume().getContent();
     }
 
 }
