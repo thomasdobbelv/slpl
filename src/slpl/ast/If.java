@@ -1,6 +1,9 @@
 package slpl.ast;
 
+import slpl.PrimitiveType;
+import slpl.err.TypeCheckException;
 import slpl.util.Context;
+import slpl.util.TypeCheckerContext;
 
 public class If extends AST {
 
@@ -26,6 +29,19 @@ public class If extends AST {
             else_.evaluate(context);
         }
         return this;
+    }
+
+    @Override
+    public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
+        String conditionType = condition.typeCheck(typeCheckerContext);
+        if(!conditionType.equals(PrimitiveType.BOOLEAN.getTypeName())) {
+            throw new TypeCheckException("If-statement condition is not a boolean expression");
+        }
+        then.typeCheck(typeCheckerContext);
+        if(else_ != null) {
+            else_.typeCheck(typeCheckerContext);
+        }
+        return PrimitiveType.VOID.getTypeName();
     }
 
     @Override

@@ -1,6 +1,8 @@
 package slpl.ast;
 
+import slpl.PrimitiveType;
 import slpl.util.Context;
+import slpl.util.TypeCheckerContext;
 
 public class Boolean extends AST {
 
@@ -13,6 +15,11 @@ public class Boolean extends AST {
     @Override
     public AST evaluate(Context _) {
         return this;
+    }
+
+    @Override
+    public String typeCheck(TypeCheckerContext _) {
+        return PrimitiveType.BOOLEAN.getTypeName();
     }
 
     @Override

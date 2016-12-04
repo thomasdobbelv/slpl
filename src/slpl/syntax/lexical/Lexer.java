@@ -1,6 +1,6 @@
 package slpl.syntax.lexical;
 
-import slpl.syntax.ParseException;
+import slpl.err.ParseException;
 
 import java.util.ArrayList;
 import java.util.List;

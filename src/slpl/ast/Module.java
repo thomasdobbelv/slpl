@@ -1,6 +1,9 @@
 package slpl.ast;
 
+import slpl.PrimitiveType;
+import slpl.err.TypeCheckException;
 import slpl.util.Context;
+import slpl.util.TypeCheckerContext;
 
 public class Module extends AST {
 
@@ -17,6 +20,12 @@ public class Module extends AST {
         // TODO: consider what it means to evaluate a module. does it mean building a context (set of predef. functions, variables)?
         body.evaluate(context);
         return this;
+    }
+
+    @Override
+    public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
+        body.typeCheck(typeCheckerContext);
+        return PrimitiveType.VOID.getTypeName();
     }
 
     @Override

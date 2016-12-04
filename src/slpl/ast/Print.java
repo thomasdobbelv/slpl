@@ -1,6 +1,9 @@
 package slpl.ast;
 
+import slpl.PrimitiveType;
+import slpl.err.TypeCheckException;
 import slpl.util.Context;
+import slpl.util.TypeCheckerContext;
 
 public class Print extends AST {
 
@@ -30,6 +33,19 @@ public class Print extends AST {
             System.out.println();
         }
         return this;
+    }
+
+    @Override
+    public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
+        String argType = arg.typeCheck(typeCheckerContext);
+        for(PrimitiveType pt : PrimitiveType.values()) {
+            if(pt == PrimitiveType.VOID) {
+                continue;
+            } else if(argType.equals(pt.getTypeName())) {
+                return PrimitiveType.VOID.getTypeName();
+            }
+        }
+        throw new TypeCheckException(String.format("%s is not a printable type", argType));
     }
 
     @Override

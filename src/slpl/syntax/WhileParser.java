@@ -3,6 +3,7 @@ package slpl.syntax;
 import slpl.ast.AST;
 import slpl.ast.Block;
 import slpl.ast.While;
+import slpl.err.ParseException;
 import slpl.syntax.lexical.TokenType;
 import slpl.util.TokenStream;
 

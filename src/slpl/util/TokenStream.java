@@ -1,10 +1,8 @@
 package slpl.util;
 
-import groovy.transform.NotYetImplemented;
 import slpl.syntax.lexical.Token;
 import slpl.syntax.lexical.TokenType;
-import slpl.syntax.ParseException;
-import slpl.syntax.lexical.TokenTypeClass;
+import slpl.err.ParseException;
 
 import java.util.List;
 

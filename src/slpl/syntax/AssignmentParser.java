@@ -2,6 +2,7 @@ package slpl.syntax;
 
 import slpl.ast.AssignmentOperation;
 import slpl.ast.UnaryAssignmentOperation;
+import slpl.err.ParseException;
 import slpl.syntax.lexical.TokenType;
 import slpl.util.Operator;
 import slpl.util.TokenStream;

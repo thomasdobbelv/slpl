@@ -1,16 +1,18 @@
 package slpl;
 
 import slpl.ast.AST;
-import slpl.syntax.ParseException;
+import slpl.err.ParseException;
+import slpl.err.TypeCheckException;
 import slpl.syntax.ProgramParser;
 import slpl.util.Context;
+import slpl.util.TypeCheckerContext;
 
 import java.io.*;
 
 public class Interpreter {
 
-    public static void main(String[] args) throws IOException, ParseException {
-        String path = "samples/prog.slpl";
+    public static void main(String[] args) throws IOException, ParseException, TypeCheckException {
+        String path = "samples/type-errors.slpl";
         String program = load(path);
         run(program);
     }
@@ -25,11 +27,10 @@ public class Interpreter {
         return sb.toString();
     }
 
-    private static void run(String programText) throws ParseException {
+    private static void run(String programText) throws ParseException, TypeCheckException {
         AST program = ProgramParser.parseProgram(programText);
-        Context context = new Context();
-        program.evaluate(context);
-        System.out.println(context);
+        program.typeCheck(new TypeCheckerContext());
+        program.evaluate(new Context());
     }
 
 }

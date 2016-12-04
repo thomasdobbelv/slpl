@@ -4,6 +4,7 @@ import slpl.ast.AST;
 import slpl.ast.AssignmentOperation;
 import slpl.ast.Declaration;
 import slpl.ast.For;
+import slpl.err.ParseException;
 import slpl.syntax.lexical.TokenType;
 import slpl.util.TokenStream;
 
