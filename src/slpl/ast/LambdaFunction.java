@@ -26,7 +26,7 @@ public class LambdaFunction extends AST {
             for(Declaration parameter : parameters) {
                 sb.append(parameter.getType() + ",");
             }
-            sb.setLength(sb.length() - 2);
+            sb.setLength(sb.length() - 1);
         }
         sb.append(")->" + returnType);
         return sb.toString();
@@ -46,6 +46,6 @@ public class LambdaFunction extends AST {
 
     @Override
     public String toString() {
-        return null;
+        return String.format("(LambdaFunction %s %s)", type, body);
     }
 }

@@ -1,6 +1,7 @@
 package slpl.syntax;
 
 import slpl.ast.AST;
+import slpl.ast.LambdaFunction;
 import slpl.err.ParseException;
 import slpl.syntax.lexical.LambdaFunctionParser;
 import slpl.syntax.lexical.TokenType;

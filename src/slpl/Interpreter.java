@@ -12,7 +12,7 @@ import java.io.*;
 public class Interpreter {
 
     public static void main(String[] args) throws IOException, ParseException, TypeCheckException {
-        String path = "samples/type-errors.slpl";
+        String path = "samples/parse-this.slpl";
         String program = load(path);
         run(program);
     }
@@ -29,8 +29,9 @@ public class Interpreter {
 
     private static void run(String programText) throws ParseException, TypeCheckException {
         AST program = ProgramParser.parseProgram(programText);
-        program.typeCheck(new TypeCheckerContext());
-        program.evaluate(new Context());
+        System.out.println(program);
+//        program.typeCheck(new TypeCheckerContext());
+//        program.evaluate(new Context());
     }
 
 }

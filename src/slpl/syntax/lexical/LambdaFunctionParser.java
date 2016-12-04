@@ -1,6 +1,5 @@
 package slpl.syntax.lexical;
 
-import slpl.ast.AST;
 import slpl.ast.Block;
 import slpl.ast.Declaration;
 import slpl.ast.LambdaFunction;
@@ -15,7 +14,7 @@ import java.util.List;
 
 public class LambdaFunctionParser {
 
-    public static AST parseLambdaFunction(TokenStream ts) throws ParseException {
+    public static LambdaFunction parseLambdaFunction(TokenStream ts) throws ParseException {
         ts.expect(TokenType.LPAR);
         ts.consume();
         List<Declaration> parameters = new LinkedList<>();

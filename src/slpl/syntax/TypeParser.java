@@ -14,7 +14,7 @@ public class TypeParser {
                 while(!ts.hasNext(TokenType.RPAR)) {
                     sb.append(TypeParser.parseType(ts) + ",");
                 }
-                sb.setLength(sb.length() - 2);
+                sb.setLength(sb.length() - 1);
             }
             ts.expect(TokenType.RPAR);
             sb.append(ts.consume().getContent());

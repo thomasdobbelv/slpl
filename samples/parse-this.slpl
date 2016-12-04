@@ -1,0 +1,5 @@
+module ParseThis {
+    uselessFunction:(number) -> string = (someNumber:number): string -> {
+        println someNumber;
+    };
+}
