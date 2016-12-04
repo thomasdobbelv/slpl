@@ -1,5 +1,6 @@
 package slpl.syntax;
 
+import slpl.ast.Statement;
 import slpl.err.ParseException;
 import slpl.syntax.lexical.TokenType;
 import slpl.ast.AST;
@@ -14,7 +15,7 @@ public class BlockParser {
     public static Block parseBlock(TokenStream ts) throws ParseException {
         ts.expect(TokenType.LCRL);
         ts.consume();
-        List<AST> blockStatements = new LinkedList<>();
+        List<Statement> blockStatements = new LinkedList<>();
         while(!ts.hasNext(TokenType.RCRL)) {
             blockStatements.add(StatementParser.parseStatement(ts));
         }

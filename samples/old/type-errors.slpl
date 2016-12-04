@@ -1,0 +1,6 @@
+module TypeErrors {
+    i:number = 2;
+    someBool:boolean = 3 > 2;
+    k:number = i + j;
+    println "was here";
+}

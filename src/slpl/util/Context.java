@@ -18,7 +18,7 @@ public class Context {
         if(v == null) {
             throw new IllegalArgumentException(String.format("%s is not defined", name));
         }
-        v.setReferencedValue(value);
+        v.setValue(value);
     }
 
     public Variable get(String name) {

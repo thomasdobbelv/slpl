@@ -1,6 +1,9 @@
 package slpl.ast;
 
+import slpl.PrimitiveType;
+import slpl.err.TypeCheckException;
 import slpl.util.Context;
+import slpl.util.TypeCheckerContext;
 
 public class While extends AST {
 
@@ -18,6 +21,16 @@ public class While extends AST {
             body.evaluate(context);
         }
         return this;
+    }
+
+    @Override
+    public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
+        String conditionType = condition.typeCheck(typeCheckerContext);
+        if(!conditionType.equals(PrimitiveType.BOOLEAN.getTypeName())) {
+            throw new TypeCheckException("While-loop condition is not a boolean expression");
+        }
+        body.typeCheck(typeCheckerContext);
+        return PrimitiveType.VOID.getTypeName();
     }
 
     @Override

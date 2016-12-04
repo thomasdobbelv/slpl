@@ -76,6 +76,8 @@ public class ExpressionParser {
                 return new Number(t.getContent());
             case STRING:
                 return new Str(t.getContent());
+            case NULL:
+                return new Null();
         }
         throw new IllegalArgumentException(t + " is not a value");
     }
@@ -110,7 +112,7 @@ public class ExpressionParser {
             ts.expect(TokenType.RPAR);
             ts.consume();
         } else {
-            ts.expect(TokenType.NUMBER, TokenType.IDENTIFIER, TokenType.TRUE, TokenType.FALSE);
+            ts.expect(TokenType.NUMBER, TokenType.IDENTIFIER, TokenType.TRUE, TokenType.FALSE, TokenType.STRING, TokenType.NULL);
             ts.consume();
         }
     }

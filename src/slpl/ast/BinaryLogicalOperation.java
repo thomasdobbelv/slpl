@@ -1,7 +1,10 @@
 package slpl.ast;
 
+import slpl.PrimitiveType;
+import slpl.err.TypeCheckException;
 import slpl.util.Context;
 import slpl.util.Operator;
+import slpl.util.TypeCheckerContext;
 
 public class BinaryLogicalOperation extends AST {
 
@@ -24,6 +27,16 @@ public class BinaryLogicalOperation extends AST {
                 return new Boolean(b1.getValue() && b2.getValue());
         }
         throw new UnsupportedOperationException(operator.toString());
+    }
+
+    @Override
+    public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
+        String arg1Type = arg1.typeCheck(typeCheckerContext), arg2Type = arg2.typeCheck(typeCheckerContext);
+        String booleanType = PrimitiveType.BOOLEAN.getTypeName();
+        if(arg1Type.equals(booleanType) && arg2Type.equals(booleanType)) {
+            return booleanType;
+        }
+        throw TypeCheckException.undefinedOperation(operator, arg1Type, arg2Type);
     }
 
     @Override

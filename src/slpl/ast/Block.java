@@ -1,14 +1,17 @@
 package slpl.ast;
 
+import slpl.PrimitiveType;
+import slpl.err.TypeCheckException;
 import slpl.util.Context;
+import slpl.util.TypeCheckerContext;
 
 import java.util.List;
 
 public class Block extends AST {
 
-    private List<AST> blockStatements;
+    private List<Statement> blockStatements;
 
-    public Block(List<AST> blockStatements) {
+    public Block(List<Statement> blockStatements) {
         this.blockStatements = blockStatements;
     }
 
@@ -18,6 +21,14 @@ public class Block extends AST {
             blockStatement.evaluate(context);
         }
         return this;
+    }
+
+    @Override
+    public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
+        for(Statement blockStatement : blockStatements) {
+            blockStatement.typeCheck(typeCheckerContext);
+        }
+        return PrimitiveType.VOID.getTypeName();
     }
 
     @Override

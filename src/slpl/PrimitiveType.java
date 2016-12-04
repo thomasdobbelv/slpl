@@ -5,7 +5,8 @@ public enum PrimitiveType {
     NUMBER("number"),
     BOOLEAN("boolean"),
     VOID("void"),
-    NULL("null");
+    NULL("null"),
+    STRING("string");
 
     private final String name;
 
