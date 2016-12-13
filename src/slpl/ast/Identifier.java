@@ -27,6 +27,6 @@ public class Identifier extends AST {
 
     @Override
     public String toString() {
-        return String.format("(Identifier %s)", id);
+        return id;
     }
 }

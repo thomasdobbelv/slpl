@@ -46,6 +46,6 @@ public class LambdaFunction extends AST {
 
     @Override
     public String toString() {
-        return String.format("(LambdaFunction %s %s)", type, body);
+        return String.format("(LambdaFunction Type: %s, Body: %s)", type, body);
     }
 }

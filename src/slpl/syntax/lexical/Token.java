@@ -39,12 +39,12 @@ public class Token {
         return col;
     }
 
-    public boolean isOperator() {
-        return type.instanceOf(TokenTypeClass.UNARY_OPERATOR) || type.instanceOf(TokenTypeClass.BINARY_OPERATOR);
-    }
-
     public boolean isValue() {
         return type.instanceOf(TokenTypeClass.VALUE);
+    }
+
+    public boolean isOperator() {
+        return type.instanceOf(TokenTypeClass.UNARY_OPERATOR) || type.instanceOf(TokenTypeClass.BINARY_OPERATOR);
     }
 
 }

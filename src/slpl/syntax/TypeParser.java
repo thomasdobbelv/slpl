@@ -28,7 +28,7 @@ public class TypeParser {
             sb.append(TypeParser.parseType(ts));
             return sb.toString();
         } else {
-            ts.expect(TokenType.IDENTIFIER);
+            ts.expect(TokenType.ID);
             return ts.consume().getContent();
         }
     }

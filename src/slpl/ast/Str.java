@@ -26,7 +26,7 @@ public class Str extends AST {
 
     @Override
     public String toString() {
-        return String.format("(Str %s)", value);
+        return String.format("\"%s\")", value);
     }
 
     public String getValue() {

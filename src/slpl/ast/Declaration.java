@@ -48,6 +48,6 @@ public class Declaration extends AST {
 
     @Override
     public String toString() {
-        return String.format("(Declaration %s %s %s)", name, type, rvalue);
+        return String.format("(Declaration Name: %s, Type: %s, Value: %s)", name, type, rvalue);
     }
 }

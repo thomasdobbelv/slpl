@@ -18,6 +18,6 @@ public class Null extends AST {
 
     @Override
     public String toString() {
-        return String.format("(Null)");
+        return "null";
     }
 }

@@ -24,7 +24,7 @@ public class Boolean extends AST {
 
     @Override
     public String toString() {
-        return String.format("(Boolean %s)", value);
+        return value + "";
     }
 
     public boolean getValue() {

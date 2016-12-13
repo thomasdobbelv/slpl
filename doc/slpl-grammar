@@ -1,13 +1,13 @@
 <Program>               ::= <Module>
 
-<Module>                ::= "module" <Identifier> <Block>
+<Module>                ::= "module" <Id> <Block>
 
 <Block>                 ::= "{" <Statement>* "}"
 
 <Statement>             ::= <If>
                         |   <While>
                         |   <For>
-                        |   (<Expression>|<Print>|<Declaration>|<Assignment>|<Return Statement>) ";"
+                        |   (<Rvalue>|<Print>|<Declaration>|<Assignment>|<Return Statement>) ";"
 
 <Return Statement>      ::= "return" <Rvalue>
 
@@ -20,9 +20,9 @@
 
 <While>                 ::= "while" "(" <Expression> ")" <Block>
 
-<Assignment>            :== <Prefix Operator> <Identifier>
-                        |   <Identifier> <Postfix Operator>
-                        |   <Identifier> <Assignment Operator> <Rvalue>
+<Assignment>            :== <Prefix Operator> <Id>
+                        |   <Id> <Postfix Operator>
+                        |   <Id> <Assignment Operator> <Rvalue>
 
 <Rvalue>                ::= <Lambda Function>
                         |   <Expression>
@@ -41,9 +41,9 @@
 
 <Invocation>            ::= "(" (<Expression> ",")* ")"
 
-<Declaration>           ::= <Identifier> ":" <Type> ("=" <Rvalue>)?
+<Declaration>           ::= <Id> ":" <Type> ("=" <Rvalue>)?
 
-<Type>                  ::= <Identifier>
+<Type>                  ::= <Id>
                         |   "(" (<Type> ",")* ")" -> <Type>
 
 <Print>                 ::= println|print (<String>|<Expression>)
@@ -55,19 +55,21 @@
 <Term>                  ::= <Factor> ((*|/|&&) <Term>)?
 <Factor>                ::= [!-] <Factor>
                         |   "(" <Expression> ")"
+                        |   <Function Application>
                         |   <Value>
 
-<Value>                 ::= <Number>
+<Function Application>  ::= <Id> "(" (<Expression> ",")* ")"
+
+<Value>                 ::= <Num>
                         |   <Boolean>
                         |   <String>
                         |   <Null>
-                        |   <Identifier> <Invocation>? <-- invocation NYI
 
-<Number>                ::= [0-9]+(\.[0-9]+)?
+<Num>                ::= [0-9]+(\.[0-9]+)?
 <Boolean>               ::= true|false
 <String>                ::= ^"[^"\\]*(\\.[^"\\]*)*"$
 <Null>                  ::= "null"
-<Identifier>            ::= [A-Za-z][A-Za-z0-9]*
+<Id>                    ::= [A-Za-z][A-Za-z0-9]*
 
 <Relational Operator>   ::= "=="
                         |   "!="

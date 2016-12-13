@@ -11,5 +11,6 @@ module While {
         tmp = fib1;
         fib1 = fib2;
         fib2 = tmp + fib1;
+        ++i;
     }
 }

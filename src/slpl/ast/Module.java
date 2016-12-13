@@ -30,6 +30,6 @@ public class Module extends AST {
 
     @Override
     public String toString() {
-        return String.format("(Module %s %s)", name, body);
+        return String.format("(Module Name: %s, Body: %s)", name, body);
     }
 }

@@ -37,4 +37,13 @@ public class UnaryAssignmentOperation extends AssignmentOperation {
         throw TypeCheckException.undefinedOperation(operator, assigneeType);
     }
 
+    @Override
+    public String toString() {
+        if(isPrefixOperation) {
+            return String.format("(%s %s)", operator, assigneeName);
+        } else {
+            return String.format("(%s %s)", assigneeName, operator);
+        }
+    }
+
 }

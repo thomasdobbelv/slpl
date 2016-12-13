@@ -28,6 +28,6 @@ public class Number extends AST {
 
     @Override
     public String toString() {
-        return String.format("(Number %f)", value);
+        return value - (int) value == 0 ? ((int) value) + "" : value + "";
     }
 }

@@ -38,6 +38,6 @@ public class UnaryLogicalOperation extends AST {
 
     @Override
     public String toString() {
-        return String.format("(UnaryLogicalOperation %s %s)", operator, arg);
+        return String.format("(%s %s)", operator, arg);
     }
 }

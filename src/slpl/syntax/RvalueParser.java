@@ -1,7 +1,6 @@
 package slpl.syntax;
 
 import slpl.ast.AST;
-import slpl.ast.LambdaFunction;
 import slpl.err.ParseException;
 import slpl.syntax.lexical.LambdaFunctionParser;
 import slpl.syntax.lexical.TokenType;
@@ -13,7 +12,7 @@ public class RvalueParser {
         int indexBeforeLookahead = ts.getCurrentIndex();
         if (ts.hasNext(TokenType.LPAR)) {
             ts.consume();
-            if (ts.hasNext(TokenType.IDENTIFIER)) {
+            if (ts.hasNext(TokenType.ID)) {
                 ts.consume();
                 if (ts.hasNext(TokenType.COLON)) {
                     ts.setCurrentIndex(indexBeforeLookahead);

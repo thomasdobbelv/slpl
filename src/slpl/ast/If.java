@@ -46,6 +46,6 @@ public class If extends AST {
 
     @Override
     public String toString() {
-        return String.format("(If %s Then %s Else %s)", condition, then, else_);
+        return String.format("(If Condition: %s, Then: %s, Else: %s)", condition, then, else_);
     }
 }

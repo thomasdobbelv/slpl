@@ -35,6 +35,6 @@ public class While extends AST {
 
     @Override
     public String toString() {
-        return String.format("(While %s %s)", condition, body);
+        return String.format("(While Condition: %s, Body: %s)", condition, body);
     }
 }

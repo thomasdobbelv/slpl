@@ -55,6 +55,6 @@ public class For extends AST {
 
     @Override
     public String toString() {
-        return String.format("(For %s; %s; %s %s)", init, condition, update, body);
+        return String.format("(For Initializer: %s, Condition: %s, Update: %s, Body: %s)", init, condition, update, body);
     }
 }

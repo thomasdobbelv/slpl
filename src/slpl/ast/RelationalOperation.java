@@ -49,6 +49,6 @@ public class RelationalOperation extends AST {
 
     @Override
     public String toString() {
-        return String.format("(RelationalOperation %s %s %s)", operator, arg1, arg2);
+        return String.format("(%s %s, %s)", operator, arg1, arg2);
     }
 }

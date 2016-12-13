@@ -38,7 +38,7 @@ public class UnaryArithmeticOperation extends AST {
 
     @Override
     public String toString() {
-        return String.format("(UnaryArithmeticOperation %s %s)", operator, arg);
+        return String.format("(%s %s)", operator, arg);
     }
 
 }

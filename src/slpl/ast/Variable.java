@@ -33,7 +33,7 @@ public class Variable extends AST {
 
     @Override
     public String toString() {
-        return String.format("(Variable %s %s %s)", name, type, rvalue);
+        return String.format("(Variable Name: %s, Type: %s, Value: %s)", name, type, rvalue);
     }
 
     public AST getValue() {

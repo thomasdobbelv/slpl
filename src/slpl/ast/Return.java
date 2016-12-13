@@ -24,6 +24,6 @@ public class Return extends AST {
 
     @Override
     public String toString() {
-        return null;
+        return String.format("(Return Value: %s)", rvalue);
     }
 }

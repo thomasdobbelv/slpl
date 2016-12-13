@@ -41,6 +41,6 @@ public class BinaryLogicalOperation extends AST {
 
     @Override
     public String toString() {
-        return String.format("(BinaryLogicalOperation %s %s %s)", operator, arg1, arg2);
+        return String.format("(%s %s, %s)", operator, arg1, arg2);
     }
 }

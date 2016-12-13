@@ -4,17 +4,16 @@ import slpl.ast.AST;
 import slpl.err.ParseException;
 import slpl.err.TypeCheckException;
 import slpl.syntax.ProgramParser;
-import slpl.util.Context;
-import slpl.util.TypeCheckerContext;
 
 import java.io.*;
 
 public class Interpreter {
 
     public static void main(String[] args) throws IOException, ParseException, TypeCheckException {
-        String path = "samples/parse-this.slpl";
-        String program = load(path);
-        run(program);
+        String path = "samples/parse-function-applications.slpl";
+        String programText = load(path);
+        AST program = ProgramParser.parseProgram(programText);
+        System.out.println(program);
     }
 
     private static String load(String path) throws IOException {
@@ -25,13 +24,6 @@ public class Interpreter {
             sb.append(line + "\n");
         }
         return sb.toString();
-    }
-
-    private static void run(String programText) throws ParseException, TypeCheckException {
-        AST program = ProgramParser.parseProgram(programText);
-        System.out.println(program);
-//        program.typeCheck(new TypeCheckerContext());
-//        program.evaluate(new Context());
     }
 
 }

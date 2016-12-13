@@ -45,6 +45,6 @@ public class BinaryArithmeticOperation extends AST {
 
     @Override
     public String toString() {
-        return String.format("(BinaryArithmeticOperation %s %s %s)", operator, arg1, arg2);
+        return String.format("(%s %s, %s)", operator, arg1, arg2);
     }
 }

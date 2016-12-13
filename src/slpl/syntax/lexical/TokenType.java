@@ -5,7 +5,7 @@ import static slpl.syntax.lexical.TokenTypeClass.*;
 
 public enum TokenType {
 
-    NUMBER("[0-9]+(\\.[0-9]+)?", VALUE),
+    NUM("[0-9]+(\\.[0-9]+)?", VALUE),
     FOR("for", KEYWORD),
     WHILE("while", KEYWORD),
     TRUE("true", KEYWORD, VALUE),
@@ -18,7 +18,8 @@ public enum TokenType {
     RETURN("return", KEYWORD),
     NULL("null", KEYWORD, VALUE),
     STRING("\"[^\"\\\\]*(\\\\.[^\"\\\\]*)*\"", VALUE),
-    IDENTIFIER("[A-Za-z][A-Za-z0-9]*", VALUE),
+    ID("[A-Za-z][A-Za-z0-9]*", VALUE),
+    FID(ID.pattern),
     ARROW("->", SYMBOL),
     INCR("\\+\\+", UNARY_OPERATOR, ASSIGNMENT_OPERATOR),
     DECR("--", UNARY_OPERATOR, ASSIGNMENT_OPERATOR),

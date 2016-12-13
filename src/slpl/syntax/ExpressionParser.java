@@ -10,12 +10,11 @@ import slpl.ast.Boolean;
 import slpl.ast.Number;
 import slpl.util.TokenStream;
 
-import java.util.EmptyStackException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class ExpressionParser {
+
+    private static final Queue<Integer> arityQueue = new LinkedList<>();
 
     public static AST parseExpression(TokenStream ts) throws ParseException {
         int start = ts.getCurrentIndex();
@@ -24,14 +23,14 @@ public class ExpressionParser {
         ts.setCurrentIndex(start);
         Stack<AST> s = new Stack<>();
         for (Token t : transformInfixToPostfix(ts, end)) {
-            if (t.isOperator()) {
-                int arity = Operator.fromToken(t).getArity();
-                AST[] operands = new AST[arity];
+            if (t.isOperator() || t.getType() == TokenType.FID) {
+                int arity = t.isOperator() ? Operator.fromToken(t).getArity() : arityQueue.poll();
+                AST[] arguments = new AST[arity];
                 for (int i = arity - 1; i >= 0; --i) {
-                    operands[i] = s.pop();
+                    arguments[i] = s.pop();
                 }
-                s.push(toOperationNode(t, operands));
-            } else {
+                s.push(toOperationNode(t, arguments));
+            } else if (t.isValue()){
                 s.push(toValueNode(t));
             }
         }
@@ -39,26 +38,27 @@ public class ExpressionParser {
         return s.pop();
     }
 
-    public static AST toOperationNode(Token t, AST[] operands) {
+    public static AST toOperationNode(Token t, AST[] arguments) {
         TokenType tt = t.getType();
-        Operator operator = Operator.fromToken(t);
         if (tt.instanceOf(TokenTypeClass.UNARY_OPERATOR)) {
             if (tt.instanceOf(TokenTypeClass.ARITHMETIC_OPERATOR)) {
-                return new UnaryArithmeticOperation(operator, operands[0]);
+                return new UnaryArithmeticOperation(Operator.fromToken(t), arguments[0]);
             } else if (tt.instanceOf(TokenTypeClass.LOGICAL_OPERATOR)) {
-                return new UnaryLogicalOperation(operator, operands[0]);
+                return new UnaryLogicalOperation(Operator.fromToken(t), arguments[0]);
             }
         } else if (tt.instanceOf(TokenTypeClass.BINARY_OPERATOR)) {
             if (tt.instanceOf(TokenTypeClass.ARITHMETIC_OPERATOR)) {
-                return new BinaryArithmeticOperation(operator, operands[0], operands[1]);
+                return new BinaryArithmeticOperation(Operator.fromToken(t), arguments[0], arguments[1]);
             } else if (tt.instanceOf(TokenTypeClass.LOGICAL_OPERATOR)) {
-                return new BinaryLogicalOperation(operator, operands[0], operands[1]);
+                return new BinaryLogicalOperation(Operator.fromToken(t), arguments[0], arguments[1]);
             } else if (tt.instanceOf(TokenTypeClass.RELATIONAL_OPERATOR)) {
-                return new RelationalOperation(operator, operands[0], operands[1]);
+                return new RelationalOperation(Operator.fromToken(t), arguments[0], arguments[1]);
             }
+        } else if(tt == TokenType.FID) {
+            return new FunctionApplication(t.getContent(), arguments);
         }
         StringBuilder sb = new StringBuilder();
-        for (AST a : operands) {
+        for (AST a : arguments) {
             sb.append(a + " ");
         }
         throw new IllegalArgumentException(String.format("The operation %s is not defined for %s", t, sb.toString()));
@@ -70,9 +70,9 @@ public class ExpressionParser {
                 return new Boolean(true);
             case FALSE:
                 return new Boolean(false);
-            case IDENTIFIER:
+            case ID:
                 return new Identifier(t.getContent());
-            case NUMBER:
+            case NUM:
                 return new Number(t.getContent());
             case STRING:
                 return new Str(t.getContent());
@@ -112,9 +112,37 @@ public class ExpressionParser {
             ts.expect(TokenType.RPAR);
             ts.consume();
         } else {
-            ts.expect(TokenType.NUMBER, TokenType.IDENTIFIER, TokenType.TRUE, TokenType.FALSE, TokenType.STRING, TokenType.NULL);
+            ts.expect(TokenType.NUM, TokenType.ID, TokenType.TRUE, TokenType.FALSE, TokenType.STRING, TokenType.NULL);
+            int indexBeforeLookahead = ts.getCurrentIndex();
             ts.consume();
+            if(ts.hasNext(TokenType.LPAR)) {
+                ts.setCurrentIndex(indexBeforeLookahead);
+                recognizeFunctionApplication(ts);
+            }
+
         }
+    }
+
+    private static void recognizeFunctionApplication(TokenStream ts) throws ParseException {
+        ts.expect(TokenType.ID, TokenType.FID);
+        if(ts.hasNext(TokenType.ID)) {
+            Token t = ts.inspect();
+            ts.replaceCurrentToken(new Token(TokenType.FID, t.getContent(), t.getRow(), t.getCol()));
+        }
+        ts.consume();
+        ts.expect(TokenType.LPAR);
+        ts.consume();
+        int arity = 0;
+        while(!ts.hasNext(TokenType.RPAR)) {
+            recognizeExpression(ts);
+            ++arity;
+            if(!ts.hasNext(TokenType.RPAR)) {
+                ts.expect(TokenType.COMMA);
+                ts.consume();
+            }
+        }
+        ts.consume();
+        arityQueue.add(arity);
     }
 
     /**
@@ -130,14 +158,27 @@ public class ExpressionParser {
             } else if (t.isOperator()) {
                 enqueuePrecedentOperators(outputQueue, operatorStack, Operator.fromToken(t));
                 operatorStack.push(t);
+            } else if(t.getType() == TokenType.FID) {
+                operatorStack.push(t);
             } else if (t.getType() == TokenType.LPAR) {
                 operatorStack.push(t);
+            } else if(t.getType() == TokenType.COMMA) {
+                try {
+                    while(operatorStack.peek().getType() != TokenType.LPAR) {
+                        outputQueue.add(operatorStack.pop());
+                    }
+                } catch (EmptyStackException e) {
+                    throw ParseException.bracketMismatch(t); // TODO: throw more informative error
+                }
             } else if (t.getType() == TokenType.RPAR) {
                 try {
-                    while (!operatorStack.peek().getContent().equals("(")) {
+                    while (operatorStack.peek().getType() != TokenType.LPAR) {
                         outputQueue.add(operatorStack.pop());
                     }
                     operatorStack.pop();
+                    if(operatorStack.peek().getType() == TokenType.FID) {
+                        outputQueue.add(operatorStack.pop());
+                    }
                 } catch (EmptyStackException e) {
                     throw ParseException.bracketMismatch(t);
                 }

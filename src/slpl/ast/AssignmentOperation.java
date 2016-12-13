@@ -68,6 +68,6 @@ public class AssignmentOperation extends AST {
 
     @Override
     public String toString() {
-        return String.format("(AssignmentOperation %s %s)", rvalue, assigneeName);
+        return String.format("(%s Value: %s, Assignee: %s)", operator, rvalue, assigneeName);
     }
 }

@@ -50,6 +50,6 @@ public class Print extends AST {
 
     @Override
     public String toString() {
-        return String.format("(Print %s)", arg);
+        return String.format("(Print%s %s)", nl ? "ln" : "", arg);
     }
 }

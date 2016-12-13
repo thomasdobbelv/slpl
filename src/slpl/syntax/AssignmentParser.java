@@ -12,10 +12,10 @@ public class AssignmentParser {
     public static AssignmentOperation parseAssignment(TokenStream ts) throws ParseException {
         if(ts.hasNext(TokenType.INCR, TokenType.DECR)) {
             Operator operator = Operator.fromToken(ts.consume());
-            ts.expect(TokenType.IDENTIFIER);
+            ts.expect(TokenType.ID);
             return new UnaryAssignmentOperation(ts.consume().getContent(), operator, true);
         } else {
-            ts.expect(TokenType.IDENTIFIER);
+            ts.expect(TokenType.ID);
             String name = ts.consume().getContent();
             if(ts.hasNext(TokenType.INCR, TokenType.DECR)) {
                 Operator operator = Operator.fromToken(ts.consume());

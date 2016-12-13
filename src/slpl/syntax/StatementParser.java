@@ -4,6 +4,7 @@ import slpl.ast.Return;
 import slpl.err.ParseException;
 import slpl.syntax.lexical.TokenType;
 import slpl.ast.Statement;
+import slpl.syntax.lexical.TokenTypeClass;
 import slpl.util.TokenStream;
 
 public class StatementParser {
@@ -20,15 +21,18 @@ public class StatementParser {
         Statement statement;
         if(ts.hasNext(TokenType.PRINT, TokenType.PRINTLN)) {
             statement = new Statement(PrintParser.parsePrint(ts));
-        } else if(ts.hasNext(TokenType.IDENTIFIER)) {
+        } else if(ts.hasNext(TokenType.ID)) {
             int indexBeforeLookahead = ts.getCurrentIndex();
             ts.consume();
             if(ts.hasNext(TokenType.COLON)) {
                 ts.setCurrentIndex(indexBeforeLookahead);
                 statement = new Statement(DeclarationParser.parseDeclaration(ts));
-            } else {
+            } else if (ts.inspect().getType().instanceOf(TokenTypeClass.ASSIGNMENT_OPERATOR)){
                 ts.setCurrentIndex(indexBeforeLookahead);
                 statement = new Statement(AssignmentParser.parseAssignment(ts));
+            } else {
+                ts.setCurrentIndex(indexBeforeLookahead);
+                statement = new Statement(RvalueParser.parseRvalue(ts));
             }
         } else if(ts.hasNext(TokenType.INCR, TokenType.DECR)) {
             statement = new Statement(AssignmentParser.parseAssignment(ts));
@@ -36,7 +40,7 @@ public class StatementParser {
             ts.consume();
             statement = new Statement(new Return(RvalueParser.parseRvalue(ts)));
         } else {
-            throw ParseException.notAStatement(ts.consume());
+            statement = new Statement(RvalueParser.parseRvalue(ts));
         }
         ts.expect(TokenType.SEMICOLON);
         ts.consume();
