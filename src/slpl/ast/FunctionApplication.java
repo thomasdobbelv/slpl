@@ -7,11 +7,15 @@ import slpl.util.TypeCheckerContext;
 public class FunctionApplication extends AST {
 
     private String name;
-    private AST[] arguments;
+    private AST[] args;
 
-    public FunctionApplication(String name, AST[] arguments) {
+    public FunctionApplication(String name, AST[] args) {
         this.name = name;
-        this.arguments = arguments;
+        this.args = args;
+    }
+
+    public AST[] args() {
+        return args;
     }
 
     @Override
@@ -27,8 +31,8 @@ public class FunctionApplication extends AST {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < arguments.length; ++i) {
-            sb.append(arguments[i] + ", ");
+        for(int i = 0; i < args.length; ++i) {
+            sb.append(args[i] + ", ");
         }
         if(sb.length() > 0) {
             sb.setLength(sb.length() - 2);

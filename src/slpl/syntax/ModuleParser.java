@@ -8,10 +8,10 @@ import slpl.util.TokenStream;
 public class ModuleParser {
 
     public static Module parseModule(TokenStream ts) throws ParseException {
-        ts.expect(TokenType.MODULE);
+        ts.expectOneOf(TokenType.MODULE);
         ts.consume();
-        ts.expect(TokenType.ID);
-        String name = ts.consume().getContent();
+        ts.expectOneOf(TokenType.ID);
+        String name = ts.consume().content();
         return new Module(name, BlockParser.parseBlock(ts));
     }
 

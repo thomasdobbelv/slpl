@@ -27,7 +27,7 @@ public class TokenStream {
         tokens.set(index, t);
     }
 
-    public void expect(TokenType ... tokenTypes) throws ParseException {
+    public void expectOneOf(TokenType ... tokenTypes) throws ParseException {
         if (index >= tokens.size()) {
             throw ParseException.expected(tokens.get(tokens.size() - 1), tokenTypes);
         } else if (!nextTokenTypeIn(tokenTypes)) {
@@ -39,7 +39,7 @@ public class TokenStream {
         }
     }
 
-    public void expect(String ... tokens) throws ParseException {
+    public void expectOneOf(String ... tokens) throws ParseException {
         if (index >= this.tokens.size()) {
             throw ParseException.expected(this.tokens.get(this.tokens.size() - 1), tokens);
         } else if (!nextTokenIn(tokens)) {
@@ -52,7 +52,7 @@ public class TokenStream {
     }
 
     private boolean nextTokenTypeIn(TokenType[] tokenTypes) {
-        TokenType nextTokenType = tokens.get(index).getType();
+        TokenType nextTokenType = tokens.get(index).type();
         for(TokenType tt : tokenTypes) {
             if(nextTokenType == tt) {
                 return true;
@@ -62,7 +62,7 @@ public class TokenStream {
     }
 
     private boolean nextTokenIn(String[] tokens) {
-        String nextToken = this.tokens.get(index).getContent();
+        String nextToken = this.tokens.get(index).content();
         for(String token : tokens) {
             if(nextToken.equals(token)) {
                 return true;

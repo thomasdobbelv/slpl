@@ -9,27 +9,27 @@ public class TypeParser {
     public static String parseType(TokenStream ts) throws ParseException {
         if(ts.hasNext(TokenType.LPAR)) {
             StringBuilder sb = new StringBuilder();
-            sb.append(ts.consume().getContent());
+            sb.append(ts.consume().content());
             if(!ts.hasNext(TokenType.RPAR)) {
                 while(!ts.hasNext(TokenType.RPAR)) {
                     sb.append(TypeParser.parseType(ts));
                     if(ts.hasNext(TokenType.COMMA)) {
-                        sb.append(ts.consume().getContent());
+                        sb.append(ts.consume().content());
                     } else {
-                        ts.expect(TokenType.RPAR);
+                        ts.expectOneOf(TokenType.RPAR);
                     }
                 }
                 sb.setLength(sb.length() - 1);
             }
-            ts.expect(TokenType.RPAR);
-            sb.append(ts.consume().getContent());
-            ts.expect(TokenType.ARROW);
-            sb.append(ts.consume().getContent());
+            ts.expectOneOf(TokenType.RPAR);
+            sb.append(ts.consume().content());
+            ts.expectOneOf(TokenType.ARROW);
+            sb.append(ts.consume().content());
             sb.append(TypeParser.parseType(ts));
             return sb.toString();
         } else {
-            ts.expect(TokenType.ID);
-            return ts.consume().getContent();
+            ts.expectOneOf(TokenType.ID);
+            return ts.consume().content();
         }
     }
 

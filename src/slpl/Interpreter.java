@@ -10,7 +10,7 @@ import java.io.*;
 public class Interpreter {
 
     public static void main(String[] args) throws IOException, ParseException, TypeCheckException {
-        String path = "samples/parse-function-applications.slpl";
+        String path = "samples/apply.slpl";
         String programText = load(path);
         AST program = ProgramParser.parseProgram(programText);
         System.out.println(program);

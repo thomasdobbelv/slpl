@@ -1,8 +1,0 @@
-module ParseThis {
-    hw:() -> void = (): void -> {
-        println "Hello, world!";
-    };
-    f:(number, boolean) -> (boolean, string) -> void = (a:number, b:boolean):(boolean, string) -> void  -> {
-        println "Hmm...";
-    };
-}

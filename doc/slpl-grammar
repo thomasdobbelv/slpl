@@ -7,7 +7,7 @@
 <Statement>             ::= <If>
                         |   <While>
                         |   <For>
-                        |   (<Rvalue>|<Print>|<Declaration>|<Assignment>|<Return Statement>) ";"
+                        |   (<Function Application>|<Print>|<Declaration>|<Assignment>|<Return Statement>) ";"
 
 <Return Statement>      ::= "return" <Rvalue>
 

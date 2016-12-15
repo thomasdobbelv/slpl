@@ -1,8 +1,0 @@
-module Assignment2 {
-    i:number = 14;
-    print "i=";
-    println i;
-    i++;
-    print "i=";
-    println i;
-}

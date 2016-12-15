@@ -23,28 +23,20 @@ public class Token {
         return String.format("(%s %s %d:%d)%s", type.name(), content, row, col, nl);
     }
 
-    public TokenType getType() {
+    public TokenType type() {
         return this.type;
     }
 
-    public String getContent() {
+    public String content() {
         return this.content;
     }
 
-    public int getRow() {
+    public int row() {
         return row;
     }
 
-    public int getCol() {
+    public int col() {
         return col;
-    }
-
-    public boolean isValue() {
-        return type.instanceOf(TokenTypeClass.VALUE);
-    }
-
-    public boolean isOperator() {
-        return type.instanceOf(TokenTypeClass.UNARY_OPERATOR) || type.instanceOf(TokenTypeClass.BINARY_OPERATOR);
     }
 
 }

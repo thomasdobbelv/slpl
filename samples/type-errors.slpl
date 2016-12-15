@@ -1,6 +1,0 @@
-module TypeErrors {
-    hw: string = "hello, world";
-    println hw;
-    hw = "3";
-    println hw;
-}

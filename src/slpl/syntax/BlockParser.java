@@ -3,7 +3,6 @@ package slpl.syntax;
 import slpl.ast.Statement;
 import slpl.err.ParseException;
 import slpl.syntax.lexical.TokenType;
-import slpl.ast.AST;
 import slpl.ast.Block;
 import slpl.util.TokenStream;
 
@@ -13,7 +12,7 @@ import java.util.List;
 public class BlockParser {
 
     public static Block parseBlock(TokenStream ts) throws ParseException {
-        ts.expect(TokenType.LCRL);
+        ts.expectOneOf(TokenType.LCRL);
         ts.consume();
         List<Statement> blockStatements = new LinkedList<>();
         while(!ts.hasNext(TokenType.RCRL)) {

@@ -2,6 +2,7 @@ package slpl.syntax;
 
 import slpl.ast.Return;
 import slpl.err.ParseException;
+import slpl.syntax.lexical.Token;
 import slpl.syntax.lexical.TokenType;
 import slpl.ast.Statement;
 import slpl.syntax.lexical.TokenTypeClass;
@@ -23,16 +24,19 @@ public class StatementParser {
             statement = new Statement(PrintParser.parsePrint(ts));
         } else if(ts.hasNext(TokenType.ID)) {
             int indexBeforeLookahead = ts.getCurrentIndex();
-            ts.consume();
+            Token t = ts.consume();
             if(ts.hasNext(TokenType.COLON)) {
                 ts.setCurrentIndex(indexBeforeLookahead);
                 statement = new Statement(DeclarationParser.parseDeclaration(ts));
-            } else if (ts.inspect().getType().instanceOf(TokenTypeClass.ASSIGNMENT_OPERATOR)){
+            } else if (ts.inspect().type().instanceOf(TokenTypeClass.ASSIGNMENT_OPERATOR)){
                 ts.setCurrentIndex(indexBeforeLookahead);
                 statement = new Statement(AssignmentParser.parseAssignment(ts));
-            } else {
+            } else if (ts.hasNext(TokenType.LPAR)) {
                 ts.setCurrentIndex(indexBeforeLookahead);
-                statement = new Statement(RvalueParser.parseRvalue(ts));
+                ts.replaceCurrentToken(new Token(TokenType.FID, t.content(), t.row(), t.col()));
+                statement = new Statement(FunctionApplicationParser.parseFunctionApplication(ts));
+            } else {
+                throw ParseException.unexpected(ts.consume());
             }
         } else if(ts.hasNext(TokenType.INCR, TokenType.DECR)) {
             statement = new Statement(AssignmentParser.parseAssignment(ts));
@@ -40,9 +44,9 @@ public class StatementParser {
             ts.consume();
             statement = new Statement(new Return(RvalueParser.parseRvalue(ts)));
         } else {
-            statement = new Statement(RvalueParser.parseRvalue(ts));
+            throw ParseException.notAStatement(ts.consume());
         }
-        ts.expect(TokenType.SEMICOLON);
+        ts.expectOneOf(TokenType.SEMICOLON);
         ts.consume();
         return statement;
     }

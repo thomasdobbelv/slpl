@@ -13,7 +13,7 @@ public class Lexer {
     public static List<Token> lex(String programText, boolean skipLayout) {
         StringBuilder captureGroups = new StringBuilder();
         for (TokenType tokenType : TokenType.values()) {
-            captureGroups.append(String.format("|(?<%s>%s)", tokenType.name(), tokenType.getPattern()));
+            captureGroups.append(String.format("|(?<%s>%s)", tokenType.name(), tokenType.pattern()));
         }
         Pattern pattern = Pattern.compile(captureGroups.substring(1));
         Matcher matcher = pattern.matcher(programText);

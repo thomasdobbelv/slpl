@@ -45,15 +45,15 @@ public enum Operator {
      * @return The {@link Operator} associated with the {@link Token} t, or null if no such Operator exists.
      */
     public static Operator fromToken(Token t) {
-        String operatorSymbol = t.getContent();
-        int arity = -1;
-        TokenType tt = t.getType();
-        if(tt.instanceOf(TokenTypeClass.UNARY_OPERATOR)) {
+        String operatorSymbol = t.content();
+        int arity = 0;
+        TokenType tokenType = t.type();
+        if(tokenType.instanceOf(TokenTypeClass.UNARY_OPERATOR)) {
             arity = 1;
-        } else if(tt.instanceOf(TokenTypeClass.BINARY_OPERATOR)) {
+        } else if(tokenType.instanceOf(TokenTypeClass.BINARY_OPERATOR)) {
             arity = 2;
         }
-        if(arity >= 0) {
+        if(arity > 0) {
             for (Operator o : values()) {
                 if (o.operatorSymbol.equals(operatorSymbol) && o.arity == arity) {
                     return o;
@@ -63,15 +63,15 @@ public enum Operator {
         return null;
     }
 
-    public int getArity() {
+    public int arity() {
         return this.arity;
     }
 
-    public int getPrecedence() {
+    public int precedence() {
         return this.precedence;
     }
 
-    public Fixity getFixity() {
+    public Fixity fixity() {
         return fixity;
     }
 

@@ -8,9 +8,9 @@ import slpl.util.TokenStream;
 public class DeclarationParser {
 
     public static Declaration parseDeclaration(TokenStream ts) throws ParseException {
-        ts.expect(TokenType.ID);
-        String name = ts.consume().getContent();
-        ts.expect(TokenType.COLON);
+        ts.expectOneOf(TokenType.ID);
+        String name = ts.consume().content();
+        ts.expectOneOf(TokenType.COLON);
         ts.consume();
         String type = TypeParser.parseType(ts);
         if(ts.hasNext(TokenType.ASSIGN)) {

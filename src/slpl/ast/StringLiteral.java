@@ -5,11 +5,11 @@ import slpl.err.TypeCheckException;
 import slpl.util.Context;
 import slpl.util.TypeCheckerContext;
 
-public class Str extends AST {
+public class StringLiteral extends AST {
 
     private final String value;
 
-    public Str(String value) {
+    public StringLiteral(String value) {
         this.value = value.substring(1, value.length() - 1);
     }
 

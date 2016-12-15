@@ -18,8 +18,8 @@ public class Print extends AST {
     @Override
     public AST evaluate(Context context) {
         AST out = arg.evaluate(context);
-        if (out instanceof Str) {
-            System.out.print(((Str) out).getValue());
+        if (out instanceof StringLiteral) {
+            System.out.print(((StringLiteral) out).getValue());
         } else if (out instanceof Boolean) {
             System.out.print(((Boolean) out).getValue());
         } else if (out instanceof Number) {
