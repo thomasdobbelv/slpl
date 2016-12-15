@@ -1,3 +1,7 @@
 module Apply {
+    f:(number, number, number) -> void = (a:number, b:number, c:number): void -> {
+        println a + b + c;
+    };
     f(2, 3 + 1, 5 * g(x));
+    g:() -> void;
 }

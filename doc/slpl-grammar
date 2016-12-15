@@ -44,7 +44,7 @@
 <Declaration>           ::= <Id> ":" <Type> ("=" <Rvalue>)?
 
 <Type>                  ::= <Id>
-                        |   "(" (<Type> ",")* ")" -> <Type>
+                        |   "(" (<Type> ",")* ")" "->" <Type>
 
 <Print>                 ::= println|print (<String>|<Expression>)
 

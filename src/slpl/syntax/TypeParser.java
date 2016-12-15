@@ -2,35 +2,36 @@ package slpl.syntax;
 
 import slpl.err.ParseException;
 import slpl.syntax.lexical.TokenType;
+import slpl.util.StringConcatenator;
 import slpl.util.TokenStream;
+
+import java.util.ArrayList;
 
 public class TypeParser {
 
     public static String parseType(TokenStream ts) throws ParseException {
-        if(ts.hasNext(TokenType.LPAR)) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(ts.consume().content());
-            if(!ts.hasNext(TokenType.RPAR)) {
-                while(!ts.hasNext(TokenType.RPAR)) {
-                    sb.append(TypeParser.parseType(ts));
-                    if(ts.hasNext(TokenType.COMMA)) {
-                        sb.append(ts.consume().content());
-                    } else {
-                        ts.expectOneOf(TokenType.RPAR);
-                    }
-                }
-                sb.setLength(sb.length() - 1);
-            }
-            ts.expectOneOf(TokenType.RPAR);
-            sb.append(ts.consume().content());
-            ts.expectOneOf(TokenType.ARROW);
-            sb.append(ts.consume().content());
-            sb.append(TypeParser.parseType(ts));
-            return sb.toString();
-        } else {
-            ts.expectOneOf(TokenType.ID);
+        if(ts.hasNext(TokenType.ID)) {
             return ts.consume().content();
         }
+        ts.expectOneOf(TokenType.LPAR);
+        ts.consume();
+        ArrayList<String> paramTypes = new ArrayList<>();
+        while(!ts.hasNext(TokenType.RPAR)) {
+            paramTypes.add(parseType(ts));
+            if(!ts.hasNext(TokenType.RPAR)) {
+                ts.expectOneOf(TokenType.COMMA);
+                ts.consume();
+                if(ts.hasNext(TokenType.RPAR)) {
+                    throw ParseException.unexpected(ts.consume());
+                }
+            }
+        }
+        ts.consume();
+        ts.expectOneOf(TokenType.ARROW);
+        ts.consume();
+        String domain = StringConcatenator.concatenate(", ", paramTypes.toArray());
+        String codomain = parseType(ts);
+        return String.format("(%s) -> %s", domain, codomain);
     }
 
 }
