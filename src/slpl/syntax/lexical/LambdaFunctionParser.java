@@ -17,9 +17,9 @@ public class LambdaFunctionParser {
     public static LambdaFunction parseLambdaFunction(TokenStream ts) throws ParseException {
         ts.expectOneOf(TokenType.LPAR);
         ts.consume();
-        List<Declaration> parameters = new LinkedList<>();
+        List<Declaration> params = new LinkedList<>();
         while(!ts.hasNext(TokenType.RPAR)) {
-            parameters.add(DeclarationParser.parseDeclaration(ts));
+            params.add(DeclarationParser.parseDeclaration(ts));
             if(ts.hasNext(TokenType.COMMA)) {
                 ts.consume();
             } else {
@@ -33,7 +33,7 @@ public class LambdaFunctionParser {
         ts.expectOneOf(TokenType.ARROW);
         ts.consume();
         Block body = BlockParser.parseBlock(ts);
-        return new LambdaFunction(parameters, returnType, body);
+        return new LambdaFunction(params, returnType, body);
     }
 
 }

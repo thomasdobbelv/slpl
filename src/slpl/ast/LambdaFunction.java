@@ -2,34 +2,31 @@ package slpl.ast;
 
 import slpl.err.TypeCheckException;
 import slpl.util.Context;
+import slpl.util.StringConcatenator;
 import slpl.util.TypeCheckerContext;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class LambdaFunction extends AST {
 
-    private List<Declaration> parameters;
+    private List<Declaration> params;
     private String type, returnType;
     private Block body;
 
-    public LambdaFunction(List<Declaration> parameters, String returnType, Block body) {
-        this.parameters = parameters;
+    public LambdaFunction(List<Declaration> params, String returnType, Block body) {
+        this.params = params;
         this.returnType = returnType;
         this.type = deriveType();
         this.body = body;
     }
 
     private String deriveType() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("(");
-        if(!parameters.isEmpty()) {
-            for(Declaration parameter : parameters) {
-                sb.append(parameter.getType() + ",");
-            }
-            sb.setLength(sb.length() - 1);
+        LinkedList<String> paramTypes = new LinkedList<>();
+        for(Declaration param : params) {
+            paramTypes.add(param.getType());
         }
-        sb.append(")->" + returnType);
-        return sb.toString();
+        return String.format("(%s) -> %s", StringConcatenator.concatenate(", ", paramTypes.toArray()), returnType);
     }
 
     @Override
@@ -46,6 +43,6 @@ public class LambdaFunction extends AST {
 
     @Override
     public String toString() {
-        return String.format("(LambdaFunction Type: %s, Body: %s)", type, body);
+        return String.format("(LambdaFunction Type: %s, Parameters: %s, Body: %s)", type, StringConcatenator.concatenate(", ", params.toArray()), body);
     }
 }

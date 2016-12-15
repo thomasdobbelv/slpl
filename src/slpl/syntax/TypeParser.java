@@ -4,8 +4,7 @@ import slpl.err.ParseException;
 import slpl.syntax.lexical.TokenType;
 import slpl.util.StringConcatenator;
 import slpl.util.TokenStream;
-
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class TypeParser {
 
@@ -15,7 +14,7 @@ public class TypeParser {
         }
         ts.expectOneOf(TokenType.LPAR);
         ts.consume();
-        ArrayList<String> paramTypes = new ArrayList<>();
+        LinkedList<String> paramTypes = new LinkedList<>();
         while(!ts.hasNext(TokenType.RPAR)) {
             paramTypes.add(parseType(ts));
             if(!ts.hasNext(TokenType.RPAR)) {
