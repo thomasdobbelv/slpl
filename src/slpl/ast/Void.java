@@ -4,26 +4,27 @@ import slpl.err.TypeError;
 import slpl.util.Environment;
 import slpl.util.Memory;
 
-public class Return extends AST {
+public class Void extends AST {
 
-    private AST rvalue;
-
-    public Return(AST rvalue) {
-        this.rvalue = rvalue;
-    }
+    private static final Type type = new Type("void");
 
     @Override
     public String toString() {
-        return String.format("(Return Value: %s)", rvalue);
+        return type.name();
     }
 
     @Override
     public AST evaluate(Environment env, Memory mem) {
-        throw new UnsupportedOperationException();
+        return this;
     }
 
     @Override
     public Type checkType(Environment env) throws TypeError {
-        return new Type("NYI for return");
+        return type;
     }
+
+    public static Type type() {
+        return type;
+    }
+
 }

@@ -2,22 +2,21 @@ package slpl;
 
 import slpl.ast.AST;
 import slpl.err.ParseException;
-import slpl.err.TypeCheckException;
+import slpl.err.TypeError;
 import slpl.syntax.ProgramParser;
-import slpl.util.Context;
-import slpl.util.TypeCheckerContext;
+import slpl.util.Environment;
+import slpl.util.Memory;
 
 import java.io.*;
 
 public class Interpreter {
 
-    public static void main(String[] args) throws IOException, ParseException, TypeCheckException {
-        String path = "samples/apply.slpl";
+    public static void main(String[] args) throws IOException, ParseException, TypeError {
+        String path = "samples/basic.slpl";
         String programText = load(path);
         AST program = ProgramParser.parseProgram(programText);
-        System.out.println(program);
-//        program.typeCheck(new TypeCheckerContext());
-        program.evaluate(new Context());
+        program.checkType(new Environment());
+        program.evaluate(new Environment(), new Memory());
     }
 
     private static String load(String path) throws IOException {

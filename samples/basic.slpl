@@ -1,0 +1,13 @@
+module Basic {
+    a: number = 10;
+    for(i: number = 0; i < 10; ++i) {
+        println i;
+        a++;
+    }
+    println a;
+    if(a - 23 > 10) {
+        println "gt 10";
+    } else {
+        println "no";
+    }
+}

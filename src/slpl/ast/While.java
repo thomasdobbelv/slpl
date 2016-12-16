@@ -1,9 +1,8 @@
 package slpl.ast;
 
-import slpl.PrimitiveType;
-import slpl.err.TypeCheckException;
-import slpl.util.Context;
-import slpl.util.TypeCheckerContext;
+import slpl.err.TypeError;
+import slpl.util.Environment;
+import slpl.util.Memory;
 
 public class While extends AST {
 
@@ -16,25 +15,28 @@ public class While extends AST {
     }
 
     @Override
-    public AST evaluate(Context context) {
-        while(((Boolean) condition.evaluate(context)).value()) {
-            body.evaluate(context);
-        }
-        return this;
-    }
-
-    @Override
-    public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
-        String conditionType = condition.typeCheck(typeCheckerContext);
-        if(!conditionType.equals(PrimitiveType.BOOLEAN.typeName())) {
-            throw new TypeCheckException("While-loop condition is not a boolean expression");
-        }
-        body.typeCheck(typeCheckerContext);
-        return PrimitiveType.VOID.typeName();
-    }
-
-    @Override
     public String toString() {
         return String.format("(While Condition: %s, Body: %s)", condition, body);
+    }
+
+    @Override
+    public AST evaluate(Environment env, Memory mem) {
+        Environment env_ = env.clone();
+        while(((Boolean) condition.evaluate(env_, mem)).value()) {
+            body.evaluate(env_, mem);
+        }
+        mem.unwind(env_.size() - env.size());
+        return new Void();
+    }
+
+    @Override
+    public Type checkType(Environment env) throws TypeError {
+        Environment env_ = env.clone();
+        Type t = condition.checkType(env_);
+        if(!t.equals(Boolean.type())) {
+            throw new TypeError("while-loop condition is not a boolean statement");
+        }
+        body.checkType(env_);
+        return Void.type();
     }
 }

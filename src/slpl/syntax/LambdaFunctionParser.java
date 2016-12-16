@@ -3,6 +3,7 @@ package slpl.syntax;
 import slpl.ast.Block;
 import slpl.ast.Declaration;
 import slpl.ast.LambdaFunction;
+import slpl.ast.Type;
 import slpl.err.ParseException;
 import slpl.syntax.lexical.TokenType;
 import slpl.util.TokenStream;
@@ -27,7 +28,7 @@ public class LambdaFunctionParser {
         ts.consume();
         ts.expect(TokenType.ARROW);
         ts.consume();
-        String returnType = TypeParser.parseType(ts);
+        Type returnType = TypeParser.parseType(ts);
         Block body = BlockParser.parseBlock(ts);
         Declaration[] params = new Declaration[paramList.size()];
         for(int i = 0; i < params.length; ++i) {

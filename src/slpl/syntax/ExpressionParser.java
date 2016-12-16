@@ -15,18 +15,18 @@ import java.util.*;
 
 public class ExpressionParser {
 
-    private static final Queue<FunctionApplication> applicationQueue = new LinkedList<>();
+    private static final Queue<Call> callQueue = new LinkedList<>();
 
     public static AST parseExpression(TokenStream ts) throws ParseException {
-        int start = ts.getCurrentIndex();
+        int start = ts.position();
         recognizeExpression(ts);
-        int end = ts.getCurrentIndex();
-        ts.setCurrentIndex(start);
+        int end = ts.position();
+        ts.reset(start);
         Stack<AST> s = new Stack<>();
         for (Token t : transformInfixToPostfix(ts, end)) {
             TokenType tokenType = t.type();
             if (tokenType.instanceOf(TokenTypeClass.OPERATOR) || tokenType == TokenType.FID) {
-                int argc = tokenType.instanceOf(TokenTypeClass.OPERATOR) ? Operator.fromToken(t).arity() : applicationQueue.poll().args().length;
+                int argc = tokenType.instanceOf(TokenTypeClass.OPERATOR) ? Operator.fromToken(t).arity() : callQueue.poll().args().length;
                 AST[] arguments = new AST[argc];
                 for (int i = argc - 1; i >= 0; --i) {
                     arguments[i] = s.pop();
@@ -38,7 +38,7 @@ public class ExpressionParser {
                 throw ParseException.unexpected(t);
             }
         }
-        assert ts.getCurrentIndex() == end;
+        assert ts.position() == end;
         return s.pop();
     }
 
@@ -61,7 +61,7 @@ public class ExpressionParser {
                 }
             }
         } else if (tokenType == TokenType.FID) {
-            return new FunctionApplication(t.content(), args);
+            return new Call(t.content(), args);
         }
         throw new IllegalArgumentException(String.format("%s is not defined for argument(s) (%s)", t, StringConcatenator.concatenate(", ", args)));
     }
@@ -77,7 +77,7 @@ public class ExpressionParser {
             case NUM:
                 return new Number(t.content());
             case STRING:
-                return new StringLiteral(t.content());
+                return new Str(t.content());
             case NULL:
                 return new Null();
         }
@@ -104,7 +104,7 @@ public class ExpressionParser {
         if (ts.hasNext(TokenType.NOT, TokenType.SUB)) {
             if (ts.hasNext(TokenType.SUB)) {
                 Token t = ts.inspect();
-                ts.replaceCurrentToken(new Token(TokenType.ADDINV, t.content(), t.row(), t.col()));
+                ts.replace(new Token(TokenType.ADDINV, t.content(), t.row(), t.col()));
             }
             ts.consume();
             recognizeFactor(ts);
@@ -115,12 +115,12 @@ public class ExpressionParser {
             ts.consume();
         } else {
             ts.expect(TokenType.NUM, TokenType.ID, TokenType.TRUE, TokenType.FALSE, TokenType.STRING, TokenType.NULL);
-            int indexBeforeLookahead = ts.getCurrentIndex();
+            int indexBeforeLookahead = ts.position();
             Token t = ts.consume();
             if (ts.hasNext(TokenType.LPAR)) {
-                ts.setCurrentIndex(indexBeforeLookahead);
-                ts.replaceCurrentToken(new Token(TokenType.FID, t.content(), t.row(), t.col()));
-                applicationQueue.add(FunctionApplicationParser.parseFunctionApplication(ts));
+                ts.reset(indexBeforeLookahead);
+                ts.replace(new Token(TokenType.FID, t.content(), t.row(), t.col()));
+                callQueue.add(CallParser.parseCall(ts));
             }
 
         }
@@ -132,7 +132,7 @@ public class ExpressionParser {
     public static List<Token> transformInfixToPostfix(TokenStream ts, int end) throws ParseException {
         LinkedList<Token> outputQueue = new LinkedList<>();
         Stack<Token> operatorStack = new Stack<>();
-        while (ts.getCurrentIndex() != end) {
+        while (ts.position() != end) {
             Token t = ts.consume();
             TokenType tokenType = t.type();
             if (tokenType.instanceOf(TokenTypeClass.VALUE)) {

@@ -1,23 +1,29 @@
 package slpl.ast;
 
-import slpl.PrimitiveType;
-import slpl.util.Context;
-import slpl.util.TypeCheckerContext;
+import slpl.err.TypeError;
+import slpl.util.Environment;
+import slpl.util.Memory;
 
 public class Null extends AST {
 
+    private static final Type type = new Type("null");
+
     @Override
-    public AST evaluate(Context _) {
+    public String toString() {
+        return type.name();
+    }
+
+    @Override
+    public AST evaluate(Environment env, Memory mem) {
         return this;
     }
 
     @Override
-    public String typeCheck(TypeCheckerContext _) {
-        return PrimitiveType.NULL.typeName();
+    public Type checkType(Environment env) throws TypeError {
+        return type;
     }
 
-    @Override
-    public String toString() {
-        return "null";
+    public static Type type() {
+        return type;
     }
 }

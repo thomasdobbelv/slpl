@@ -7,7 +7,7 @@
 <Statement>             ::= <If>
                         |   <While>
                         |   <For>
-                        |   (<Function Application>|<Print>|<Declaration>|<Assignment>|<Return Statement>) ";"
+                        |   (<Call>|<Print>|<Declaration>|<Assignment>|<Return Statement>) ";"
 
 <Return Statement>      ::= "return" <Rvalue>
 
@@ -39,12 +39,11 @@
                         |   "/="
                         |   "="
 
-<Invocation>            ::= "(" (<Expression> ",")* ")"
+<Call>            ::= "(" (<Expression> ",")* ")"
 
 <Declaration>           ::= <Id> ":" <Type> ("=" <Rvalue>)?
 
 <Type>                  ::= <Id>
-                        |   "(" (<Type> ",")* ")" "->" <Type>
 
 <Print>                 ::= println|print (<String>|<Expression>)
 
@@ -55,10 +54,10 @@
 <Term>                  ::= <Factor> ((*|/|&&) <Term>)?
 <Factor>                ::= [!-] <Factor>
                         |   "(" <Expression> ")"
-                        |   <Function Application>
+                        |   <Call>
                         |   <Value>
 
-<Function Application>  ::= <Id> "(" (<Expression> ",")* ")"
+<Call>  ::= <Id> "(" (<Expression> ",")* ")"
 
 <Value>                 ::= <Num>
                         |   <Boolean>

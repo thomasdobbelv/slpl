@@ -1,15 +1,15 @@
 package slpl.ast;
 
-import slpl.err.TypeCheckException;
-import slpl.util.Context;
-import slpl.util.TypeCheckerContext;
+import slpl.err.TypeError;
+import slpl.util.Environment;
+import slpl.util.Memory;
 
 public abstract class AST {
 
-    public abstract AST evaluate(Context context);
-
-    public abstract String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException;
-
     public abstract String toString();
+
+    public abstract AST evaluate(Environment env, Memory mem);
+
+    public abstract Type checkType(Environment env) throws TypeError;
 
 }

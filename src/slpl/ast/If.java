@@ -1,9 +1,8 @@
 package slpl.ast;
 
-import slpl.PrimitiveType;
-import slpl.err.TypeCheckException;
-import slpl.util.Context;
-import slpl.util.TypeCheckerContext;
+import slpl.err.TypeError;
+import slpl.util.Environment;
+import slpl.util.Memory;
 
 public class If extends AST {
 
@@ -21,31 +20,33 @@ public class If extends AST {
     }
 
     @Override
-    public AST evaluate(Context context) {
-        Boolean b = (Boolean) condition.evaluate(context);
-        if(b.value()) {
-            then.evaluate(context);
-        } else if (else_ != null){
-            else_.evaluate(context);
-        }
-        return this;
-    }
-
-    @Override
-    public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
-        String conditionType = condition.typeCheck(typeCheckerContext);
-        if(!conditionType.equals(PrimitiveType.BOOLEAN.typeName())) {
-            throw new TypeCheckException("If-statement condition is not a boolean expression");
-        }
-        then.typeCheck(typeCheckerContext);
-        if(else_ != null) {
-            else_.typeCheck(typeCheckerContext);
-        }
-        return PrimitiveType.VOID.typeName();
-    }
-
-    @Override
     public String toString() {
         return String.format("(If Condition: %s, Then: %s, Else: %s)", condition, then, else_);
+    }
+
+    @Override
+    public AST evaluate(Environment env, Memory mem) {
+        if(((Boolean) condition.evaluate(env, mem)).value()) {
+            Environment env_ = env.clone();
+            then.evaluate(env_, mem);
+            mem.unwind(env_.size() - env.size());
+        } else if(else_ != null) {
+            Environment env_ = env.clone();
+            else_.evaluate(env_, mem);
+            mem.unwind(env_.size() - env.size());
+        }
+        return new Void();
+    }
+
+    @Override
+    public Type checkType(Environment env) throws TypeError {
+        if(!condition.checkType(env).equals(Boolean.type())) {
+            throw new TypeError("if-statement condition is not a boolean statement");
+        }
+        Environment env_ = env.clone();
+        then.checkType(env_);
+        env_ = env.clone();
+        else_.checkType(env_);
+        return Void.type();
     }
 }

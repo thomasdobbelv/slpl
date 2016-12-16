@@ -1,6 +1,7 @@
 package slpl.syntax;
 
 import slpl.ast.Declaration;
+import slpl.ast.Type;
 import slpl.err.ParseException;
 import slpl.syntax.lexical.TokenType;
 import slpl.util.TokenStream;
@@ -12,7 +13,7 @@ public class DeclarationParser {
         String name = ts.consume().content();
         ts.expect(TokenType.COLON);
         ts.consume();
-        String type = TypeParser.parseType(ts);
+        Type type = TypeParser.parseType(ts);
         if(ts.hasNext(TokenType.ASSIGN)) {
             ts.consume();
             return new Declaration(name, type, RvalueParser.parseRvalue(ts));

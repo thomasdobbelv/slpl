@@ -1,9 +1,0 @@
-module Apply {
-    double: (number) -> number = (x: number) -> number {
-        print 2 * x;
-        print " is twice as much as ";
-        println x;
-    };
-    double(3);
-    double(double(3));
-}

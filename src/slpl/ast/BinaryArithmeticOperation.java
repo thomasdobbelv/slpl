@@ -1,10 +1,9 @@
 package slpl.ast;
 
-import slpl.PrimitiveType;
-import slpl.err.TypeCheckException;
-import slpl.util.Context;
+import slpl.err.TypeError;
+import slpl.util.Environment;
+import slpl.util.Memory;
 import slpl.util.Operator;
-import slpl.util.TypeCheckerContext;
 
 public class BinaryArithmeticOperation extends AST {
 
@@ -18,33 +17,34 @@ public class BinaryArithmeticOperation extends AST {
     }
 
     @Override
-    public AST evaluate(Context context) {
-        Number num1 = (Number) arg1.evaluate(context), num2 = (Number) arg2.evaluate(context);
-        switch (operator) {
-            case ADD:
-                return new Number((num1.getValue() + num2.getValue()) + "");
-            case SUB:
-                return new Number((num1.getValue() - num2.getValue()) + "");
-            case MUL:
-                return new Number((num1.getValue() * num2.getValue()) + "");
-            case DIV:
-                return new Number((num1.getValue() / num2.getValue()) + "");
-        }
-        throw new UnsupportedOperationException(operator.toString());
-    }
-
-    @Override
-    public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
-        String arg1Type = arg1.typeCheck(typeCheckerContext), arg2Type = arg2.typeCheck(typeCheckerContext);
-        String numberType = PrimitiveType.NUMBER.typeName();
-        if(arg1Type.equals(numberType) && arg2Type.equals(numberType)) {
-            return numberType;
-        }
-        throw TypeCheckException.undefinedOperation(operator, arg1Type, arg2Type);
-    }
-
-    @Override
     public String toString() {
         return String.format("(%s %s, %s)", operator, arg1, arg2);
+    }
+
+    @Override
+    public AST evaluate(Environment env, Memory mem) {
+        switch (operator) {
+            case ADD:
+                return new Number((((Number) arg1.evaluate(env, mem)).value() + ((Number) arg2.evaluate(env, mem)).value()) + "");
+            case SUB:
+                return new Number((((Number) arg1.evaluate(env, mem)).value() - ((Number) arg2.evaluate(env, mem)).value()) + "");
+            case MUL:
+                return new Number((((Number) arg1.evaluate(env, mem)).value() * ((Number) arg2.evaluate(env, mem)).value()) + "");
+            case DIV:
+                return new Number((((Number) arg1.evaluate(env, mem)).value() / ((Number) arg2.evaluate(env, mem)).value()) + "");
+            default:
+                throw new UnsupportedOperationException(operator.toString());
+        }
+    }
+
+    @Override
+    public Type checkType(Environment env) throws TypeError {
+        Type t1 = arg1.checkType(env), t2 = arg2.checkType(env);
+        if (t1.equals(t2) && t2.equals(Number.type())) {
+            return Number.type();
+        } else {
+            Type[] expected = {Number.type(), Number.type()}, was = {t1, t2};
+            throw TypeError.expected(expected, was);
+        }
     }
 }

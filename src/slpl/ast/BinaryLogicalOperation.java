@@ -1,10 +1,9 @@
 package slpl.ast;
 
-import slpl.PrimitiveType;
-import slpl.err.TypeCheckException;
-import slpl.util.Context;
+import slpl.err.TypeError;
+import slpl.util.Environment;
+import slpl.util.Memory;
 import slpl.util.Operator;
-import slpl.util.TypeCheckerContext;
 
 public class BinaryLogicalOperation extends AST {
 
@@ -18,29 +17,30 @@ public class BinaryLogicalOperation extends AST {
     }
 
     @Override
-    public AST evaluate(Context context) {
-        Boolean b1 = (Boolean) arg1.evaluate(context), b2 = (Boolean) arg2.evaluate(context);
-        switch (operator) {
-            case OR:
-                return new Boolean(b1.value() || b2.value());
-            case AND:
-                return new Boolean(b1.value() && b2.value());
-        }
-        throw new UnsupportedOperationException(operator.toString());
-    }
-
-    @Override
-    public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
-        String arg1Type = arg1.typeCheck(typeCheckerContext), arg2Type = arg2.typeCheck(typeCheckerContext);
-        String booleanType = PrimitiveType.BOOLEAN.typeName();
-        if(arg1Type.equals(booleanType) && arg2Type.equals(booleanType)) {
-            return booleanType;
-        }
-        throw TypeCheckException.undefinedOperation(operator, arg1Type, arg2Type);
-    }
-
-    @Override
     public String toString() {
         return String.format("(%s %s, %s)", operator, arg1, arg2);
+    }
+
+    @Override
+    public AST evaluate(Environment env, Memory mem) {
+        switch (operator) {
+            case AND:
+                return new Boolean(((Boolean) arg1.evaluate(env, mem)).value() && ((Boolean) arg2.evaluate(env, mem)).value());
+            case OR:
+                return new Boolean(((Boolean) arg1.evaluate(env, mem)).value() || ((Boolean) arg2.evaluate(env, mem)).value());
+            default:
+                throw new UnsupportedOperationException(operator.toString());
+        }
+    }
+
+    @Override
+    public Type checkType(Environment env) throws TypeError {
+        Type t1 = arg1.checkType(env), t2 = arg2.checkType(env);
+        if (t1.equals(t2) && t2.equals(Boolean.type())) {
+            return Boolean.type();
+        } else {
+            Type[] expected = {Boolean.type(), Boolean.type()}, was = {t1, t2};
+            throw TypeError.expected(expected, was);
+        }
     }
 }

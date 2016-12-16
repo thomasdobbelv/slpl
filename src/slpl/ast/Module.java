@@ -1,9 +1,8 @@
 package slpl.ast;
 
-import slpl.PrimitiveType;
-import slpl.err.TypeCheckException;
-import slpl.util.Context;
-import slpl.util.TypeCheckerContext;
+import slpl.err.TypeError;
+import slpl.util.Environment;
+import slpl.util.Memory;
 
 public class Module extends AST {
 
@@ -16,20 +15,19 @@ public class Module extends AST {
     }
 
     @Override
-    public AST evaluate(Context context) {
-        // TODO: consider what it means to evaluate a module. does it mean building a context (set of predef. functions, variables)?
-        body.evaluate(context);
-        return this;
-    }
-
-    @Override
-    public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
-        body.typeCheck(typeCheckerContext);
-        return PrimitiveType.VOID.typeName();
-    }
-
-    @Override
     public String toString() {
         return String.format("(Module Name: %s, Body: %s)", name, body);
+    }
+
+    @Override
+    public AST evaluate(Environment env, Memory mem) {
+        body.evaluate(env, mem);
+        return new Void();
+    }
+
+    @Override
+    public Type checkType(Environment env) throws TypeError {
+        body.checkType(env);
+        return Void.type();
     }
 }

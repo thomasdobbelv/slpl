@@ -1,51 +1,44 @@
 package slpl.ast;
 
-import slpl.PrimitiveType;
-import slpl.err.TypeCheckException;
-import slpl.util.Context;
-import slpl.util.TypeCheckerContext;
+import slpl.err.TypeError;
+import slpl.util.Environment;
+import slpl.util.Memory;
 
 public class Variable extends AST {
 
-    private String name;
-    private String type;
-    private AST rvalue;
+    private static final int NOT_ASSIGNED = -1;
 
-    public Variable(String name, String type, AST rvalue) {
+    private String name;
+    private Type type;
+    private int loc;
+
+    public Variable(String name, Type type) {
+        this(name, type, NOT_ASSIGNED);
+    }
+
+    public Variable(String name, Type type, int loc) {
         this.name = name;
         this.type = type;
-        this.rvalue = rvalue;
-    }
-
-    @Override
-    public AST evaluate(Context context) {
-        return rvalue.evaluate(context);
-    }
-
-    @Override
-    public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
-        String rvalueType = rvalue.typeCheck(typeCheckerContext);
-        if(rvalueType.equals(PrimitiveType.NULL.typeName()) || rvalueType.equals(type)) {
-            return type;
-        }
-        throw TypeCheckException.variableTypeStoredTypeMismatch(type, rvalueType, name);
+        this.loc = loc;
     }
 
     @Override
     public String toString() {
-        return String.format("(Variable Name: %s, Type: %s, Value: %s)", name, type, rvalue);
+        return String.format("(Variable Name: %s, Type: %s)", name, type);
     }
 
-    public AST getValue() {
-        return rvalue;
+    @Override
+    public AST evaluate(Environment env, Memory mem) {
+        return mem.get(loc).evaluate(env, mem);
     }
 
-    public void setValue(AST rvalue) {
-        this.rvalue = rvalue;
+    public int location() {
+        return loc;
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public Type checkType(Environment env) throws TypeError {
+        return type;
     }
 
 }

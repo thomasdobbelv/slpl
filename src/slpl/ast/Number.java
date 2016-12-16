@@ -1,33 +1,38 @@
 package slpl.ast;
 
-import slpl.PrimitiveType;
-import slpl.util.Context;
-import slpl.util.TypeCheckerContext;
+import slpl.err.TypeError;
+import slpl.util.Environment;
+import slpl.util.Memory;
 
 public class Number extends AST {
 
+    private static final Type type = new Type("number");
     private double value;
 
     public Number(String number) {
         value = Double.parseDouble(number);
     }
 
-    public double getValue() {
-        return value;
+    @Override
+    public String toString() {
+        return (int) value == value ? ((int) value) + "" : value + "";
     }
 
     @Override
-    public AST evaluate(Context _) {
+    public AST evaluate(Environment env, Memory mem) {
         return this;
     }
 
     @Override
-    public String typeCheck(TypeCheckerContext _) {
-        return PrimitiveType.NUMBER.typeName();
+    public Type checkType(Environment env) throws TypeError {
+        return type;
     }
 
-    @Override
-    public String toString() {
-        return value - (int) value == 0 ? ((int) value) + "" : value + "";
+    public static Type type() {
+        return type;
+    }
+
+    public double value() {
+        return value;
     }
 }

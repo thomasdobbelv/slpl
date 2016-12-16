@@ -8,21 +8,21 @@ import slpl.util.TokenStream;
 public class RvalueParser {
 
     public static AST parseRvalue(TokenStream ts) throws ParseException {
-        int indexBeforeLookahead = ts.getCurrentIndex();
+        int indexBeforeLookahead = ts.position();
         if (ts.hasNext(TokenType.LPAR)) {
             ts.consume();
             if (ts.hasNext(TokenType.ID)) {
                 ts.consume();
                 if (ts.hasNext(TokenType.COLON)) {
-                    ts.setCurrentIndex(indexBeforeLookahead);
+                    ts.reset(indexBeforeLookahead);
                     return LambdaFunctionParser.parseLambdaFunction(ts);
                 }
             } else if (ts.hasNext(TokenType.RPAR)) {
-                ts.setCurrentIndex(indexBeforeLookahead);
+                ts.reset(indexBeforeLookahead);
                 return LambdaFunctionParser.parseLambdaFunction(ts);
             }
         }
-        ts.setCurrentIndex(indexBeforeLookahead);
+        ts.reset(indexBeforeLookahead);
         return ExpressionParser.parseExpression(ts);
     }
 

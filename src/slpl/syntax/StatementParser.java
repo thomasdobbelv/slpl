@@ -23,18 +23,18 @@ public class StatementParser {
         if(ts.hasNext(TokenType.PRINT, TokenType.PRINTLN)) {
             statement = new Statement(PrintParser.parsePrint(ts));
         } else if(ts.hasNext(TokenType.ID)) {
-            int indexBeforeLookahead = ts.getCurrentIndex();
+            int indexBeforeLookahead = ts.position();
             Token t = ts.consume();
             if(ts.hasNext(TokenType.COLON)) {
-                ts.setCurrentIndex(indexBeforeLookahead);
+                ts.reset(indexBeforeLookahead);
                 statement = new Statement(DeclarationParser.parseDeclaration(ts));
             } else if (ts.inspect().type().instanceOf(TokenTypeClass.ASSIGNMENT_OPERATOR)){
-                ts.setCurrentIndex(indexBeforeLookahead);
+                ts.reset(indexBeforeLookahead);
                 statement = new Statement(AssignmentParser.parseAssignment(ts));
             } else if (ts.hasNext(TokenType.LPAR)) {
-                ts.setCurrentIndex(indexBeforeLookahead);
-                ts.replaceCurrentToken(new Token(TokenType.FID, t.content(), t.row(), t.col()));
-                statement = new Statement(FunctionApplicationParser.parseFunctionApplication(ts));
+                ts.reset(indexBeforeLookahead);
+                ts.replace(new Token(TokenType.FID, t.content(), t.row(), t.col()));
+                statement = new Statement(CallParser.parseCall(ts));
             } else {
                 throw ParseException.unexpected(ts.consume());
             }

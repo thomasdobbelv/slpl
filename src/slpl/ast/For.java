@@ -1,9 +1,8 @@
 package slpl.ast;
 
-import slpl.PrimitiveType;
-import slpl.err.TypeCheckException;
-import slpl.util.Context;
-import slpl.util.TypeCheckerContext;
+import slpl.err.TypeError;
+import slpl.util.Environment;
+import slpl.util.Memory;
 
 public class For extends AST {
 
@@ -20,41 +19,43 @@ public class For extends AST {
     }
 
     @Override
-    public AST evaluate(Context context) {
-        if (init != null) {
-            init.evaluate(context);
-        }
-        if (update != null) {
-            while (((Boolean) condition.evaluate(context)).value()) {
-                body.evaluate(context);
-                update.evaluate(context);
-            }
-        } else {
-            while (((Boolean) condition.evaluate(context)).value()) {
-                body.evaluate(context);
-            }
-        }
-        return this;
-    }
-
-    @Override
-    public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
-        if (init != null) {
-            init.typeCheck(typeCheckerContext);
-        }
-        String conditionType = condition.typeCheck(typeCheckerContext);
-        if (!conditionType.equals(PrimitiveType.BOOLEAN.typeName())) {
-            throw new TypeCheckException("For-loop condition is not a boolean expression");
-        }
-        if(update != null) {
-            update.typeCheck(typeCheckerContext);
-        }
-        body.typeCheck(typeCheckerContext);
-        return PrimitiveType.VOID.typeName();
-    }
-
-    @Override
     public String toString() {
         return String.format("(For Initializer: %s, Condition: %s, Update: %s, Body: %s)", init, condition, update, body);
+    }
+
+    @Override
+    public AST evaluate(Environment env, Memory mem) {
+        Environment env_ = env.clone();
+        if(init != null) {
+            init.evaluate(env_, mem);
+        }
+        if(update == null) {
+            while(((Boolean) condition.evaluate(env_, mem)).value()) {
+                body.evaluate(env_, mem);
+            }
+        } else {
+            while(((Boolean) condition.evaluate(env_, mem)).value()) {
+                body.evaluate(env_, mem);
+                update.evaluate(env_, mem);
+            }
+        }
+        mem.unwind(env_.size() - env.size());
+        return new Void();
+    }
+
+    @Override
+    public Type checkType(Environment env) throws TypeError {
+        Environment env_ = env.clone();
+        if(init != null) {
+            init.checkType(env_);
+        }
+        if(condition != null && !condition.checkType(env_).equals(Boolean.type())) {
+            throw new TypeError("for-loop condition is not a boolean statement");
+        }
+        if(update != null) {
+            update.checkType(env_);
+        }
+        body.checkType(env_);
+        return Void.type();
     }
 }

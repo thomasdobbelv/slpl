@@ -1,32 +1,33 @@
 package slpl.ast;
 
-import slpl.err.TypeCheckException;
-import slpl.util.Context;
-import slpl.util.TypeCheckerContext;
+import slpl.err.TypeError;
+import slpl.util.Environment;
+import slpl.util.Memory;
 
 public class Identifier extends AST {
 
-    private String id;
+    private String name;
 
-    public Identifier(String id) {
-        this.id = id;
-    }
-
-    @Override
-    public AST evaluate(Context context) {
-        return context.get(id).evaluate(context);
-    }
-
-    @Override
-    public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
-        if(typeCheckerContext.contains(id)) {
-            return typeCheckerContext.getType(id);
-        }
-        throw TypeCheckException.undefinedName(id);
+    public Identifier(String name) {
+        this.name = name;
     }
 
     @Override
     public String toString() {
-        return id;
+        return name;
+    }
+
+    @Override
+    public AST evaluate(Environment env, Memory mem) {
+        return env.lookup(name).evaluate(env, mem);
+    }
+
+    @Override
+    public Type checkType(Environment env) throws TypeError {
+        if(!env.contains(name)) {
+            throw new TypeError(String.format("the name %s is not defined", name));
+        } else {
+            return env.lookup(name).checkType(env);
+        }
     }
 }
