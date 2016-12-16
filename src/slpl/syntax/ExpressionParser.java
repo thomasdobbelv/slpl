@@ -111,10 +111,10 @@ public class ExpressionParser {
         } else if (ts.hasNext(TokenType.LPAR)) {
             ts.consume();
             recognizeExpression(ts);
-            ts.expectOneOf(TokenType.RPAR);
+            ts.expect(TokenType.RPAR);
             ts.consume();
         } else {
-            ts.expectOneOf(TokenType.NUM, TokenType.ID, TokenType.TRUE, TokenType.FALSE, TokenType.STRING, TokenType.NULL);
+            ts.expect(TokenType.NUM, TokenType.ID, TokenType.TRUE, TokenType.FALSE, TokenType.STRING, TokenType.NULL);
             int indexBeforeLookahead = ts.getCurrentIndex();
             Token t = ts.consume();
             if (ts.hasNext(TokenType.LPAR)) {

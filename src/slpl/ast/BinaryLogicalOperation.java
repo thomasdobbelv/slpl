@@ -22,9 +22,9 @@ public class BinaryLogicalOperation extends AST {
         Boolean b1 = (Boolean) arg1.evaluate(context), b2 = (Boolean) arg2.evaluate(context);
         switch (operator) {
             case OR:
-                return new Boolean(b1.getValue() || b2.getValue());
+                return new Boolean(b1.value() || b2.value());
             case AND:
-                return new Boolean(b1.getValue() && b2.getValue());
+                return new Boolean(b1.value() && b2.value());
         }
         throw new UnsupportedOperationException(operator.toString());
     }
@@ -32,7 +32,7 @@ public class BinaryLogicalOperation extends AST {
     @Override
     public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
         String arg1Type = arg1.typeCheck(typeCheckerContext), arg2Type = arg2.typeCheck(typeCheckerContext);
-        String booleanType = PrimitiveType.BOOLEAN.getTypeName();
+        String booleanType = PrimitiveType.BOOLEAN.typeName();
         if(arg1Type.equals(booleanType) && arg2Type.equals(booleanType)) {
             return booleanType;
         }

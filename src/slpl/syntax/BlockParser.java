@@ -12,7 +12,7 @@ import java.util.List;
 public class BlockParser {
 
     public static Block parseBlock(TokenStream ts) throws ParseException {
-        ts.expectOneOf(TokenType.LCRL);
+        ts.expect(TokenType.LCRL);
         ts.consume();
         List<Statement> blockStatements = new LinkedList<>();
         while(!ts.hasNext(TokenType.RCRL)) {

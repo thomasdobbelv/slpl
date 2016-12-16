@@ -11,15 +11,15 @@ import java.util.LinkedList;
 public class FunctionApplicationParser {
 
     public static FunctionApplication parseFunctionApplication(TokenStream ts) throws ParseException {
-        ts.expectOneOf(TokenType.FID);
+        ts.expect(TokenType.FID);
         String name = ts.consume().content();
-        ts.expectOneOf(TokenType.LPAR);
+        ts.expect(TokenType.LPAR);
         ts.consume();
         LinkedList<AST> argList = new LinkedList<>();
         while (!ts.hasNext(TokenType.RPAR)) {
             argList.add(ExpressionParser.parseExpression(ts));
             if (!ts.hasNext(TokenType.RPAR)) {
-                ts.expectOneOf(TokenType.COMMA);
+                ts.expect(TokenType.COMMA);
                 ts.consume();
                 if(ts.hasNext(TokenType.RPAR)) {
                     throw ParseException.unexpected(ts.consume());

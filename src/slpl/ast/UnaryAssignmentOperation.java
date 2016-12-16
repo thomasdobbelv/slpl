@@ -30,7 +30,7 @@ public class UnaryAssignmentOperation extends AssignmentOperation {
             throw TypeCheckException.undefinedName(assigneeName);
         }
         String assigneeType = typeCheckerContext.getType(assigneeName);
-        String numberType = PrimitiveType.NUMBER.getTypeName();
+        String numberType = PrimitiveType.NUMBER.typeName();
         if(assigneeType.equals(numberType)) {
             return numberType;
         }

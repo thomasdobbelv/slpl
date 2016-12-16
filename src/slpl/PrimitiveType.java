@@ -14,7 +14,7 @@ public enum PrimitiveType {
         this.name = name;
     }
 
-    public String getTypeName() {
+    public String typeName() {
         return name;
     }
 }

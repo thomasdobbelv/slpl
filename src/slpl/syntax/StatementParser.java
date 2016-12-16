@@ -46,7 +46,7 @@ public class StatementParser {
         } else {
             throw ParseException.notAStatement(ts.consume());
         }
-        ts.expectOneOf(TokenType.SEMICOLON);
+        ts.expect(TokenType.SEMICOLON);
         ts.consume();
         return statement;
     }

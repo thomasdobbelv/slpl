@@ -29,7 +29,7 @@ public class UnaryArithmeticOperation extends AST {
     @Override
     public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
         String argType = arg.typeCheck(typeCheckerContext);
-        String numberType = PrimitiveType.NUMBER.getTypeName();
+        String numberType = PrimitiveType.NUMBER.typeName();
         if(argType.equals(numberType)) {
             return numberType;
         }

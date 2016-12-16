@@ -25,12 +25,12 @@ public class For extends AST {
             init.evaluate(context);
         }
         if (update != null) {
-            while (((Boolean) condition.evaluate(context)).getValue()) {
+            while (((Boolean) condition.evaluate(context)).value()) {
                 body.evaluate(context);
                 update.evaluate(context);
             }
         } else {
-            while (((Boolean) condition.evaluate(context)).getValue()) {
+            while (((Boolean) condition.evaluate(context)).value()) {
                 body.evaluate(context);
             }
         }
@@ -43,14 +43,14 @@ public class For extends AST {
             init.typeCheck(typeCheckerContext);
         }
         String conditionType = condition.typeCheck(typeCheckerContext);
-        if (!conditionType.equals(PrimitiveType.BOOLEAN.getTypeName())) {
+        if (!conditionType.equals(PrimitiveType.BOOLEAN.typeName())) {
             throw new TypeCheckException("For-loop condition is not a boolean expression");
         }
         if(update != null) {
             update.typeCheck(typeCheckerContext);
         }
         body.typeCheck(typeCheckerContext);
-        return PrimitiveType.VOID.getTypeName();
+        return PrimitiveType.VOID.typeName();
     }
 
     @Override

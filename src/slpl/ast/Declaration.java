@@ -23,7 +23,11 @@ public class Declaration extends AST {
         rvalue = new Null();
     }
 
-    public String getType() {
+    public String name() {
+        return name;
+    }
+
+    public String type() {
         return type;
     }
 
@@ -35,12 +39,12 @@ public class Declaration extends AST {
 
     @Override
     public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
-        if(type.equals(PrimitiveType.NULL.getTypeName())) {
+        if(type.equals(PrimitiveType.NULL.typeName())) {
             throw TypeCheckException.illegalVariableType(name, type);
         }
         typeCheckerContext.setType(name, type);
         String rvalueType = rvalue.typeCheck(typeCheckerContext);
-        if(rvalueType.equals(PrimitiveType.NULL.getTypeName()) || type.equals(rvalueType)) {
+        if(rvalueType.equals(PrimitiveType.NULL.typeName()) || type.equals(rvalueType)) {
             return type;
         }
         throw TypeCheckException.rvalueTypeAssigneeTypeMismatch(rvalueType, type, name);

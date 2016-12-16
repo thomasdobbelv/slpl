@@ -11,9 +11,9 @@ import slpl.util.TokenStream;
 public class ForParser {
 
     public static For parseFor(TokenStream ts) throws ParseException {
-        ts.expectOneOf(TokenType.FOR);
+        ts.expect(TokenType.FOR);
         ts.consume();
-        ts.expectOneOf(TokenType.LPAR);
+        ts.expect(TokenType.LPAR);
         ts.consume();
         Declaration init = null;
         AST condition = null;
@@ -21,17 +21,17 @@ public class ForParser {
         if(!ts.hasNext(TokenType.SEMICOLON)) {
             init = DeclarationParser.parseDeclaration(ts);
         }
-        ts.expectOneOf(TokenType.SEMICOLON);
+        ts.expect(TokenType.SEMICOLON);
         ts.consume();
         if(!ts.hasNext(TokenType.SEMICOLON)) {
             condition = ExpressionParser.parseExpression(ts);
         }
-        ts.expectOneOf(TokenType.SEMICOLON);
+        ts.expect(TokenType.SEMICOLON);
         ts.consume();
         if(!ts.hasNext(TokenType.RPAR)) {
             update = AssignmentParser.parseAssignment(ts);
         }
-        ts.expectOneOf(TokenType.RPAR);
+        ts.expect(TokenType.RPAR);
         ts.consume();
         return new For(init, condition, update, BlockParser.parseBlock(ts));
     }

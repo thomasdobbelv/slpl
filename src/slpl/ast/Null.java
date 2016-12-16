@@ -13,7 +13,7 @@ public class Null extends AST {
 
     @Override
     public String typeCheck(TypeCheckerContext _) {
-        return PrimitiveType.NULL.getTypeName();
+        return PrimitiveType.NULL.typeName();
     }
 
     @Override

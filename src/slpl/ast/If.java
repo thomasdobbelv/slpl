@@ -23,7 +23,7 @@ public class If extends AST {
     @Override
     public AST evaluate(Context context) {
         Boolean b = (Boolean) condition.evaluate(context);
-        if(b.getValue()) {
+        if(b.value()) {
             then.evaluate(context);
         } else if (else_ != null){
             else_.evaluate(context);
@@ -34,14 +34,14 @@ public class If extends AST {
     @Override
     public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
         String conditionType = condition.typeCheck(typeCheckerContext);
-        if(!conditionType.equals(PrimitiveType.BOOLEAN.getTypeName())) {
+        if(!conditionType.equals(PrimitiveType.BOOLEAN.typeName())) {
             throw new TypeCheckException("If-statement condition is not a boolean expression");
         }
         then.typeCheck(typeCheckerContext);
         if(else_ != null) {
             else_.typeCheck(typeCheckerContext);
         }
-        return PrimitiveType.VOID.getTypeName();
+        return PrimitiveType.VOID.typeName();
     }
 
     @Override

@@ -10,12 +10,12 @@ import slpl.util.TokenStream;
 public class IfParser {
 
     public static If parseIf(TokenStream ts) throws ParseException {
-        ts.expectOneOf(TokenType.IF);
+        ts.expect(TokenType.IF);
         ts.consume();
-        ts.expectOneOf(TokenType.LPAR);
+        ts.expect(TokenType.LPAR);
         ts.consume();
         AST condition = ExpressionParser.parseExpression(ts);
-        ts.expectOneOf(TokenType.RPAR);
+        ts.expect(TokenType.RPAR);
         ts.consume();
         Block then = BlockParser.parseBlock(ts);
         if(ts.hasNext(TokenType.ELSE)) {

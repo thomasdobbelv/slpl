@@ -10,12 +10,12 @@ import slpl.util.TokenStream;
 public class WhileParser {
 
     public static While parseWhile(TokenStream ts) throws ParseException {
-        ts.expectOneOf(TokenType.WHILE);
+        ts.expect(TokenType.WHILE);
         ts.consume();
-        ts.expectOneOf(TokenType.LPAR);
+        ts.expect(TokenType.LPAR);
         ts.consume();
         AST condition = ExpressionParser.parseExpression(ts);
-        ts.expectOneOf(TokenType.RPAR);
+        ts.expect(TokenType.RPAR);
         ts.consume();
         Block body = BlockParser.parseBlock(ts);
         return new While(condition, body);

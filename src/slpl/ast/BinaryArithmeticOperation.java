@@ -36,7 +36,7 @@ public class BinaryArithmeticOperation extends AST {
     @Override
     public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
         String arg1Type = arg1.typeCheck(typeCheckerContext), arg2Type = arg2.typeCheck(typeCheckerContext);
-        String numberType = PrimitiveType.NUMBER.getTypeName();
+        String numberType = PrimitiveType.NUMBER.typeName();
         if(arg1Type.equals(numberType) && arg2Type.equals(numberType)) {
             return numberType;
         }

@@ -9,7 +9,7 @@ import slpl.util.TokenStream;
 public class PrintParser {
 
     public static Print parsePrint(TokenStream ts) throws ParseException {
-        ts.expectOneOf(TokenType.PRINT, TokenType.PRINTLN);
+        ts.expect(TokenType.PRINT, TokenType.PRINTLN);
         boolean nl = ts.consume().type() == TokenType.PRINTLN;
         if(ts.hasNext(TokenType.STRING)) {
             return new Print(new StringLiteral(ts.consume().content()), nl);

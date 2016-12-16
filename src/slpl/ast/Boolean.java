@@ -19,7 +19,7 @@ public class Boolean extends AST {
 
     @Override
     public String typeCheck(TypeCheckerContext _) {
-        return PrimitiveType.BOOLEAN.getTypeName();
+        return PrimitiveType.BOOLEAN.typeName();
     }
 
     @Override
@@ -27,7 +27,7 @@ public class Boolean extends AST {
         return value + "";
     }
 
-    public boolean getValue() {
+    public boolean value() {
         return value;
     }
 }

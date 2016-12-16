@@ -40,9 +40,9 @@ public class RelationalOperation extends AST {
     @Override
     public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
         String arg1Type = arg1.typeCheck(typeCheckerContext), arg2Type = arg2.typeCheck(typeCheckerContext);
-        String numberType = PrimitiveType.NUMBER.getTypeName();
+        String numberType = PrimitiveType.NUMBER.typeName();
         if(arg1Type.equals(numberType) && arg2Type.equals(numberType)) {
-            return PrimitiveType.BOOLEAN.getTypeName();
+            return PrimitiveType.BOOLEAN.typeName();
         }
         throw TypeCheckException.undefinedOperation(operator, arg1Type, arg2Type);
     }

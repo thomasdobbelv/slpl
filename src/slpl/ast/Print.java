@@ -21,9 +21,14 @@ public class Print extends AST {
         if (out instanceof StringLiteral) {
             System.out.print(((StringLiteral) out).getValue());
         } else if (out instanceof Boolean) {
-            System.out.print(((Boolean) out).getValue());
+            System.out.print(((Boolean) out).value());
         } else if (out instanceof Number) {
-            System.out.print(((Number) out).getValue());
+            double val = ((Number) out).getValue();
+            if(val - (int) val == 0) {
+                System.out.print((int) val);
+            } else {
+                System.out.print(val);
+            }
         } else if (out instanceof Null) {
             System.out.print("null");
         } else {
@@ -41,8 +46,8 @@ public class Print extends AST {
         for(PrimitiveType pt : PrimitiveType.values()) {
             if(pt == PrimitiveType.VOID) {
                 continue;
-            } else if(argType.equals(pt.getTypeName())) {
-                return PrimitiveType.VOID.getTypeName();
+            } else if(argType.equals(pt.typeName())) {
+                return PrimitiveType.VOID.typeName();
             }
         }
         throw new TypeCheckException(String.format("%s is not a printable type", argType));

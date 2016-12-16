@@ -25,7 +25,7 @@ public class Module extends AST {
     @Override
     public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
         body.typeCheck(typeCheckerContext);
-        return PrimitiveType.VOID.getTypeName();
+        return PrimitiveType.VOID.typeName();
     }
 
     @Override

@@ -50,7 +50,7 @@ public class AssignmentOperation extends AST {
         }
         String assigneeType = typeCheckerContext.getType(assigneeName);
         String rvalueType = rvalue.typeCheck(typeCheckerContext);
-        if (rvalueType.equals(PrimitiveType.NULL.getTypeName())) {
+        if (rvalueType.equals(PrimitiveType.NULL.typeName())) {
             switch (operator) {
                 case ADDEQ:
                 case SUBEQ:

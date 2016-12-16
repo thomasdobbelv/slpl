@@ -28,7 +28,7 @@ public class Block extends AST {
         for(Statement blockStatement : blockStatements) {
             blockStatement.typeCheck(typeCheckerContext);
         }
-        return PrimitiveType.VOID.getTypeName();
+        return PrimitiveType.VOID.typeName();
     }
 
     @Override

@@ -23,7 +23,7 @@ public class Number extends AST {
 
     @Override
     public String typeCheck(TypeCheckerContext _) {
-        return PrimitiveType.NUMBER.getTypeName();
+        return PrimitiveType.NUMBER.typeName();
     }
 
     @Override

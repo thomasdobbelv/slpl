@@ -17,7 +17,7 @@ public class While extends AST {
 
     @Override
     public AST evaluate(Context context) {
-        while(((Boolean) condition.evaluate(context)).getValue()) {
+        while(((Boolean) condition.evaluate(context)).value()) {
             body.evaluate(context);
         }
         return this;
@@ -26,11 +26,11 @@ public class While extends AST {
     @Override
     public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
         String conditionType = condition.typeCheck(typeCheckerContext);
-        if(!conditionType.equals(PrimitiveType.BOOLEAN.getTypeName())) {
+        if(!conditionType.equals(PrimitiveType.BOOLEAN.typeName())) {
             throw new TypeCheckException("While-loop condition is not a boolean expression");
         }
         body.typeCheck(typeCheckerContext);
-        return PrimitiveType.VOID.getTypeName();
+        return PrimitiveType.VOID.typeName();
     }
 
     @Override

@@ -25,7 +25,7 @@ public class Variable extends AST {
     @Override
     public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
         String rvalueType = rvalue.typeCheck(typeCheckerContext);
-        if(rvalueType.equals(PrimitiveType.NULL.getTypeName()) || rvalueType.equals(type)) {
+        if(rvalueType.equals(PrimitiveType.NULL.typeName()) || rvalueType.equals(type)) {
             return type;
         }
         throw TypeCheckException.variableTypeStoredTypeMismatch(type, rvalueType, name);

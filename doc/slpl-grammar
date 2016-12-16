@@ -11,7 +11,7 @@
 
 <Return Statement>      ::= "return" <Rvalue>
 
-<Lambda Function>       ::= <Parameter List> ":" <Type> "->" <Block>
+<Lambda Function>       ::= <Parameter List> "->" <Type> <Block>
 
 <Parameter List>        ::= "(" (<Parameter> ",")* ")"
 <Parameter>             ::= <Declaration>

@@ -4,6 +4,8 @@ import slpl.ast.AST;
 import slpl.err.ParseException;
 import slpl.err.TypeCheckException;
 import slpl.syntax.ProgramParser;
+import slpl.util.Context;
+import slpl.util.TypeCheckerContext;
 
 import java.io.*;
 
@@ -14,6 +16,8 @@ public class Interpreter {
         String programText = load(path);
         AST program = ProgramParser.parseProgram(programText);
         System.out.println(program);
+//        program.typeCheck(new TypeCheckerContext());
+        program.evaluate(new Context());
     }
 
     private static String load(String path) throws IOException {

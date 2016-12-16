@@ -12,13 +12,13 @@ public class TypeParser {
         if(ts.hasNext(TokenType.ID)) {
             return ts.consume().content();
         }
-        ts.expectOneOf(TokenType.LPAR);
+        ts.expect(TokenType.LPAR);
         ts.consume();
         LinkedList<String> paramTypes = new LinkedList<>();
         while(!ts.hasNext(TokenType.RPAR)) {
             paramTypes.add(parseType(ts));
             if(!ts.hasNext(TokenType.RPAR)) {
-                ts.expectOneOf(TokenType.COMMA);
+                ts.expect(TokenType.COMMA);
                 ts.consume();
                 if(ts.hasNext(TokenType.RPAR)) {
                     throw ParseException.unexpected(ts.consume());
@@ -26,7 +26,7 @@ public class TypeParser {
             }
         }
         ts.consume();
-        ts.expectOneOf(TokenType.ARROW);
+        ts.expect(TokenType.ARROW);
         ts.consume();
         String domain = StringConcatenator.concatenate(", ", paramTypes.toArray());
         String codomain = parseType(ts);

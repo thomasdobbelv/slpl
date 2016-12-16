@@ -20,7 +20,7 @@ public class StringLiteral extends AST {
 
     @Override
     public String typeCheck(TypeCheckerContext _) throws TypeCheckException {
-        return PrimitiveType.STRING.getTypeName();
+        return PrimitiveType.STRING.typeName();
     }
 
 

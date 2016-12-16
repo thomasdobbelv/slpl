@@ -21,7 +21,7 @@ public class UnaryLogicalOperation extends AST {
         Boolean b = (Boolean) arg.evaluate(context);
         switch (operator) {
             case NOT:
-                return new Boolean(!b.getValue());
+                return new Boolean(!b.value());
         }
         throw new UnsupportedOperationException(operator.toString());
     }
@@ -29,7 +29,7 @@ public class UnaryLogicalOperation extends AST {
     @Override
     public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
         String argType = arg.typeCheck(typeCheckerContext);
-        String booleanType = PrimitiveType.BOOLEAN.getTypeName();
+        String booleanType = PrimitiveType.BOOLEAN.typeName();
         if(argType.equals(booleanType)) {
             return booleanType;
         }

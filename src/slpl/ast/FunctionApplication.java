@@ -21,17 +21,20 @@ public class FunctionApplication extends AST {
 
     @Override
     public AST evaluate(Context context) {
-        return null;
+        System.out.println(this);
+        for(int i = 0; i < args.length; ++i) {
+            args[i] = args[i].evaluate(context);
+        }
+        LambdaFunction f = (LambdaFunction) context.get(name).getValue();
+        Declaration[] params = f.params();
+        for(int i = 0; i < params.length; ++i) {
+            context.set(params[i].name(), args[i]);
+        }
+        return f.body().evaluate(context);
     }
 
     @Override
     public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
-        String[] argTypes = new String[args.length];
-        for(int i = 0; i < argTypes.length; ++i) {
-            argTypes[i] = args[i].typeCheck(typeCheckerContext);
-        }
-        // TODO: find function in context, check that the paramTypes of function match argTypes. if not throw type error
-        // else return type of the function (return type) (function definition has been typechecked and we should assume return type is correct)
         return null;
     }
 
