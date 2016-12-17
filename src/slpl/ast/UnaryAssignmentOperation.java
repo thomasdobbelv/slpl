@@ -50,7 +50,7 @@ public class UnaryAssignmentOperation extends AssignmentOperation {
     @Override
     public Type checkType(Environment env) throws TypeError {
         if (!env.contains(assignee)) {
-            throw new TypeError(String.format("the name %s is not defined", assignee));
+            throw TypeError.nameOutOfScope(assignee);
         } else {
             Type t = env.lookup(assignee).checkType(env);
             if (!t.equals(Number.type())) {

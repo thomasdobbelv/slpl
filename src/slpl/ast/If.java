@@ -26,15 +26,13 @@ public class If extends AST {
 
     @Override
     public AST evaluate(Environment env, Memory mem) {
+        Environment env_ = new Environment(env);
         if(((Boolean) condition.evaluate(env, mem)).value()) {
-            Environment env_ = env.clone();
             then.evaluate(env_, mem);
-            mem.unwind(env_.size() - env.size());
         } else if(else_ != null) {
-            Environment env_ = env.clone();
             else_.evaluate(env_, mem);
-            mem.unwind(env_.size() - env.size());
         }
+        mem.unwind(env);
         return new Void();
     }
 
@@ -43,9 +41,9 @@ public class If extends AST {
         if(!condition.checkType(env).equals(Boolean.type())) {
             throw new TypeError("if-statement condition is not a boolean statement");
         }
-        Environment env_ = env.clone();
+        Environment env_ = new Environment(env);
         then.checkType(env_);
-        env_ = env.clone();
+        env_ = new Environment(env);
         else_.checkType(env_);
         return Void.type();
     }

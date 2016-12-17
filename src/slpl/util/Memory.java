@@ -19,8 +19,8 @@ public class Memory {
         return sp - 1;
     }
 
-    public void unwind(int amount) {
-        sp -= amount;
+    public void unwind(Environment env) {
+        sp -= env.size();
     }
 
     public void set(int loc, AST val) {

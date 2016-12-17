@@ -13,4 +13,7 @@ public class TypeError extends Exception {
         return new TypeError(String.format("expected %s, but was %s", StringConcatenator.concatenate(", ", expected), StringConcatenator.concatenate(", ", was)));
     }
 
+    public static TypeError nameOutOfScope(String name) {
+        return new TypeError(String.format("the name %s is not in scope", name));
+    }
 }

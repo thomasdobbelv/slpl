@@ -25,7 +25,7 @@ public class For extends AST {
 
     @Override
     public AST evaluate(Environment env, Memory mem) {
-        Environment env_ = env.clone();
+        Environment env_ = new Environment(env);
         if(init != null) {
             init.evaluate(env_, mem);
         }
@@ -39,13 +39,13 @@ public class For extends AST {
                 update.evaluate(env_, mem);
             }
         }
-        mem.unwind(env_.size() - env.size());
+        mem.unwind(env_);
         return new Void();
     }
 
     @Override
     public Type checkType(Environment env) throws TypeError {
-        Environment env_ = env.clone();
+        Environment env_ = new Environment(env);
         if(init != null) {
             init.checkType(env_);
         }

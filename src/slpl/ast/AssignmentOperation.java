@@ -53,7 +53,7 @@ public class AssignmentOperation extends AST {
     @Override
     public Type checkType(Environment env) throws TypeError {
         if (!env.contains(assignee)) {
-            throw new TypeError(String.format("the name %s is not defined", assignee));
+            throw TypeError.nameOutOfScope(assignee);
         } else {
             Type t1 = env.lookup(assignee).checkType(env), t2 = rvalue.checkType(env);
             if (!t1.equals(t2)) {

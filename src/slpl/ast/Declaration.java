@@ -39,7 +39,7 @@ public class Declaration extends AST {
     public Type checkType(Environment env) throws TypeError {
         Type t = rvalue.checkType(env);
         if(env.contains(name)) {
-            throw new TypeError(String.format("the name %s is already defined", name));
+            throw TypeError.nameOutOfScope(name);
         } else if(!t.equals(type)) {
             Type[] expected = {type}, was = {t};
             throw TypeError.expected(expected, was);

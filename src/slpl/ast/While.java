@@ -21,17 +21,17 @@ public class While extends AST {
 
     @Override
     public AST evaluate(Environment env, Memory mem) {
-        Environment env_ = env.clone();
+        Environment env_ = new Environment(env);
         while(((Boolean) condition.evaluate(env_, mem)).value()) {
             body.evaluate(env_, mem);
         }
-        mem.unwind(env_.size() - env.size());
+        mem.unwind(env_);
         return new Void();
     }
 
     @Override
     public Type checkType(Environment env) throws TypeError {
-        Environment env_ = env.clone();
+        Environment env_ = new Environment(env);
         Type t = condition.checkType(env_);
         if(!t.equals(Boolean.type())) {
             throw new TypeError("while-loop condition is not a boolean statement");

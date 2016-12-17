@@ -15,8 +15,8 @@ public class Interpreter {
         String path = "samples/basic.slpl";
         String programText = load(path);
         AST program = ProgramParser.parseProgram(programText);
-        program.checkType(new Environment());
-        program.evaluate(new Environment(), new Memory());
+        program.checkType(new Environment(null));
+        program.evaluate(new Environment(null), new Memory());
     }
 
     private static String load(String path) throws IOException {

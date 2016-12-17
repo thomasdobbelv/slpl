@@ -7,17 +7,17 @@ import slpl.util.StringConcatenator;
 
 public class Call extends AST {
 
-    private String callee;
+    private String name;
     private AST[] args;
 
-    public Call(String callee, AST[] args) {
-        this.callee = callee;
+    public Call(String name, AST[] args) {
+        this.name = name;
         this.args = args;
     }
 
     @Override
     public String toString() {
-        return String.format("(Call Name: %s, Arguments: [%s])", callee, StringConcatenator.concatenate(", ", args));
+        return String.format("(Call Name: %s, Arguments: [%s])", name, StringConcatenator.concatenate(", ", args));
     }
 
     @Override
@@ -27,7 +27,11 @@ public class Call extends AST {
 
     @Override
     public Type checkType(Environment env) throws TypeError {
-        return new Type("NYI for Call");
+        if(!env.contains(name)) {
+            throw TypeError.nameOutOfScope(name);
+        }
+        Variable var = env.lookup(name);
+        return null;
     }
 
     public AST[] args() {

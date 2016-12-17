@@ -25,7 +25,7 @@ public class Identifier extends AST {
     @Override
     public Type checkType(Environment env) throws TypeError {
         if(!env.contains(name)) {
-            throw new TypeError(String.format("the name %s is not defined", name));
+            throw TypeError.nameOutOfScope(name);
         } else {
             return env.lookup(name).checkType(env);
         }

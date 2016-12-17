@@ -1,13 +1,15 @@
 module Basic {
-    a: number = 10;
-    for(i: number = 0; i < 10; ++i) {
+    a: number = 20;
+    b: number = 10;
+    for(i: number = 0; i < b; ++i) {
+        print "i: ";
         println i;
-        a++;
+        print "a: ";
+        println a;
+        println "adding i to a";
+        a += i;
     }
+    print "after for-loop, a: ";
     println a;
-    if(a - 23 > 10) {
-        println "gt 10";
-    } else {
-        println "no";
-    }
+    println i;
 }
