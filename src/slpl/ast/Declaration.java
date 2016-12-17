@@ -1,49 +1,59 @@
 package slpl.ast;
 
-import slpl.PrimitiveType;
-import slpl.err.TypeCheckException;
-import slpl.util.Context;
-import slpl.util.TypeCheckerContext;
+import slpl.err.TypeError;
+import slpl.util.Environment;
+import slpl.util.Memory;
 
 public class Declaration extends AST {
 
     private String name;
-    private String type;
+    private Type type;
     private AST rvalue;
 
-    public Declaration(String name, String type, AST rvalue) {
+    public Declaration(String name, Type type, AST rvalue) {
         this.name = name;
         this.type = type;
         this.rvalue = rvalue;
     }
 
-    public Declaration(String name, String type) {
+    public Declaration(String name, Type type) {
         this.name = name;
         this.type = type;
         rvalue = new Null();
     }
 
-    @Override
-    public AST evaluate(Context context) {
-        context.add(new Variable(name, type, rvalue.evaluate(context)));
-        return this;
+    public String name() {
+        return name;
     }
 
-    @Override
-    public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
-        if(type.equals(PrimitiveType.NULL.getTypeName())) {
-            throw TypeCheckException.illegalVariableType(name, type);
-        }
-        typeCheckerContext.setType(name, type);
-        String rvalueType = rvalue.typeCheck(typeCheckerContext);
-        if(rvalueType.equals(PrimitiveType.NULL.getTypeName()) || type.equals(rvalueType)) {
-            return type;
-        }
-        throw TypeCheckException.rvalueTypeAssigneeTypeMismatch(rvalueType, type, name);
+    public Type type() {
+        return type;
     }
 
     @Override
     public String toString() {
-        return String.format("(Declaration %s %s %s)", name, type, rvalue);
+        return String.format("(Declaration Name: %s, Type: %s, Value: %s)", name, type, rvalue);
+    }
+
+    @Override
+    public AST evaluate(Environment env, Memory mem) {
+        AST val = rvalue.evaluate(env, mem);
+        Variable var = new Variable(name, type, mem.push(val));
+        env.bind(name, var);
+        return new Void();
+    }
+
+    @Override
+    public Type checkType(Environment env) throws TypeError {
+        Type t = rvalue.checkType(env);
+        if(env.contains(name)) {
+            throw TypeError.nameOutOfScope(name);
+        } else if(!t.equals(type)) {
+            Type[] expected = {type}, was = {t};
+            throw TypeError.expected(expected, was);
+        } else {
+            env.bind(name, new Variable(name, type));
+            return Void.type();
+        }
     }
 }

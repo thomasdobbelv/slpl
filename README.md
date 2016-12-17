@@ -38,6 +38,7 @@ Resources:
 [google](https://www.google.no/)
 [scrum board](https://scrumy.com/elf35guarded)
 http://giocc.com/writing-a-lexer-in-java-1-7-using-regex-named-capturing-groups.html
+[Shunting-yard algorithm](https://en.wikipedia.org/wiki/Shunting-yard_algorithm)
 
 Schedule: TBA
 

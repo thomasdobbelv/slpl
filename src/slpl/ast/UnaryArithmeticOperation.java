@@ -1,10 +1,9 @@
 package slpl.ast;
 
-import slpl.PrimitiveType;
-import slpl.err.TypeCheckException;
-import slpl.util.Context;
+import slpl.err.TypeError;
+import slpl.util.Environment;
+import slpl.util.Memory;
 import slpl.util.Operator;
-import slpl.util.TypeCheckerContext;
 
 public class UnaryArithmeticOperation extends AST {
 
@@ -17,28 +16,29 @@ public class UnaryArithmeticOperation extends AST {
     }
 
     @Override
-    public AST evaluate(Context context) {
-        Number num = (Number) arg.evaluate(context);
+    public String toString() {
+        return String.format("(%s %s)", operator, arg);
+    }
+
+    @Override
+    public AST evaluate(Environment env, Memory mem) {
         switch (operator) {
             case ADDITIVE_INVERSE:
-                return new Number((-num.getValue()) + "");
+                return new Number((-1 * ((Number) arg.evaluate(env, mem)).value()) + "");
+            default:
+                throw new UnsupportedOperationException(operator.toString());
         }
-        throw new UnsupportedOperationException(operator.toString());
     }
 
     @Override
-    public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
-        String argType = arg.typeCheck(typeCheckerContext);
-        String numberType = PrimitiveType.NUMBER.getTypeName();
-        if(argType.equals(numberType)) {
-            return numberType;
+    public Type checkType(Environment env) throws TypeError {
+        Type t = arg.checkType(env);
+        if (t.equals(Number.type())) {
+            return Number.type();
+        } else {
+            Type[] expected = {Number.type()}, was = {t};
+            throw TypeError.expected(expected, was);
         }
-        throw TypeCheckException.undefinedOperation(operator, argType);
-    }
-
-    @Override
-    public String toString() {
-        return String.format("(UnaryArithmeticOperation %s %s)", operator, arg);
     }
 
 }

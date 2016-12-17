@@ -1,10 +1,9 @@
 package slpl.ast;
 
-import slpl.PrimitiveType;
-import slpl.err.TypeCheckException;
-import slpl.util.Context;
+import slpl.err.TypeError;
+import slpl.util.Environment;
+import slpl.util.Memory;
 import slpl.util.Operator;
-import slpl.util.TypeCheckerContext;
 
 public class UnaryLogicalOperation extends AST {
 
@@ -17,27 +16,27 @@ public class UnaryLogicalOperation extends AST {
     }
 
     @Override
-    public AST evaluate(Context context) {
-        Boolean b = (Boolean) arg.evaluate(context);
+    public String toString() {
+        return String.format("(%s %s)", operator, arg);
+    }
+
+    @Override
+    public AST evaluate(Environment env, Memory mem) {
         switch (operator) {
             case NOT:
-                return new Boolean(!b.getValue());
+                return new Boolean(!((Boolean) arg.evaluate(env, mem)).value());
+            default:
+                throw new UnsupportedOperationException();
         }
-        throw new UnsupportedOperationException(operator.toString());
     }
 
     @Override
-    public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
-        String argType = arg.typeCheck(typeCheckerContext);
-        String booleanType = PrimitiveType.BOOLEAN.getTypeName();
-        if(argType.equals(booleanType)) {
-            return booleanType;
+    public Type checkType(Environment env) throws TypeError {
+        Type t = arg.checkType(env);
+        if (t.equals(Boolean.type())) {
+            return Boolean.type();
         }
-        throw TypeCheckException.undefinedOperation(operator, argType);
-    }
-
-    @Override
-    public String toString() {
-        return String.format("(UnaryLogicalOperation %s %s)", operator, arg);
+        Type[] expected = {Boolean.type()}, was = {t};
+        throw TypeError.expected(expected, was);
     }
 }

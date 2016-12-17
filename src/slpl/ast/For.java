@@ -1,9 +1,8 @@
 package slpl.ast;
 
-import slpl.PrimitiveType;
-import slpl.err.TypeCheckException;
-import slpl.util.Context;
-import slpl.util.TypeCheckerContext;
+import slpl.err.TypeError;
+import slpl.util.Environment;
+import slpl.util.Memory;
 
 public class For extends AST {
 
@@ -20,41 +19,43 @@ public class For extends AST {
     }
 
     @Override
-    public AST evaluate(Context context) {
-        if (init != null) {
-            init.evaluate(context);
+    public String toString() {
+        return String.format("(For Initializer: %s, Condition: %s, Update: %s, Body: %s)", init, condition, update, body);
+    }
+
+    @Override
+    public AST evaluate(Environment env, Memory mem) {
+        Environment env_ = new Environment(env);
+        if(init != null) {
+            init.evaluate(env_, mem);
         }
-        if (update != null) {
-            while (((Boolean) condition.evaluate(context)).getValue()) {
-                body.evaluate(context);
-                update.evaluate(context);
+        if(update == null) {
+            while(((Boolean) condition.evaluate(env_, mem)).value()) {
+                body.evaluate(env_, mem);
             }
         } else {
-            while (((Boolean) condition.evaluate(context)).getValue()) {
-                body.evaluate(context);
+            while(((Boolean) condition.evaluate(env_, mem)).value()) {
+                body.evaluate(env_, mem);
+                update.evaluate(env_, mem);
             }
         }
-        return this;
+        mem.unwind(env_);
+        return new Void();
     }
 
     @Override
-    public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
-        if (init != null) {
-            init.typeCheck(typeCheckerContext);
+    public Type checkType(Environment env) throws TypeError {
+        Environment env_ = new Environment(env);
+        if(init != null) {
+            init.checkType(env_);
         }
-        String conditionType = condition.typeCheck(typeCheckerContext);
-        if (!conditionType.equals(PrimitiveType.BOOLEAN.getTypeName())) {
-            throw new TypeCheckException("For-loop condition is not a boolean expression");
+        if(condition != null && !condition.checkType(env_).equals(Boolean.type())) {
+            throw new TypeError("for-loop condition is not a boolean statement");
         }
         if(update != null) {
-            update.typeCheck(typeCheckerContext);
+            update.checkType(env_);
         }
-        body.typeCheck(typeCheckerContext);
-        return PrimitiveType.VOID.getTypeName();
-    }
-
-    @Override
-    public String toString() {
-        return String.format("(For %s; %s; %s %s)", init, condition, update, body);
+        body.checkType(env_);
+        return Void.type();
     }
 }

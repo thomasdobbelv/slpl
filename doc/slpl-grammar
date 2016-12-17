@@ -1,21 +1,31 @@
 <Program>               ::= <Module>
 
-<Module>                ::= "module" <Identifier> <Block>
+<Module>                ::= "module" <Id> <Block>
 
 <Block>                 ::= "{" <Statement>* "}"
 
 <Statement>             ::= <If>
                         |   <While>
                         |   <For>
-                        |   (<Expression>|<Print>|<Declaration>|<Assignment>) ";"
+                        |   <Function>
+                        |   (<Function Call>|<Print>|<Declaration>|<Assignment>|<Return Statement>) ";"
+
+<Function>              ::= "function" <Id> <Parameter List> ":" <Type> <Block>
+
+<Return Statement>      ::= "return" <Rvalue>
+
+<Parameter List>        ::= "(" (<Parameter> ",")* ")"
+<Parameter>             ::= <Declaration>
 
 <For>                   ::= "for" "(" <Declaration>? ";" <Expression>? ";" <Assignment>? ")" <Block>
 
 <While>                 ::= "while" "(" <Expression> ")" <Block>
 
-<Assignment>            :== <Prefix Operator> <Identifier>
-                        |   <Identifier> <Postfix Operator>
-                        |   <Identifier> <Assignment Operator> <Expression>
+<Assignment>            :== <Prefix Operator> <Id>
+                        |   <Id> <Postfix Operator>
+                        |   <Id> <Assignment Operator> <Rvalue>
+
+<Rvalue>                |   <Expression>
 
 <Prefix Operator>       ::= "++"
                         |   "--"
@@ -27,35 +37,38 @@
                         |   "-="
                         |   "*="
                         |   "/="
+                        |   "="
 
-<Declaration>           ::= <Identifier> ":" <Type> ("=" <Expression>)?
+<Function Call>         ::= "(" (<Expression> ",")* ")"
 
-<Type>                  ::= <Identifier>
+<Declaration>           ::= <Id> ":" <Type> ("=" <Rvalue>)?
 
-<Primitive Type>        ::= number|boolean
+<Type>                  ::= <Id>
 
 <Print>                 ::= println|print (<String>|<Expression>)
 
 <If>                    ::= "if" "(" <Expression> ")" <Block> <Else>?
 <Else>                  ::= "else" (<If>|<Block>)
 
-<Expression>            ::= <Term> ((+|-|\|\|<Relational Operator>) <Expression>)?
+<Expression>            ::= <Term> ((+|-|\|\||<Relational Operator>) <Expression>)?
 <Term>                  ::= <Factor> ((*|/|&&) <Term>)?
 <Factor>                ::= [!-] <Factor>
                         |   "(" <Expression> ")"
+                        |   <Function Call>
                         |   <Value>
 
-<Value>                 ::= <Number>
+<Function Call>         ::= <Id> "(" (<Expression> ",")* ")"
+
+<Value>                 ::= <Num>
                         |   <Boolean>
                         |   <String>
                         |   <Null>
-                        |   <Identifier>
 
-<Number>                ::= [0-9]+(\.[0-9]+)?
+<Num>                   ::= [0-9]+(\.[0-9]+)?
 <Boolean>               ::= true|false
 <String>                ::= ^"[^"\\]*(\\.[^"\\]*)*"$
 <Null>                  ::= "null"
-<Identifier>            ::= [A-Za-z][A-Za-z0-9]*
+<Id>                    ::= [A-Za-z][A-Za-z0-9]*
 
 <Relational Operator>   ::= "=="
                         |   "!="

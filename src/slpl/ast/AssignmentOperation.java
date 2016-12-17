@@ -1,73 +1,68 @@
 package slpl.ast;
 
-import slpl.PrimitiveType;
-import slpl.err.TypeCheckException;
-import slpl.util.Context;
+import slpl.err.TypeError;
+import slpl.util.Environment;
+import slpl.util.Memory;
 import slpl.util.Operator;
-import slpl.util.TypeCheckerContext;
 
 public class AssignmentOperation extends AST {
 
-    protected String assigneeName;
+    protected String assignee;
     protected Operator operator;
     private AST rvalue;
 
-    public AssignmentOperation(String assigneeName, Operator operator, AST rvalue) {
-        this.assigneeName = assigneeName;
+    public AssignmentOperation(String assignee, Operator operator, AST rvalue) {
+        this.assignee = assignee;
         this.operator = operator;
         this.rvalue = rvalue;
     }
 
     @Override
-    public AST evaluate(Context context) {
-        AST rvalue = this.rvalue.evaluate(context);
-        if (operator != Operator.ASSIGN) {
-            double val1 = ((Number) context.get(assigneeName).getValue()).getValue();
-            double val2 = ((Number) rvalue).getValue();
-            switch (operator) {
-                case ADDEQ:
-                    rvalue = new Number((val1 + val2) + "");
-                    break;
-                case SUBEQ:
-                    rvalue = new Number((val1 - val2) + "");
-                    break;
-                case MULEQ:
-                    rvalue = new Number((val1 * val2) + "");
-                    break;
-                case DIVEQ:
-                    rvalue = new Number((val1 / val2) + "");
-                    break;
-            }
-        }
-        context.set(assigneeName, rvalue);
-        return rvalue;
-    }
-
-    @Override
-    public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
-        if (!typeCheckerContext.contains(assigneeName)) {
-            throw TypeCheckException.undefinedName(assigneeName);
-        }
-        String assigneeType = typeCheckerContext.getType(assigneeName);
-        String rvalueType = rvalue.typeCheck(typeCheckerContext);
-        if (rvalueType.equals(PrimitiveType.NULL.getTypeName())) {
-            switch (operator) {
-                case ADDEQ:
-                case SUBEQ:
-                case MULEQ:
-                case DIVEQ:
-                    throw TypeCheckException.undefinedOperation(operator, rvalueType);
-                case ASSIGN:
-                    return assigneeType;
-            }
-        } else if (assigneeType.equals(rvalueType)) {
-            return assigneeType;
-        }
-        throw TypeCheckException.rvalueTypeAssigneeTypeMismatch(rvalueType, assigneeType, assigneeName);
-    }
-
-    @Override
     public String toString() {
-        return String.format("(AssignmentOperation %s %s)", rvalue, assigneeName);
+        return String.format("(%s Value: %s, Assignee: %s)", operator, rvalue, assignee);
     }
+
+    @Override
+    public AST evaluate(Environment env, Memory mem) {
+        AST val = rvalue.evaluate(env, mem);
+        Variable var = env.lookup(assignee);
+        if (operator != Operator.ASSIGN) {
+            double a = ((Number) var.evaluate(env, mem)).value(), b = ((Number) val).value();
+            switch (operator) {
+                case ADDEQ:
+                    a += b;
+                    break;
+                case SUBEQ:
+                    a -= b;
+                    break;
+                case MULEQ:
+                    a *= b;
+                    break;
+                case DIVEQ:
+                    a /= b;
+                    break;
+                default:
+                    throw new UnsupportedOperationException(operator.toString());
+            }
+            val = new Number(a + "");
+        }
+        mem.set(var.location(), val);
+        return val;
+    }
+
+    @Override
+    public Type checkType(Environment env) throws TypeError {
+        if (!env.contains(assignee)) {
+            throw TypeError.nameOutOfScope(assignee);
+        } else {
+            Type t1 = env.lookup(assignee).checkType(env), t2 = rvalue.checkType(env);
+            if (!t1.equals(t2)) {
+                Type[] expected = {t1}, was = {t2};
+                throw TypeError.expected(expected, was);
+            } else {
+                return t1;
+            }
+        }
+    }
+
 }

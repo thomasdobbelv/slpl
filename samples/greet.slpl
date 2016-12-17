@@ -1,0 +1,9 @@
+module Basic {
+
+    function greet(name: string): void {
+        print "Hello, ";
+        println name;
+    }
+
+    greet("world");
+}

@@ -1,9 +1,8 @@
 package slpl.ast;
 
-import slpl.PrimitiveType;
-import slpl.err.TypeCheckException;
-import slpl.util.Context;
-import slpl.util.TypeCheckerContext;
+import slpl.err.TypeError;
+import slpl.util.Environment;
+import slpl.util.Memory;
 
 public class If extends AST {
 
@@ -21,31 +20,31 @@ public class If extends AST {
     }
 
     @Override
-    public AST evaluate(Context context) {
-        Boolean b = (Boolean) condition.evaluate(context);
-        if(b.getValue()) {
-            then.evaluate(context);
-        } else if (else_ != null){
-            else_.evaluate(context);
-        }
-        return this;
-    }
-
-    @Override
-    public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
-        String conditionType = condition.typeCheck(typeCheckerContext);
-        if(!conditionType.equals(PrimitiveType.BOOLEAN.getTypeName())) {
-            throw new TypeCheckException("If-statement condition is not a boolean expression");
-        }
-        then.typeCheck(typeCheckerContext);
-        if(else_ != null) {
-            else_.typeCheck(typeCheckerContext);
-        }
-        return PrimitiveType.VOID.getTypeName();
-    }
-
-    @Override
     public String toString() {
-        return String.format("(If %s Then %s Else %s)", condition, then, else_);
+        return String.format("(If Condition: %s, Then: %s, Else: %s)", condition, then, else_);
+    }
+
+    @Override
+    public AST evaluate(Environment env, Memory mem) {
+        Environment env_ = new Environment(env);
+        if(((Boolean) condition.evaluate(env, mem)).value()) {
+            then.evaluate(env_, mem);
+        } else if(else_ != null) {
+            else_.evaluate(env_, mem);
+        }
+        mem.unwind(env);
+        return new Void();
+    }
+
+    @Override
+    public Type checkType(Environment env) throws TypeError {
+        if(!condition.checkType(env).equals(Boolean.type())) {
+            throw new TypeError("if-statement condition is not a boolean statement");
+        }
+        Environment env_ = new Environment(env);
+        then.checkType(env_);
+        env_ = new Environment(env);
+        else_.checkType(env_);
+        return Void.type();
     }
 }

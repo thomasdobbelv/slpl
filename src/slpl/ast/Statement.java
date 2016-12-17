@@ -1,9 +1,8 @@
 package slpl.ast;
 
-import slpl.PrimitiveType;
-import slpl.err.TypeCheckException;
-import slpl.util.Context;
-import slpl.util.TypeCheckerContext;
+import slpl.err.TypeError;
+import slpl.util.Environment;
+import slpl.util.Memory;
 
 public class Statement extends AST {
 
@@ -14,19 +13,19 @@ public class Statement extends AST {
     }
 
     @Override
-    public AST evaluate(Context context) {
-        statement.evaluate(context);
-        return this;
-    }
-
-    @Override
-    public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
-        statement.typeCheck(typeCheckerContext);
-        return PrimitiveType.VOID.getTypeName();
-    }
-
-    @Override
     public String toString() {
         return String.format("(Statement %s)", statement);
+    }
+
+    @Override
+    public AST evaluate(Environment env, Memory mem) {
+        statement.evaluate(env, mem);
+        return new Void();
+    }
+
+    @Override
+    public Type checkType(Environment env) throws TypeError {
+        statement.checkType(env);
+        return Void.type();
     }
 }

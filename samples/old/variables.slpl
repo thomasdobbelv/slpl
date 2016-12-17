@@ -1,7 +1,0 @@
-module Declarations {
-    num1:number = 3;
-    num2:number = 2.18;
-    println num1 + num2;
-    bool1:boolean = true;
-    println bool1;
-}

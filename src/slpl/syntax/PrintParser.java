@@ -10,9 +10,9 @@ public class PrintParser {
 
     public static Print parsePrint(TokenStream ts) throws ParseException {
         ts.expect(TokenType.PRINT, TokenType.PRINTLN);
-        boolean nl = ts.consume().getType() == TokenType.PRINTLN;
+        boolean nl = ts.consume().type() == TokenType.PRINTLN;
         if(ts.hasNext(TokenType.STRING)) {
-            return new Print(new Str(ts.consume().getContent()), nl);
+            return new Print(new Str(ts.consume().content()), nl);
         } else {
             return new Print(ExpressionParser.parseExpression(ts), nl);
         }

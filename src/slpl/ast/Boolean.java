@@ -1,11 +1,12 @@
 package slpl.ast;
 
-import slpl.PrimitiveType;
-import slpl.util.Context;
-import slpl.util.TypeCheckerContext;
+import slpl.err.TypeError;
+import slpl.util.Environment;
+import slpl.util.Memory;
 
 public class Boolean extends AST {
 
+    private static final Type type = new Type("boolean");
     private boolean value;
 
     public Boolean(boolean value) {
@@ -13,21 +14,25 @@ public class Boolean extends AST {
     }
 
     @Override
-    public AST evaluate(Context _) {
+    public String toString() {
+        return value + "";
+    }
+
+    @Override
+    public AST evaluate(Environment env, Memory mem) {
         return this;
     }
 
-    @Override
-    public String typeCheck(TypeCheckerContext _) {
-        return PrimitiveType.BOOLEAN.getTypeName();
+    public Type checkType(Environment env) throws TypeError {
+        return type;
     }
 
-    @Override
-    public String toString() {
-        return String.format("(Boolean %s)", value);
+    public static Type type() {
+        return type;
     }
 
-    public boolean getValue() {
+    public boolean value() {
         return value;
     }
+
 }

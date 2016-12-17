@@ -4,26 +4,26 @@ import slpl.err.TypeError;
 import slpl.util.Environment;
 import slpl.util.Memory;
 
-public class Null extends AST {
+public class Return extends AST {
 
-    private static final Type type = new Type("null");
+    private AST rvalue;
+
+    public Return(AST rvalue) {
+        this.rvalue = rvalue;
+    }
 
     @Override
     public String toString() {
-        return type.name();
+        return String.format("(Return Value: %s)", rvalue);
     }
 
     @Override
     public AST evaluate(Environment env, Memory mem) {
-        return this;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Type checkType(Environment env) throws TypeError {
-        return type;
-    }
-
-    public static Type type() {
-        return type;
+        return new Type("NYI for return");
     }
 }

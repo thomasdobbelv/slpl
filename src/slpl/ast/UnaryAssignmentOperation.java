@@ -1,10 +1,9 @@
 package slpl.ast;
 
-import slpl.PrimitiveType;
-import slpl.err.TypeCheckException;
-import slpl.util.Context;
+import slpl.err.TypeError;
+import slpl.util.Environment;
+import slpl.util.Memory;
 import slpl.util.Operator;
-import slpl.util.TypeCheckerContext;
 
 public class UnaryAssignmentOperation extends AssignmentOperation {
 
@@ -16,25 +15,51 @@ public class UnaryAssignmentOperation extends AssignmentOperation {
     }
 
     @Override
-    public AST evaluate(Context context) {
-        Number before = (Number) context.get(assigneeName).evaluate(context);
-        double val = before.getValue() + (operator == Operator.INCR ? 1 : -1);
-        Number after = new Number(val + "");
-        context.set(assigneeName, after);
-        return isPrefixOperation ? after : before;
+    public String toString() {
+        if (isPrefixOperation) {
+            return String.format("(%s %s)", operator, assignee);
+        } else {
+            return String.format("(%s %s)", assignee, operator);
+        }
     }
 
     @Override
-    public String typeCheck(TypeCheckerContext typeCheckerContext) throws TypeCheckException {
-        if(!typeCheckerContext.contains(assigneeName)) {
-            throw TypeCheckException.undefinedName(assigneeName);
+    public AST evaluate(Environment env, Memory mem) {
+        Variable var = env.lookup(assignee);
+        Number before = ((Number) var.evaluate(env, mem));
+        double val = before.value();
+        switch (operator) {
+            case INCR:
+                ++val;
+                break;
+            case DECR:
+                --val;
+                break;
+            default:
+                throw new UnsupportedOperationException();
         }
-        String assigneeType = typeCheckerContext.getType(assigneeName);
-        String numberType = PrimitiveType.NUMBER.getTypeName();
-        if(assigneeType.equals(numberType)) {
-            return numberType;
+        Number after = new Number(val + "");
+        mem.set(var.location(), after);
+        if(isPrefixOperation) {
+            return after;
+        } else {
+            return before;
         }
-        throw TypeCheckException.undefinedOperation(operator, assigneeType);
+    }
+
+    @Override
+    public Type checkType(Environment env) throws TypeError {
+        if (!env.contains(assignee)) {
+            throw TypeError.nameOutOfScope(assignee);
+        } else {
+            Type t = env.lookup(assignee).checkType(env);
+            if (!t.equals(Number.type())) {
+                Type[] expected = {Number.type()}, was = {t};
+                throw TypeError.expected(expected, was);
+            } else {
+                return t;
+            }
+        }
     }
 
 }
