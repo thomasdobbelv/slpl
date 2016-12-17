@@ -50,6 +50,9 @@ public class Function extends AST {
         // TODO: check if function returns proper value (according to return type) for all inputs (all possible branches)
         env.bind(name, new Variable(name, type));
         this.env = env.clone();
+        for(Declaration param : params) {
+            this.env.bind(param.name(), new Variable(param.name(), param.type()));
+        }
         body.checkType(this.env);
         this.env = null;
         return Void.type();
