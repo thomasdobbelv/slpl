@@ -12,7 +12,7 @@ import java.io.*;
 public class Interpreter {
 
     public static void main(String[] args) throws IOException, ParseException, TypeError {
-        String path = "samples/basic.slpl";
+        String path = "samples/greet.slpl";
         String programText = load(path);
         AST program = ProgramParser.parseProgram(programText);
         System.out.println(program);
