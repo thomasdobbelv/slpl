@@ -30,6 +30,10 @@ public class Declaration extends AST {
         return type;
     }
 
+    public void assign(AST rvalue) {
+        this.rvalue = rvalue;
+    }
+
     @Override
     public String toString() {
         return String.format("(Declaration Name: %s, Type: %s, Value: %s)", name, type, rvalue);
@@ -56,4 +60,5 @@ public class Declaration extends AST {
             return Void.type();
         }
     }
+
 }

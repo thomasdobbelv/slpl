@@ -6,17 +6,16 @@ import java.util.ArrayList;
 
 public class Memory {
 
-    private int sp = 0, fp = 0;
+    private int sp = 0;
     private ArrayList<AST> mem = new ArrayList<>();
 
     public int push(AST val) {
-        ++sp;
         if(sp >= mem.size()) {
             mem.add(val);
         } else {
             mem.set(sp, val);
         }
-        return sp - 1;
+        return sp++;
     }
 
     public void unwind(Environment env) {

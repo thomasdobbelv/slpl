@@ -12,10 +12,10 @@ import java.io.*;
 public class Interpreter {
 
     public static void main(String[] args) throws IOException, ParseException, TypeError {
-        String path = "samples/greet.slpl";
+        String path = "samples/fibonacci.slpl";
         String programText = load(path);
         AST program = ProgramParser.parseProgram(programText);
-        System.out.println(program);
+//        System.out.println(program);
         program.checkType(new Environment(null));
         program.evaluate(new Environment(null), new Memory());
     }

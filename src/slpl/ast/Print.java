@@ -25,7 +25,12 @@ public class Print extends AST {
         if(out instanceof Str) {
             System.out.print(((Str) out).value());
         } else if(out instanceof Number) {
-            System.out.print(((Number) out).value());
+            double val = ((Number) out).value();
+            if(val == (int) val) {
+                System.out.print((int) val);
+            } else {
+                System.out.print(val);
+            }
         } else if(out instanceof Boolean) {
             System.out.print(((Boolean) out).value());
         } else if(out instanceof Null) {

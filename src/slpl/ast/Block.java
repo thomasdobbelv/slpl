@@ -22,16 +22,25 @@ public class Block extends AST {
     @Override
     public AST evaluate(Environment env, Memory mem) {
         for(Statement s : statements) {
-            s.evaluate(env, mem);
+            if(s.returns()) {
+                return s.evaluate(env, mem);
+            } else {
+                s.evaluate(env, mem);
+            }
         }
         return new Void();
     }
 
     @Override
     public Type checkType(Environment env) throws TypeError {
+        Type ret = Void.type();
         for(Statement s : statements) {
-            s.checkType(env);
+            if(s.returns()) {
+                ret = s.checkType(env);
+            } else {
+                s.checkType(env);
+            }
         }
-        return Void.type();
+        return ret;
     }
 }

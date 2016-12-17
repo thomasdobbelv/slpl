@@ -24,7 +24,7 @@ public class Variable extends AST {
 
     @Override
     public String toString() {
-        return String.format("(Variable Name: %s, Type: %s)", name, type);
+        return String.format("(Variable Name: %s, Type: %s Location: %s)", name, type, loc == NOT_ASSIGNED ? "NA" : loc);
     }
 
     @Override

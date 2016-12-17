@@ -1,7 +1,0 @@
-module Fibonacci {
-
-    function fibonacci(n: number) {
-        if(n <= 1)
-    }
-
-}

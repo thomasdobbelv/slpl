@@ -19,11 +19,11 @@ public class Return extends AST {
 
     @Override
     public AST evaluate(Environment env, Memory mem) {
-        throw new UnsupportedOperationException();
+        return rvalue.evaluate(env, mem);
     }
 
     @Override
     public Type checkType(Environment env) throws TypeError {
-        return new Type("NYI for return");
+        return rvalue.checkType(env);
     }
 }

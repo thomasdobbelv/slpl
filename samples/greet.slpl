@@ -3,6 +3,7 @@ module Basic {
     function greet(name: string): void {
         print "Hello, ";
         println name;
+        return 2;
     }
 
     greet("world");

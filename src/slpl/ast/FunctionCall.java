@@ -26,8 +26,8 @@ public class FunctionCall extends AST {
         Environment env_ = new Environment(callee.environment());
         Declaration[] params = callee.parameters();
         for(int i = 0; i < args.length; ++i) {
-            AST arg = args[i].evaluate(env, mem);
-            env_.bind(params[i].name(), new Variable(params[i].name(), params[i].type(), mem.push(arg)));
+            params[i].assign(args[i].evaluate(env, mem));
+            params[i].evaluate(env_, mem);
         }
         AST ret = callee.body().evaluate(env_, mem);
         mem.unwind(env_);

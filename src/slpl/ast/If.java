@@ -32,7 +32,7 @@ public class If extends AST {
         } else if(else_ != null) {
             else_.evaluate(env_, mem);
         }
-        mem.unwind(env);
+        mem.unwind(env_);
         return new Void();
     }
 
