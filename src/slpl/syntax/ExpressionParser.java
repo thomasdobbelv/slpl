@@ -15,7 +15,7 @@ import java.util.*;
 
 public class ExpressionParser {
 
-    private static final Queue<Call> callQueue = new LinkedList<>();
+    private static final Queue<FunctionCall> fcQueue = new LinkedList<>();
 
     public static AST parseExpression(TokenStream ts) throws ParseException {
         int start = ts.position();
@@ -26,7 +26,7 @@ public class ExpressionParser {
         for (Token t : transformInfixToPostfix(ts, end)) {
             TokenType tokenType = t.type();
             if (tokenType.instanceOf(TokenTypeClass.OPERATOR) || tokenType == TokenType.FID) {
-                int argc = tokenType.instanceOf(TokenTypeClass.OPERATOR) ? Operator.fromToken(t).arity() : callQueue.poll().args().length;
+                int argc = tokenType.instanceOf(TokenTypeClass.OPERATOR) ? Operator.fromToken(t).arity() : fcQueue.poll().args().length;
                 AST[] arguments = new AST[argc];
                 for (int i = argc - 1; i >= 0; --i) {
                     arguments[i] = s.pop();
@@ -61,7 +61,7 @@ public class ExpressionParser {
                 }
             }
         } else if (tokenType == TokenType.FID) {
-            return new Call(t.content(), args);
+            return new FunctionCall(t.content(), args);
         }
         throw new IllegalArgumentException(String.format("%s is not defined for argument(s) (%s)", t, StringConcatenator.concatenate(", ", args)));
     }
@@ -120,7 +120,7 @@ public class ExpressionParser {
             if (ts.hasNext(TokenType.LPAR)) {
                 ts.reset(indexBeforeLookahead);
                 ts.replace(new Token(TokenType.FID, t.content(), t.row(), t.col()));
-                callQueue.add(CallParser.parseCall(ts));
+                fcQueue.add(FunctionCallParser.parseFunctionCall(ts));
             }
 
         }

@@ -38,6 +38,15 @@ public class Environment {
     }
 
     @Override
+    public Environment clone() {
+        Environment clone = new Environment(enclosing);
+        for(String name : env.keySet()) {
+            clone.bind(name, env.get(name));
+        }
+        return clone;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for(String name : env.keySet()) {

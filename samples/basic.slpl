@@ -1,15 +1,7 @@
 module Basic {
-    a: number = 20;
-    b: number = 10;
-    for(i: number = 0; i < b; ++i) {
-        print "i: ";
-        println i;
-        print "a: ";
-        println a;
-        println "adding i to a";
-        a += i;
+    function greet(name: string): void {
+        print "Hello, ";
+        println name;
     }
-    print "after for-loop, a: ";
-    println a;
-    println i;
+    greet("world");
 }

@@ -1,16 +1,16 @@
 package slpl.syntax;
 
 import slpl.ast.AST;
-import slpl.ast.Call;
+import slpl.ast.FunctionCall;
 import slpl.err.ParseException;
 import slpl.syntax.lexical.TokenType;
 import slpl.util.TokenStream;
 
 import java.util.LinkedList;
 
-public class CallParser {
+public class FunctionCallParser {
 
-    public static Call parseCall(TokenStream ts) throws ParseException {
+    public static FunctionCall parseFunctionCall(TokenStream ts) throws ParseException {
         ts.expect(TokenType.FID);
         String name = ts.consume().content();
         ts.expect(TokenType.LPAR);
@@ -31,7 +31,7 @@ public class CallParser {
         for(int i = 0; i < args.length; ++i) {
             args[i] = argList.poll();
         }
-        return new Call(name, args);
+        return new FunctionCall(name, args);
     }
 
 }

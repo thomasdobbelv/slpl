@@ -15,6 +15,7 @@ public class Interpreter {
         String path = "samples/basic.slpl";
         String programText = load(path);
         AST program = ProgramParser.parseProgram(programText);
+        System.out.println(program);
         program.checkType(new Environment(null));
         program.evaluate(new Environment(null), new Memory());
     }

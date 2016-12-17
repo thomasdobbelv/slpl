@@ -12,6 +12,7 @@ public enum TokenType {
     IF("if", KEYWORD),
     ELSE("else", KEYWORD),
     MODULE("module", KEYWORD),
+    FUNCTION("function", KEYWORD),
     PRINTLN("println", KEYWORD),
     PRINT("print", KEYWORD),
     RETURN("return", KEYWORD),

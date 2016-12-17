@@ -22,6 +22,14 @@ public class Declaration extends AST {
         rvalue = new Null();
     }
 
+    public String name() {
+        return name;
+    }
+
+    public Type type() {
+        return type;
+    }
+
     @Override
     public String toString() {
         return String.format("(Declaration Name: %s, Type: %s, Value: %s)", name, type, rvalue);

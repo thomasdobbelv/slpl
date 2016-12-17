@@ -7,11 +7,12 @@
 <Statement>             ::= <If>
                         |   <While>
                         |   <For>
-                        |   (<Call>|<Print>|<Declaration>|<Assignment>|<Return Statement>) ";"
+                        |   <Function>
+                        |   (<Function Call>|<Print>|<Declaration>|<Assignment>|<Return Statement>) ";"
+
+<Function>              ::= "function" <Id> <Parameter List> ":" <Type> <Block>
 
 <Return Statement>      ::= "return" <Rvalue>
-
-<Lambda Function>       ::= <Parameter List> "->" <Type> <Block>
 
 <Parameter List>        ::= "(" (<Parameter> ",")* ")"
 <Parameter>             ::= <Declaration>
@@ -24,8 +25,7 @@
                         |   <Id> <Postfix Operator>
                         |   <Id> <Assignment Operator> <Rvalue>
 
-<Rvalue>                ::= <Lambda Function>
-                        |   <Expression>
+<Rvalue>                |   <Expression>
 
 <Prefix Operator>       ::= "++"
                         |   "--"
@@ -39,7 +39,7 @@
                         |   "/="
                         |   "="
 
-<Call>            ::= "(" (<Expression> ",")* ")"
+<Function Call>         ::= "(" (<Expression> ",")* ")"
 
 <Declaration>           ::= <Id> ":" <Type> ("=" <Rvalue>)?
 
@@ -54,17 +54,17 @@
 <Term>                  ::= <Factor> ((*|/|&&) <Term>)?
 <Factor>                ::= [!-] <Factor>
                         |   "(" <Expression> ")"
-                        |   <Call>
+                        |   <Function Call>
                         |   <Value>
 
-<Call>  ::= <Id> "(" (<Expression> ",")* ")"
+<Function Call>         ::= <Id> "(" (<Expression> ",")* ")"
 
 <Value>                 ::= <Num>
                         |   <Boolean>
                         |   <String>
                         |   <Null>
 
-<Num>                ::= [0-9]+(\.[0-9]+)?
+<Num>                   ::= [0-9]+(\.[0-9]+)?
 <Boolean>               ::= true|false
 <String>                ::= ^"[^"\\]*(\\.[^"\\]*)*"$
 <Null>                  ::= "null"
