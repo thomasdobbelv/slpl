@@ -27,13 +27,13 @@ public class StatementParser {
             int lookaheadStart = ts.position();
             Token t = ts.consume();
             if(ts.hasNext(TokenType.COLON)) {
-                ts.reset(lookaheadStart);
+                ts.setPosition(lookaheadStart);
                 statement = new Statement(DeclarationParser.parseDeclaration(ts));
             } else if (ts.inspect().type().instanceOf(TokenTypeClass.ASSIGNMENT_OPERATOR)){
-                ts.reset(lookaheadStart);
+                ts.setPosition(lookaheadStart);
                 statement = new Statement(AssignmentParser.parseAssignment(ts));
             } else if (ts.hasNext(TokenType.LPAR)) {
-                ts.reset(lookaheadStart);
+                ts.setPosition(lookaheadStart);
                 ts.replace(new Token(TokenType.FID, t.content(), t.row(), t.col()));
                 statement = new Statement(FunctionCallParser.parseFunctionCall(ts));
             } else {

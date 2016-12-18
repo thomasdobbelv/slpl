@@ -15,25 +15,27 @@ import java.util.*;
 
 public class ExpressionParser {
 
-    private static final Queue<FunctionCall> fcQueue = new LinkedList<>();
+    private static HashMap<Token, FunctionCallWrapper> functionCalls = new HashMap<>();
 
     public static AST parseExpression(TokenStream ts) throws ParseException {
         int start = ts.position();
         recognizeExpression(ts);
         int end = ts.position();
-        ts.reset(start);
+        ts.setPosition(start);
         Stack<AST> s = new Stack<>();
         for (Token t : transformInfixToPostfix(ts, end)) {
             TokenType tokenType = t.type();
-            if (tokenType.instanceOf(TokenTypeClass.OPERATOR) || tokenType == TokenType.FID) {
-                int argc = tokenType.instanceOf(TokenTypeClass.OPERATOR) ? Operator.fromToken(t).arity() : fcQueue.poll().args().length;
-                AST[] arguments = new AST[argc];
-                for (int i = argc - 1; i >= 0; --i) {
+            if (tokenType.instanceOf(TokenTypeClass.OPERATOR)) {
+                int arity = Operator.fromToken(t).arity();
+                AST[] arguments = new AST[arity];
+                for (int i = arity - 1; i >= 0; --i) {
                     arguments[i] = s.pop();
                 }
                 s.push(toOperationNode(t, arguments));
             } else if (tokenType.instanceOf(TokenTypeClass.VALUE)) {
                 s.push(toValueNode(t));
+            } else if (tokenType == TokenType.FID) {
+                s.push(functionCalls.get(t).node);
             } else {
                 throw ParseException.unexpected(t);
             }
@@ -60,8 +62,6 @@ public class ExpressionParser {
                     return new RelationalOperation(Operator.fromToken(t), args[0], args[1]);
                 }
             }
-        } else if (tokenType == TokenType.FID) {
-            return new FunctionCall(t.content(), args);
         }
         throw new IllegalArgumentException(String.format("%s is not defined for argument(s) (%s)", t, StringConcatenator.concatenate(", ", args)));
     }
@@ -118,26 +118,16 @@ public class ExpressionParser {
             int lookaheadStart = ts.position();
             Token t = ts.consume();
             if (ts.hasNext(TokenType.LPAR)) {
-                ts.reset(lookaheadStart);
-                ts.replace(new Token(TokenType.FID, t.content(), t.row(), t.col()));
-                enqueueFunctionCall(FunctionCallParser.parseFunctionCall(ts));
+                ts.setPosition(lookaheadStart);
+                t = new Token(TokenType.FID, t.content(), t.row(), t.col());
+                ts.replace(t);
+                FunctionCall functionCall = FunctionCallParser.parseFunctionCall(ts);
+                functionCalls.put(t, new FunctionCallWrapper(ts.position(), functionCall));
             }
 
         }
     }
 
-    public static void enqueueFunctionCall(FunctionCall fc) {
-        for(AST arg : fc.args()) {
-            if(arg instanceof FunctionCall) {
-                enqueueFunctionCall((FunctionCall) arg);
-            }
-        }
-        fcQueue.add(fc);
-    }
-
-    /**
-     * Dijkstra's Shunting Yard algorithm.
-     */
     public static List<Token> transformInfixToPostfix(TokenStream ts, int end) throws ParseException {
         LinkedList<Token> outputQueue = new LinkedList<>();
         Stack<Token> operatorStack = new Stack<>();
@@ -150,7 +140,8 @@ public class ExpressionParser {
                 enqueuePrecedentOperators(outputQueue, operatorStack, Operator.fromToken(t));
                 operatorStack.push(t);
             } else if (tokenType == TokenType.FID) {
-                operatorStack.push(t);
+                outputQueue.add(t);
+                ts.setPosition(functionCalls.get(t).end);
             } else if (tokenType == TokenType.LPAR) {
                 operatorStack.push(t);
             } else if (tokenType == TokenType.COMMA) {
@@ -202,6 +193,18 @@ public class ExpressionParser {
                 break;
             }
         }
+    }
+
+    private static class FunctionCallWrapper {
+
+        private int end;
+        private FunctionCall node;
+
+        public FunctionCallWrapper(int end, FunctionCall node) {
+            this.end = end;
+            this.node = node;
+        }
+
     }
 
 }
