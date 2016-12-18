@@ -2,6 +2,7 @@ package slpl.syntax.lexical;
 
 public enum TokenTypeClass {
 
+    COMMENT,
     OPERATOR,
     BINARY_OPERATOR,
     UNARY_OPERATOR,

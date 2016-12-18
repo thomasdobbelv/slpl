@@ -1,7 +1,5 @@
 package slpl.syntax.lexical;
 
-import slpl.err.ParseException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -30,7 +28,7 @@ public class Lexer {
                     } else {
                         col += capturedSubsequence.length();
                     }
-                    if (!tokenType.instanceOf(TokenTypeClass.LAYOUT) || !skipLayout) {
+                    if (!(tokenType.instanceOf(TokenTypeClass.COMMENT) || tokenType.instanceOf(TokenTypeClass.LAYOUT)) || !skipLayout) {
                         tokens.add(t);
                         break;
                     }
@@ -38,10 +36,6 @@ public class Lexer {
             }
         }
         return tokens;
-    }
-
-    public static void main(String[] args) throws ParseException {
-
     }
 
 }

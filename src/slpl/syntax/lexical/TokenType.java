@@ -5,6 +5,7 @@ import static slpl.syntax.lexical.TokenTypeClass.*;
 
 public enum TokenType {
 
+    SLC("//[^\\n]*", COMMENT),
     FOR("for", KEYWORD),
     WHILE("while", KEYWORD),
     TRUE("true", KEYWORD, VALUE),

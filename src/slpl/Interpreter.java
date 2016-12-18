@@ -7,7 +7,10 @@ import slpl.syntax.ProgramParser;
 import slpl.util.Environment;
 import slpl.util.Memory;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Interpreter {
 
@@ -15,7 +18,6 @@ public class Interpreter {
         String path = "samples/fibonacci.slpl";
         String programText = load(path);
         AST program = ProgramParser.parseProgram(programText);
-//        System.out.println(program);
         program.checkType(new Environment(null));
         program.evaluate(new Environment(null), new Memory());
     }
