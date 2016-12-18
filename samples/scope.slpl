@@ -1,0 +1,41 @@
+module Scope {
+
+    function sumToZero(a: number, b: number, c: number): boolean {
+        ret: boolean = false;
+        if(a + b + c == 0) {
+            ret = true;
+        }
+        return ret;
+    }
+
+    function double(x: number): number {
+        return 2 * x;
+    }
+
+    function identity(x: number): number {
+        return x;
+    }
+
+    a: number = 0;
+    for(i: number = 0; i < 10; ++i) {
+        a += i;
+    }
+    //println i; // error
+    println a; // != 0
+
+    b: boolean = true;
+    c: boolean = false;
+    if(b) {
+        println "b is true";
+    } else if (a == 45 + 3 * 15 - 20 + 40/(4 - 2) && !c) {
+        print "a = ";
+        print "45 + 3 * 15 - 20 + 40/(4 - 2) = ";
+        print 45 + 3 * 15 - 20 + 40/(4 - 2);
+        println " and c is false";
+    } else if (sumToZero(double(4), -double(2), identity(-1 * 4))) {
+        println "sums to zero";
+    } else {
+        println "in else-branch";
+    }
+
+}

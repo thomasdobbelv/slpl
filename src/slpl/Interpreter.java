@@ -15,7 +15,7 @@ import java.io.IOException;
 public class Interpreter {
 
     public static void main(String[] args) throws IOException, ParseException, TypeError {
-        String path = "samples/fibonacci.slpl";
+        String path = "samples/scope.slpl";
         String programText = load(path);
         AST program = ProgramParser.parseProgram(programText);
         program.checkType(new Environment(null));

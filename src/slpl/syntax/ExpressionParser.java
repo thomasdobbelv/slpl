@@ -115,15 +115,24 @@ public class ExpressionParser {
             ts.consume();
         } else {
             ts.expect(TokenType.NUM, TokenType.ID, TokenType.TRUE, TokenType.FALSE, TokenType.STRING, TokenType.NULL);
-            int indexBeforeLookahead = ts.position();
+            int lookaheadStart = ts.position();
             Token t = ts.consume();
             if (ts.hasNext(TokenType.LPAR)) {
-                ts.reset(indexBeforeLookahead);
+                ts.reset(lookaheadStart);
                 ts.replace(new Token(TokenType.FID, t.content(), t.row(), t.col()));
-                fcQueue.add(FunctionCallParser.parseFunctionCall(ts));
+                enqueueFunctionCall(FunctionCallParser.parseFunctionCall(ts));
             }
 
         }
+    }
+
+    public static void enqueueFunctionCall(FunctionCall fc) {
+        for(AST arg : fc.args()) {
+            if(arg instanceof FunctionCall) {
+                enqueueFunctionCall((FunctionCall) arg);
+            }
+        }
+        fcQueue.add(fc);
     }
 
     /**

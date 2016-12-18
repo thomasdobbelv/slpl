@@ -43,8 +43,10 @@ public class If extends AST {
         }
         Environment env_ = new Environment(env);
         then.checkType(env_);
-        env_ = new Environment(env);
-        else_.checkType(env_);
+        if(else_ != null) {
+            env_ = new Environment(env);
+            else_.checkType(env_);
+        }
         return Void.type();
     }
 }

@@ -2,7 +2,7 @@ module Fibonacci {
 
     // a recursive implementation of fibonacci
     function fibonacci(n: number): number {
-        ret: number = 14;
+        ret: number = 0;
         if(n <= 1) {
             ret = 1;
         } else {
